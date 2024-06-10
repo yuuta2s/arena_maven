@@ -31,14 +31,17 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const userManager = require("./UserManager");
+const TournamentParticipationManager = require("./TournamentParticipationManager");
 
 models.item = new ItemManager();
 models.item.setDatabase(pool);
 
 
-models.users = new userManager();
-models.users.setDatabase(pool);
+models.user = new userManager();
+models.user.setDatabase(pool);
 
+models.tournamentParticipation = new TournamentParticipationManager();
+models.tournamentParticipation.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

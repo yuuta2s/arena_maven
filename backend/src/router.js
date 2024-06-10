@@ -18,4 +18,12 @@ router.put("/users/:id", userController.edit);
 router.post("/users", userController.add);
 router.delete("/users/:id", userController.destroy);
 
+const  tournamentParticipationController = require("./controllers/tournamentParticipationController");
+
+router.get("/tournament-participation",  tournamentParticipationController.browse);
+router.get("/tournament-participation/:id", tournamentParticipationController.read);
+router.put("/tournament-participation/:id", tournamentParticipationController.edit);
+router.post("/tournament-participation", tournamentParticipationController.add);
+router.delete("/tournament-participation/:id", tournamentParticipationController.destroy);
+
 module.exports = router;
