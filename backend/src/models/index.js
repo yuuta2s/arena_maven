@@ -31,6 +31,7 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const userManager = require("./UserManager");
+const Tournament_matchManager = require("./TournamentmatchManager");
 
 models.item = new ItemManager();
 models.item.setDatabase(pool);
@@ -41,6 +42,11 @@ models.users.setDatabase(pool);
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
+
+// Importation et configuration du gestionnaire de modèle Tournament_matchManager
+
+models.tournament_match = new Tournament_matchManager();
+models.tournament_match.setDatabase(pool);
 
 
 const handler = {
