@@ -36,8 +36,14 @@ models.item = new ItemManager();
 models.item.setDatabase(pool);
 
 
+const MatchResultsManager = require("./matchResultsManager");
+
+models.matchResults = new MatchResultsManager();
+models.matchResults.setDatabase(pool);
+
 models.users = new userManager();
 models.users.setDatabase(pool);
+
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
