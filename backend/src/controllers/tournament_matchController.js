@@ -1,7 +1,7 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-    models.user
+    models.tournament_match
       .findAll()
       .then(([rows]) => {
         res.send(rows);
@@ -20,7 +20,7 @@ module.exports = {
 
 const read = (req, res) => {
     
-  models.user
+  models.tournament_match
     .find(req.params.id)
     .then((rows) => {  // Removed destructuring as find likely returns the rows directly
       if (rows.length === 0) {
@@ -42,8 +42,8 @@ const edit = (req, res) => {
 
   user.id = parseInt(req.params.id, 10);
 
-  models.user
-    .update(user)
+  models.tournament_match
+    .update(tournament_match)
     .then((result) => {  // Removed destructuring as update likely returns the result directly
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -58,14 +58,14 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const user = req.body;
+  const tournament_match = req.body;
 
   // TODO validations (length, format...)
 
-  models.user
-    .insert(user)
+  models.tournament_match
+    .insert(tournament_match)
     .then((result) => {  // Removed destructuring as insert likely returns the result directly
-      res.location(`/user/${result.insertId}`).sendStatus(201);
+      res.location(`/tournament_match/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
@@ -74,7 +74,7 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  models.user
+  models.tournament_match
     .delete(req.params.id)
     .then((result) => {  // Removed destructuring as delete likely returns the result directly
       if (result.affectedRows === 0) {
