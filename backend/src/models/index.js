@@ -45,7 +45,7 @@ models.users.setDatabase(pool);
 
 const handler = {
   get(obj, prop) {
-    if (prop in obj) {
+    if (prop in obj) {qq
       return obj[prop];
     }
 
