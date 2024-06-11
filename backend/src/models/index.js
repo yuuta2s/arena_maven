@@ -73,7 +73,7 @@ models.tournament_match.setDatabase(pool);
 
 const handler = {
   get(obj, prop) {
-    if (prop in obj) {qq
+    if (prop in obj) {
       return obj[prop];
     }
 
