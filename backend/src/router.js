@@ -12,10 +12,10 @@ router.delete("/items/:id", itemControllers.destroy);
 
 const userController = require("./controllers/userController");
 
-router.get("/users", userController.browse);
-router.get("/users/:id", userController.read);
-router.put("/users/:id", userController.edit);
-router.post("/users", userController.add);
-router.delete("/users/:id", userController.destroy);
+router.get("/user", userController.browse);
+router.get("/user/:id", userController.read);
+router.put("/user/:id", userController.edit);
+router.post("/user", userController.add);
+router.delete("/user/:id", userController.destroy);
 
 module.exports = router;
