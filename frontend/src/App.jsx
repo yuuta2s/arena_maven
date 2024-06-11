@@ -1,14 +1,19 @@
 import Home from "./pages/Home";
 
-import "./App.css";
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-      <Home />
-      <p>coucou</p>
-    </div>
+    <Router>
+      <Navbar/>
+      <Routes>
+        <Route exact path="/" element={<Homepage/>} />
+        <Route path="/discover" element={<TournamentList/>} />
+        <Route path="/mes-tournois" element={<TournamentDetail/>} />
+        <Route path="/contact" element={<Contact/>} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
