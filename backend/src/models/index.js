@@ -31,19 +31,28 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const userManager = require("./UserManager");
-const Tournament_matchManager = require("./TournamentmatchManager");
+const TournamentParticipationManager = require("./TournamentParticipationManager");
 
+const Tournament_matchManager = require("./TournamentmatchManager");
+const MatchResultsManager = require("./matchResultsManager");
 models.item = new ItemManager();
 models.item.setDatabase(pool);
 
 
-const MatchResultsManager = require("./matchResultsManager");
+
+models.user = new userManager();
+models.user.setDatabase(pool);
+
+models.tournamentParticipation = new TournamentParticipationManager();
+models.tournamentParticipation.setDatabase(pool);
+
 
 models.matchResults = new MatchResultsManager();
 models.matchResults.setDatabase(pool);
 
 models.users = new userManager();
 models.users.setDatabase(pool);
+
 
 
 // bonus: use a proxy to personalize error message,
