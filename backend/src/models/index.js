@@ -30,21 +30,28 @@ pool.getConnection().catch(() => {
 const models = {};
 
 const ItemManager = require("./ItemManager");
+const userManager = require("./UserManager");
 
 models.item = new ItemManager();
 models.item.setDatabase(pool);
+
 
 const MatchResultsManager = require("./matchResultsManager");
 
 models.matchResults = new MatchResultsManager();
 models.matchResults.setDatabase(pool);
 
+models.users = new userManager();
+models.users.setDatabase(pool);
+
+
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 
+
 const handler = {
   get(obj, prop) {
-    if (prop in obj) {
+    if (prop in obj) {qq
       return obj[prop];
     }
 
