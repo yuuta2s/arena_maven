@@ -1,4 +1,5 @@
 const models = require("../models");
+const argon2 = require('argon2')
 
 const browse = (req, res) => {
     models.user
@@ -12,11 +13,9 @@ const browse = (req, res) => {
       });
   };
   
-
 module.exports = {
   browse,
 };
-
 
 const read = (req, res) => {
     
@@ -57,20 +56,25 @@ const edit = (req, res) => {
     });
 };
 
-const add = (req, res) => {
-  const user = req.body;
+const add = async (req, res) => {
+  
+  // Vérification de l'existence de l'utilisateur
+  try {
+    const user = req.body;
+    const existingUsers = await models.user.findAll();
+  
 
-  // TODO validations (length, format...)
+    // Hash du mot de passe
+    user.password = await argon2.hash(user.password);
 
-  models.user
-    .insert(user)
-    .then((result) => {  // Removed destructuring as insert likely returns the result directly
-      res.location(`/user/${result.insertId}`).sendStatus(201);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+    // Insertion de l'utilisateur dans la base de données
+    const result = await models.user.insert(user);
+
+    res.location(`/user/${result.insertId}`).sendStatus(201);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 const destroy = (req, res) => {
