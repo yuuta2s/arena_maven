@@ -31,6 +31,9 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const userManager = require("./UserManager");
+
+const TournamentManager = require("./TournamentManager");
+
 const TournamentParticipationManager = require("./TournamentParticipationManager");
 
 const Tournament_matchManager = require("./TournamentmatchManager");
@@ -52,6 +55,10 @@ models.matchResults.setDatabase(pool);
 
 models.users = new userManager();
 models.users.setDatabase(pool);
+
+
+models.tournament = new TournamentManager();
+models.tournament.setDatabase(pool);
 
 
 

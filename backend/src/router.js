@@ -47,4 +47,12 @@ router.put("/tournament-participation/:id", tournamentParticipationController.ed
 router.post("/tournament-participation", tournamentParticipationController.add);
 router.delete("/tournament-participation/:id", tournamentParticipationController.destroy);
 
+const tournamentControllers = require("./controllers/tournamentControllers");
+
+router.get("/tournament", tournamentControllers.browse);
+router.get("/tournament/:id", tournamentControllers.read);
+router.put("/tournament/:id", tournamentControllers.edit);
+router.post("/tournament", tournamentControllers.add);
+router.delete("/tournament/:id", tournamentControllers.destroy);
+
 module.exports = router;
