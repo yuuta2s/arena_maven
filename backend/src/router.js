@@ -3,6 +3,7 @@ const router = express.Router();
 const {
     hashPassword,
     verifyPassword,
+    verifyToken,
   } = require("./auth");
 
 const matchResultsController = require('./controllers/matchResultsController');
@@ -28,16 +29,15 @@ router.delete("/items/:id", itemControllers.destroy);
 const userController = require("./controllers/userController");
 
 // -----REGISTER-------
-router.post(
-    "/user/login",
-    userController.getUserByEmail,
-    verifyPassword
-    );
+router.post("/user/login", userController.getUserByEmail, verifyPassword);
+
+// Vérification du token
+router.use(verifyToken);
     
-    router.get("/user", userController.browse);
-    router.get("/user/:id", userController.read);
-    router.put("/user/:id", userController.edit);
-    router.post("/user", hashPassword, userController.add);
+router.get("/user", userController.browse);
+router.get("/user/:id", userController.read);
+router.put("/user/:id", userController.edit);
+router.post("/user", hashPassword, userController.add);
 router.delete("/user/:id", userController.destroy);
 
 const Tournament_matchController = require("./controllers/tournament_matchController");
