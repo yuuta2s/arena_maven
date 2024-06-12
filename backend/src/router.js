@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
+const {
+    hashPassword,
+    verifyPassword,
+    verifyToken,
+  } = require("./auth");
 
 const matchResultsController = require('./controllers/matchResultsController');
 
@@ -24,10 +28,16 @@ router.delete("/items/:id", itemControllers.destroy);
 
 const userController = require("./controllers/userController");
 
+// -----REGISTER-------
+router.post("/user/login", userController.getUserByEmail, verifyPassword);
+
+// Vérification du token
+router.use(verifyToken);
+    
 router.get("/user", userController.browse);
 router.get("/user/:id", userController.read);
 router.put("/user/:id", userController.edit);
-router.post("/user", userController.add);
+router.post("/user", hashPassword, userController.add);
 router.delete("/user/:id", userController.destroy);
 
 const Tournament_matchController = require("./controllers/tournament_matchController");
@@ -48,11 +58,13 @@ router.post("/tournament-participation", tournamentParticipationController.add);
 router.delete("/tournament-participation/:id", tournamentParticipationController.destroy);
 
 const tournamentControllers = require("./controllers/tournamentControllers");
+// const { verify } = require("argon2");
 
 router.get("/tournament", tournamentControllers.browse);
 router.get("/tournament/:id", tournamentControllers.read);
 router.put("/tournament/:id", tournamentControllers.edit);
 router.post("/tournament", tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
+
 
 module.exports = router;

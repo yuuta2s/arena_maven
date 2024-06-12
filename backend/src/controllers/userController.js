@@ -58,14 +58,17 @@ const edit = (req, res) => {
 
 const add = async (req, res) => {
   
+  
   // Vérification de l'existence de l'utilisateur
   try {
     const user = req.body;
-    const existingUsers = await models.user.findAll();
+    // const existingUsers = await models.user.findAll();
   
 
     // Hash du mot de passe
-    user.password = await argon2.hash(user.password);
+
+    // user.password = await argon2.hash(user.password, hashingOptions);
+
 
     // Insertion de l'utilisateur dans la base de données
     const result = await models.user.insert(user);
@@ -75,7 +78,32 @@ const add = async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
+
 };
+
+
+
+
+const getUserByEmail = (req, res, next) => {
+  const { email } = req.body;
+  models.user
+    .findUserByEmail(email)
+    .then(([users]) => {
+      if (users[0] != null) {
+        const [firstUser] = users;
+        req.user = firstUser;
+        console.log(req.user, "reqUser")
+        next();
+      } else {
+        res.sendStatus(401);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving data from database");
+    });
+};
+
 
 const destroy = (req, res) => {
   models.user
@@ -99,4 +127,5 @@ module.exports = {
   edit,
   add,
   destroy,
+  getUserByEmail,
 };
