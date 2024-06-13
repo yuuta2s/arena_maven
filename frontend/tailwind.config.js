@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+      'custom-svg': "url('../src/assets/Vector_9.svg')",
+    },
       colors: {
         theme1: {
           50: "#ffebee",
