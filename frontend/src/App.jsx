@@ -1,19 +1,16 @@
-import Home from "./pages/Home";
-
+import Footer from '@components/Footer/Footer';
+import React from 'react';
+import './App.css';
 
 
 const App = () => {
   return (
-    <Router>
-      <Header/>
-      <Routes>
-        <Route exact path="/" element={<Homepage/>} />
-        <Route path="/discover" element={<TournamentList/>} />
-        <Route path="/mes-tournois" element={<TournamentDetail/>} />
-        <Route path="/contact" element={<Contact/>} />
-      </Routes>
-      <Footer/>
-    </Router>
+    <>
+    <h1 className="text-3xl font-bold underline">
+    Hello world!
+  </h1>
+    <Footer/>
+    </>
   );
 };
 
