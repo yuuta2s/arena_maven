@@ -6,15 +6,25 @@ class TournamentManager extends AbstractManager {
   }
 
   insert(tournament) {
-    return this.database.query(`insert into ${this.table} (name) values (?)`, [
+    return this.database.query(`insert into ${this.table} (name, date, tournament_img, organizer_id) values (?, ?, ?, ?)`, 
+    [
       tournament.name,
+      tournament.date,
+      tournament.tournament_img,
+      tournament.organizer_id
     ]);
   }
 
   update(tournament) {
     return this.database.query(
-      `update ${this.table} set name = ? where id = ?`,
-      [tournament.username, tournament.id]
+      `update ${this.table} set name = ?, date = ?, tournament_img = ?, oranizer_id = ? where id = ?`,
+      [
+        tournament.name,
+        tournament.date,
+        tournament.tournament_img,
+        tournament.organizer_id,
+        tournament.id
+      ]
     );
   }
 }
