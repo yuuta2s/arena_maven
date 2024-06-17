@@ -1,4 +1,5 @@
 import Footer from '@components/Footer/Footer';
+import Homepage from '@components/Homepage/Homepage';
 import React from 'react';
 import './App.css';
 
@@ -6,9 +7,7 @@ import './App.css';
 const App = () => {
   return (
     <>
-    <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+    <Homepage></Homepage>
     <Footer/>
     </>
   );
