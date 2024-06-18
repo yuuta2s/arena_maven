@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import design2 from '../../assets/Rectangle 261.svg';
 import mkLogo from '../../assets/mkLogo.png'
+import SmallCards from '@components/SmallCards/SmallCards';
 
 export default function Homepage() {
 
@@ -32,7 +33,7 @@ export default function Homepage() {
       </div>
       <section className="flex justify-evenly items-center bg-black rounded-lg bg-opacity-40 p-3">
         <div className="p-3">
-          <h2 className="text-3xl font-bold text-white p-3">Ici c'est que la win !</h2>
+          <h2 className="text-3xl font-bold text-white p-3">To be or not to be ? That is the question !</h2>
           <div className="flex justify-between items-center gap-3">
             <button className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
               Create a tournament
@@ -48,22 +49,22 @@ export default function Homepage() {
       </section>
       <section>
         <article className="mt-8">
-          <h2 className="text-2xl text-white">Hottest :</h2>
+          <h2 className="text-3xl text-white">Hottest :</h2>
           {tournaments.length > 0 && (
             <div className="flex flex-wrap items-center justify-evenly">
-              <img className="w-80 rounded-lg" src={tournaments[0].tournament_img} alt="image tournois" />
-              <img className="w-80 rounded-lg" src={tournaments[0].tournament_img} alt="image tournois" />
-              <img className="w-80 rounded-lg" src={tournaments[0].tournament_img} alt="image tournois" />
+              {tournaments.slice(-3).map((tournament, index) => (
+                <SmallCards tournament={tournament} index={index}></SmallCards>
+              ))}
             </div>
           )}
         </article>
         <article className="mt-8">
-          <h2 className="text-2xl text-white">Last Chance :</h2>
+          <h2 className="text-3xl text-white">Last Chance :</h2>
           {tournaments.length > 0 && (
             <div className="flex flex-wrap items-center justify-evenly">
-              <img className="w-80 rounded-lg" src={tournaments[0].tournament_img} alt="image tournois" />
-              <img className="w-80 rounded-lg" src={tournaments[0].tournament_img} alt="image tournois" />
-              <img className="w-80 rounded-lg" src={tournaments[0].tournament_img} alt="image tournois" />
+              {tournaments.slice(-3).map((tournament, index) => (
+                <SmallCards tournament={tournament} index={index}></SmallCards>
+              ))}
             </div>
           )}
         </article>
