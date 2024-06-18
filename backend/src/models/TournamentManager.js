@@ -2,7 +2,7 @@ const AbstractManager = require("./AbstractManager");
 
 class TournamentManager extends AbstractManager {
   constructor() {
-    super({ table: "tournament" });
+    super({ table: "tournament"});
   }
 
   insert(tournament) {
@@ -27,6 +27,10 @@ class TournamentManager extends AbstractManager {
       ]
     );
   }
+
+  getParticipantByTournamentId(id){
+     return this.database.query(`SELECT u.username FROM tournament t INNER JOIN tournamentParticipation tp ON t.id = tp.tournament_id INNER JOIN user u ON u.id = tp.user_id WHERE t.id = ?
+     `,[id]);}
 }
 
 module.exports = TournamentManager;

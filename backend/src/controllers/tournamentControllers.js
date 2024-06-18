@@ -80,6 +80,20 @@ const destroy = (req, res) => {
       console.error(err);
       res.sendStatus(500);
     });
+
+};
+
+
+const getPbyTid = (req, res) => {
+  models.tournament
+    .getParticipantByTournamentId(req.params.id)
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
 
 module.exports = {
@@ -88,4 +102,5 @@ module.exports = {
   edit,
   add,
   destroy,
+  getPbyTid,
 };
