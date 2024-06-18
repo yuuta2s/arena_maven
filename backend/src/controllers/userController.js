@@ -1,6 +1,7 @@
 const models = require("../models");
 const argon2 = require('argon2')
 
+
 const browse = (req, res) => {
     models.user
       .findAll()
@@ -57,7 +58,7 @@ const edit = (req, res) => {
 };
 
 const add = async (req, res) => {
-  
+
   
   // Vérification de l'existence de l'utilisateur
   try {

@@ -1,16 +1,20 @@
 import Footer from '@components/Footer/Footer';
 import React from 'react';
 import './App.css';
-
-
+import Login from './components/Login/Login';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Inscription from './components/Sign up/inscription';
 const App = () => {
   return (
-    <>
-    <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-    <Footer/>
-    </>
+    <BrowserRouter>
+      <div>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/inscription" element={<Inscription />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 };
 
