@@ -1,3 +1,5 @@
+// import Home from "./pages/Home";
+import Header from "./components/Header/Header.jsx"
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
 import BracketGenerator from './utils/BracketGen';
@@ -9,6 +11,7 @@ import './App.css';
 const App = () => {
   return (
     <>
+    <Header />
     <Homepage/>
    <Router>
       <div>
