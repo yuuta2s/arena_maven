@@ -9,20 +9,22 @@ export default function Homepage() {
 
   const [tournaments, setTournaments] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/tournament");
-    
-      console.log(res.data);
-      setTournaments(res.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/tournament");
+      
+        console.log(res.data);
+        setTournaments(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchData();
   }, []);
+
+
+  
 
   return (
     <div className="bg-gradient-to-tr from-black via-vertBG to-black p-4">
@@ -48,10 +50,10 @@ export default function Homepage() {
       </section>
       <section className="max-w-7xl mx-auto">
         <article className="mt-8">
-          <h2 className="text-3xl text-white">Hottest :</h2>
+          <h2 className="text-3xl text-white">Novelty :</h2>
           {tournaments.length > 0 && (
             <div className="flex flex-wrap items-center justify-evenly">
-              {tournaments.slice(-3).map((tournament, index) => (
+              {tournaments.slice(-3).reverse().map((tournament, index) => (
                 <SmallCards tournament={tournament} index={index}></SmallCards>
               ))}
             </div>
@@ -61,7 +63,7 @@ export default function Homepage() {
           <h2 className="text-3xl text-white">Last Chance :</h2>
           {tournaments.length > 0 && (
             <div className="flex flex-wrap items-center justify-evenly">
-              {tournaments.slice(-3).map((tournament, index) => (
+              {tournaments.slice(0, 3).map((tournament, index) => (
                 <SmallCards tournament={tournament} index={index}></SmallCards>
               ))}
             </div>

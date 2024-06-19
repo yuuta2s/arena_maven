@@ -14,7 +14,8 @@ module.exports = {
       tertiary: '#122604',
       vertBG: '#1c5b1a',
       black: '#000000',
-      white: '#FFFFFF'
+      white: '#FFFFFF',
+      red: '#dc2626'
     },
     background: {
       default: 'linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(28,91,26,1) 48%, rgba(0,0,0,1) 100%)',
