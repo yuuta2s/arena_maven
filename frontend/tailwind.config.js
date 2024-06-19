@@ -1,3 +1,6 @@
+const flowbite = require("flowbite/plugin");
+const flowbiteReact = require("flowbite-react/tailwind");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -18,12 +21,19 @@ module.exports = {
       red: '#dc2626'
     },
     background: {
-      default: 'linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(28,91,26,1) 48%, rgba(0,0,0,1) 100%)',
+      red: {
+        500: '#EF4444',  // pour le span du composant Cards
+      },
+      green: {
+        500: '#22C55E',  // pour le span du composant Cards
+      },
     },
     fontFamily: {
-
     },
     extend: {
+       backgroundImage: {
+      'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
+    },
       spacing: {
         '128': '32rem',
         '144': '36rem',
@@ -37,5 +47,8 @@ module.exports = {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    flowbite,
+    flowbiteReact.plugin(),
+  ],
 };
