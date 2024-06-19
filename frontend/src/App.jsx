@@ -1,14 +1,16 @@
-import Home from "./pages/Home";
+import Footer from '@components/Footer/Footer';
+import Homepage from '@components/Homepage/Homepage';
+import React from 'react';
+import './App.css';
 
-import "./App.css";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Home />
-      <p>coucou</p>
-    </div>
+    <>
+    <Homepage></Homepage>
+    <Footer/>
+    </>
   );
-}
+};
 
 export default App;
