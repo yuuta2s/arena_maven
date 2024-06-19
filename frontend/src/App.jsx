@@ -1,4 +1,10 @@
+// import Home from "./pages/Home";
+import Header from "./components/Header/Header.jsx"
+import Footer from '@components/Footer/Footer';
+import Homepage from '@components/Homepage/Homepage';
+import BracketGenerator from './utils/BracketGen';
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer'; 
 import Cards from './components/Cards/Cards'; 
@@ -6,11 +12,19 @@ import Cards from './components/Cards/Cards';
 const App = () => {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-        Arena maven
-      </h1>
-      <Cards /> 
-      <Footer /> 
+    <Header />
+    <Homepage/>
+   <Router>
+      <div>
+        <h1>Tournament Manager</h1>
+        <Routes>
+        <Route path="/tournament/:id" element={<BracketGenerator />} />
+          <Route path="/" element={<Navigate to="/tournament/9" />} /> {/* Remplace 1 par l'ID par défaut */}
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Routes>
+      </div>
+    </Router>
+    <Footer/>
     </>
   );
 };
