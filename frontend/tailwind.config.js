@@ -16,13 +16,13 @@ module.exports = {
       black: '#000000',
       white: '#FFFFFF'
     },
-    background: {
-      default: 'linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(28,91,26,1) 48%, rgba(0,0,0,1) 100%)',
-    },
     fontFamily: {
 
     },
     extend: {
+       backgroundImage: {
+      'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
+    },
       spacing: {
         '128': '32rem',
         '144': '36rem',
