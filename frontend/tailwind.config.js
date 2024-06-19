@@ -18,6 +18,9 @@ module.exports = {
       vertBG: '#1c5b1a',
       black: '#000000',
       white: '#FFFFFF',
+      red: '#dc2626'
+    },
+    background: {
       red: {
         500: '#EF4444',  // pour le span du composant Cards
       },
@@ -34,9 +37,13 @@ module.exports = {
       spacing: {
         '128': '32rem',
         '144': '36rem',
+        '1440': '90rem',
       },
       borderRadius: {
         '4xl': '2rem',
+      },
+      backgroundImage: {
+        'underline-title': "url('/src/assets/Rectangle 261.svg')"
       }
     }
   },
