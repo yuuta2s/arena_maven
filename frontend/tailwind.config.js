@@ -17,10 +17,15 @@ module.exports = {
       tertiary: '#122604',
       vertBG: '#1c5b1a',
       black: '#000000',
-      white: '#FFFFFF'
+      white: '#FFFFFF',
+      red: {
+        500: '#EF4444',  // pour le span du composant Cards
+      },
+      green: {
+        500: '#22C55E',  // pour le span du composant Cards
+      },
     },
     fontFamily: {
-
     },
     extend: {
        backgroundImage: {
