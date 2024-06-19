@@ -26,9 +26,13 @@ module.exports = {
       spacing: {
         '128': '32rem',
         '144': '36rem',
+        '1440': '90rem',
       },
       borderRadius: {
         '4xl': '2rem',
+      },
+      backgroundImage: {
+        'underline-title': "url('/src/assets/Rectangle 261.svg')"
       }
     }
   },
