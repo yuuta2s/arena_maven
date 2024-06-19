@@ -32,7 +32,7 @@ const userController = require("./controllers/userController");
 router.post("/user/login", userController.getUserByEmail, verifyPassword);
 
 // Vérification du token
-router.use(verifyToken);
+// router.use(verifyToken);
     
 router.get("/user", userController.browse);
 router.get("/user/:id", userController.read);
