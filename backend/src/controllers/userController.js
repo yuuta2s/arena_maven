@@ -1,6 +1,6 @@
 const models = require("../models");
 const argon2 = require('argon2')
-
+const {validationResult} = require('express-validator');
 
 const browse = (req, res) => {
     models.user
@@ -58,7 +58,11 @@ const edit = (req, res) => {
 };
 
 const add = async (req, res) => {
-
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+    console.log(errors);
+  }
   
   // Vérification de l'existence de l'utilisateur
   try {

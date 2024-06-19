@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import Login from './components/Login/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Inscription from './components/Sign up/inscription';
+import Inscription from './components/Sign up/Inscription';
 const App = () => {
   return (
     <BrowserRouter>

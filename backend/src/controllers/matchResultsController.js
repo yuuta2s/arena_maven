@@ -1,5 +1,4 @@
 const models = require("../models");
-const {validationResult} = require('express-validator');
 
 
 const browse = (req, res) => {
@@ -57,8 +56,10 @@ const add = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
+    console.log(errors);
   }
    const matchResults = req.body;
+   console.log(matchResults);
   // const errors = validationResult(req);
   // if (!errors.isEmpty()) {
   //   return res.status(400).json({ errors: errors.array() });

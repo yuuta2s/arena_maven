@@ -1,23 +1,22 @@
 @font-face {
-    font-family: BigShouldersDisplay;
-    src: url(./Font/static/BigShouldersDisplay-Bold.ttf);
-    font-weight: bold;
+    font-family: 'BigShouldersDisplay';
+    src: url('./Font/static/BigShouldersDisplay-Bold.ttf');
+    font-weight: bold;  /* 700 */
     font-style: normal;
 }
 .bigDisplay {
-    font-family: BigShouldersDisplay;
-    font-weight: bold;
+    font-family: 'BigShouldersDisplay';
+    font-weight: bold;  /* 700 */
     font-style: normal;
-    font-size: 96px;
 }
 @font-face {
-    font-family: BigShouldersDisplay;
-    src: url(./Font/static/BigShouldersDisplay-SemiBold.ttf);
-    font-weight: semibold;
+    font-family: 'BigShouldersDisplay';
+    src: url('./Font/static/BigShouldersDisplay-SemiBold.ttf');
+    font-weight: 600;  /*  semibold */
     font-style: normal;
 }
 .bigShouldersDisplay {
-    font-family: BigShouldersDisplay;
-    font-weight: semibold;
+    font-family: 'BigShouldersDisplay';
+    font-weight: 600;  /*  semibold */
     font-style: normal;
 }

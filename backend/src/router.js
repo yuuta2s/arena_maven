@@ -15,7 +15,7 @@ const matchResultsController = require('./controllers/matchResultsController');
 router.get("/matchResults", matchResultsController.browse);
 router.get("/matchResults/:id", matchResultsController.read);
 router.put("/matchResults/:id", matchResultsController.edit);
-router.post("/matchResults", matchResultsController.add, body('email').isEmpty().withMessage('Email is not valid'));
+router.post("/matchResults", matchResultsController.add );
 router.delete("/matchResults/:id", matchResultsController.destroy);
 
 const itemControllers = require("./controllers/itemControllers");
@@ -33,12 +33,12 @@ const userController = require("./controllers/userController");
 router.post("/user/login", userController.getUserByEmail, verifyPassword);
 
 // Vérification du token
-router.use(verifyToken);
+// router.use(verifyToken);
     
 router.get("/user", userController.browse);
 router.get("/user/:id", userController.read);
 router.put("/user/:id", userController.edit);
-router.post("/user", hashPassword, userController.add);
+router.post("/user",hashPassword, body('email').trim().isEmail().withMessage('Email is not valid') ,userController.add);
 router.delete("/user/:id", userController.destroy);
 
 const Tournament_matchController = require("./controllers/tournament_matchController");
