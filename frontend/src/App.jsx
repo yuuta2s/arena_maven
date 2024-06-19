@@ -8,20 +8,17 @@ import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-do
 import './App.css';
 
 
+
 const App = () => {
   return (
     <>
     <Header />
     <Homepage/>
    <Router>
-      <div>
-        <h1>Tournament Manager</h1>
         <Routes>
         <Route path="/tournament/:id" element={<BracketGenerator />} />
-          <Route path="/" element={<Navigate to="/tournament/9" />} /> {/* Remplace 1 par l'ID par défaut */}
-          <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="/" element={<Navigate to="/tournament/9" />} />
         </Routes>
-      </div>
     </Router>
     <Footer/>
     </>
