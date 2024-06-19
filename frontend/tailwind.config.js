@@ -2,26 +2,35 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
+    colors: {
+      primary: '#53B84A',
+      secondary: '#1A7B16',
+      tertiary: '#122604',
+      vertBG: '#1c5b1a',
+      black: '#000000',
+      white: '#FFFFFF'
+    },
+    background: {
+      'custom-svg': "url('frontend/src/assets/Vector_9.svg')",    
+    },
+    fontFamily: {
+
+    },
     extend: {
-      backgroundImage: {
-      'custom-svg': "url('../src/assets/Vector_9.svg')",
-    },
-      colors: {
-        theme1: {
-          50: "#ffebee",
-          100: "#ffcdd2",
-          200: "#ef9a9a",
-          300: "#e57373",
-          400: "#ef5350",
-          500: "#f8edeb",
-          600: "#c62828",
-          700: "#b71c1c",
-          800: "#edcfd3",
-          900: "#e5a8b1", // main pink
-          950: "#7f1d1d",
-        },
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
       },
-    },
-    plugins: [],
+      borderRadius: {
+        '4xl': '2rem',
+      }
+    }
   },
+  plugins: [],
 };

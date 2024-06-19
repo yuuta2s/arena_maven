@@ -4,6 +4,7 @@ const {
     hashPassword,
     verifyPassword,
     verifyToken,
+    
   } = require("./auth");
 
 const matchResultsController = require('./controllers/matchResultsController');
@@ -32,7 +33,7 @@ const userController = require("./controllers/userController");
 router.post("/user/login", userController.getUserByEmail, verifyPassword);
 
 // Vérification du token
-router.use(verifyToken);
+// router.use(verifyToken);
     
 router.get("/user", userController.browse);
 router.get("/user/:id", userController.read);
@@ -66,5 +67,5 @@ router.put("/tournament/:id", tournamentControllers.edit);
 router.post("/tournament", tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
-
+router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);
 module.exports = router;
