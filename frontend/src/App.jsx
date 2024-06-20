@@ -1,30 +1,27 @@
-// import Home from "./pages/Home";
-import Header from "./components/Header/Header.jsx"
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Header from './components/Header/Header.jsx';
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
+import Contact from '@components/Contact/Contact'; // Assurez-vous que le chemin est correct
 import BracketGenerator from './utils/BracketGen';
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 import './App.css';
-
 
 const App = () => {
   return (
-    <>
-    <Header />
-    <Homepage/>
-   <Router>
-      <div>
-        <h1>Tournament Manager</h1>
+    <div className="bg-gradient-to-tr from-black via-vertBG to-black">
+    <Router>
+      <>
+        <Header />
         <Routes>
-        <Route path="/tournament/:id" element={<BracketGenerator />} />
-          <Route path="/" element={<Navigate to="/tournament/9" />} /> {/* Remplace 1 par l'ID par défaut */}
+          <Route path="/homepage" element={<Homepage />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/tournament/:id" element={<BracketGenerator />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
-      </div>
+        <Footer />
+      </>
     </Router>
-    <Footer/>
-    </>
+    </div>
   );
 };
 
