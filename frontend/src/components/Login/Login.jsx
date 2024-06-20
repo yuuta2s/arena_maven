@@ -2,30 +2,49 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import img from "../../assets/Vecteur.svg";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Modifié ici
 import '../../assets/style.css'
+// import axios from 'axios';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
+  // const navigate = useNavigate(); // Modifié ici
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
+  }
+
+  // const handleSubmit = async (values) => {
+  //   try {
+  //     const response = await axios.post('http://localhost:5001/user', values);
+  //     if (response.status === 201) {
+  //       const userCheckResponse = await axios.post('http://localhost:5001/user', { email: values.email });
+  //       if (userCheckResponse.status === 200 && userCheckResponse.data.exists) {
+  //         navigate('/dashboard'); 
+  //       } else {
+  //         throw new Error('Utilisateur non créé');
+  //       }
+  //     } else {
+  //       throw new Error('Échec de la connexion de l\'utilisateur');
+  //     }
+  //   } catch (error) {
+  //     console.error('Erreur lors de la recuperation de l\'utilisateur:', error);
+  //   }
+  // };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-lime-900 text-white ">
-      <div className="relative flex flex-col items-center"> 
-        <div className="relative"> 
-        <h1 className="text-xs bigDisplay top-0 left-0 right-0 text-center mb-5 ml-10">Se connecter</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-lime-900 text-white p-4">
+      <div className="relative flex flex-col items-center w-full max-w-md "> 
+        <div className="relative w-full flex items-center justify-center"> 
+          <div className="flex flex-col items-center mt-15 ">
+            <h1 className="text-4xl lg:text-7xl bigDisplay">Se connecter</h1>
+            <img
+              src={img}
+              alt="Vecteur rectangle"
+            />
+          </div>
         </div>
-          <img
-            src={img}
-            alt="Vecteur rectangle"
-            className="w-full h-full -mt-14 justify-start"
-          />
-         
       </div>
-      <div className="w-full max-w-xs mt-10 ">
+      <div className="w-full max-w-md sm:max-w-xl mt-10">
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={yup.object({
@@ -36,27 +55,24 @@ function Login() {
             password: yup
               .string()
               .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-              .required("Le mot de passe est requis")
               .matches(
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                 "Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule et un chiffre"
               ),
           })}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
+          onSubmit={handleSubmit}
         >
           {({ handleChange, handleBlur, values }) => (
             <Form>
-              <div className="bg-black p-3 mb-5 ">
+              <div className="bg-black p-3 mb-5 rounded-lg">
                 <label htmlFor="email" className="block mb-2 bigShouldersDisplay">
-                  Email
+                  Email / nom d'utilisateur
                 </label>
                 <Field
                   name="email"
                   id="email"
                   placeholder="Entrez votre email"
-                  className="w-full p-2 text-black password-field rounded-r-3xl "
+                  className="w-full p-2 text-black rounded-lg"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
@@ -67,10 +83,10 @@ function Login() {
                   className="text-red-500 bigShouldersDisplay"
                 />
               </div>
-              <div className="bg-black p-2 relative mb-5">
+              <div className="bg-black p-3 mb-5 rounded-lg relative">
                 <label
                   htmlFor="password"
-                  className="block mb-2 rounded-full bigShouldersDisplay"
+                  className="block mb-2 bigShouldersDisplay"
                 >
                   Mot de passe
                 </label>
@@ -90,7 +106,7 @@ function Login() {
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="size-6"
+                  className="w-6 h-6 absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
                   onClick={togglePasswordVisibility}
                 >
                   <path
@@ -102,18 +118,20 @@ function Login() {
                 <ErrorMessage
                   name="password"
                   component="div"
-                  className="text-lg text-red-500 bigShouldersDisplay"
+                  className="text-red-500 bigShouldersDisplay mt-2"
                 />
-                <label htmlFor="Pasword forgot" className="bigShouldersDisplay flex justify-end underline">Mot de passe oublié ?</label>
+                <label htmlFor="password forgot" className="bigShouldersDisplay flex justify-end underline mt-2">Mot de passe oublié ?</label>
               </div>
-              <div className="flex items-center">
-              </div>
-              <button type="submit" className="bg-black text-white p-2 flex rounded bigShouldersDisplay justify-end ml-36">
-                Envoyé
-              </button>
+              <button 
+              type="submit"
+               className="bg-black text-white p-2 w-full rounded-lg bigShouldersDisplay"
+            >
+              Envoyé
+            </button>
+              
               <Link
-                to="/inscription"
-                className="text-white underline  flex p-4 text-center bigShouldersDisplay"
+                to="/SignUp"
+                className="text-white underline flex justify-center mt-4 bigShouldersDisplay"
               >
                 Vous n'avez pas de compte ? Inscrivez-vous
               </Link>
@@ -124,6 +142,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login;
-

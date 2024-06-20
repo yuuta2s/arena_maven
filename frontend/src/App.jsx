@@ -3,14 +3,14 @@ import React from 'react';
 import './App.css';
 import Login from './components/Login/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Inscription from './components/Sign up/Inscription';
+import SignUp from './components/SignUp/SignUp';
 const App = () => {
   return (
     <BrowserRouter>
       <div>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/inscription" element={<Inscription />} />
+          <Route path="/SignUp" element={<SignUp />} />
         </Routes>
         <Footer />
       </div>
