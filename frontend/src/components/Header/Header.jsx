@@ -29,7 +29,7 @@ export default function Header() {
     <Disclosure as="nav" className="bg-opacity-0">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button */}
@@ -67,7 +67,7 @@ export default function Header() {
               </div>
 
               {/* Header Vector */}
-              <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)', marginRight: '-80px' }}>
+              <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)'}}>
                 <img src={headerVector} alt="Header Vector" className="h-auto w-auto" />
               </div>
 
@@ -75,11 +75,11 @@ export default function Header() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
-                      <span className="absolute -inset-1.5" />
+                    <MenuButton className="relative flex rounded-full text-sm focus:outline-none">
+                      <span className="absolute" />
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-10 w-10 rounded-full"
+                        className="h-10 w-10 rounded-full -translate-x-14"
                         src={iconProfile}
                         alt=""
                       />
