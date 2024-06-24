@@ -3,72 +3,91 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const BracketGenerator = () => {
-  const { id } = useParams();
-  const [participants, setParticipants] = useState([]);
-  const [brackets, setBrackets] = useState([]);
-  const [currentRound, setCurrentRound] = useState(1);
-  const [scores, setScores] = useState({});
+  const { id } = useParams(); // Récupère l'identifiant du tournoi depuis l'URL
+  const [participants, setParticipants] = useState([]); // État pour stocker les participants
+  const [brackets, setBrackets] = useState([]); // État pour stocker les brackets
+  const [currentRound, setCurrentRound] = useState(1); // État pour stocker le numéro de la manche en cours
+  const [scores, setScores] = useState([]); // État pour stocker les scores des participants
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/participation/tournament/${id}`);
-      console.log(res.data, "data initial");
-      setParticipants(res.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+  // Utilisation d'un effet pour mélanger les participants une seule fois au montage du composant
   useEffect(() => {
-    fetchData();
-  }, [id]);
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/participation/tournament/${id}`);
+        console.log(res.data, "data initial");
+        setParticipants(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
+    fetchData(); // Appel de la fonction fetchData pour récupérer les participants
+
+    // Mélange aléatoire des participants une seule fois au montage du composant
+    const shuffledParticipants = shuffleArray(participants);
+    generateBrackets(shuffledParticipants);
+
+  }, [id]); // Dépendance vide pour s'assurer que cela ne se produit qu'une seule fois au montage
+
+  // Fonction pour mélanger un tableau
   const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
   };
 
+  // Fonction pour démarrer le tournoi
   const startTournament = () => {
     const shuffledParticipants = shuffleArray(participants);
     generateBrackets(shuffledParticipants);
   };
 
+  // Fonction pour générer les brackets du tournoi
   const generateBrackets = (participants) => {
     const generatedBrackets = [];
+    const initialScores = participants.map(() => 0); // Initialise les scores à 0 pour chaque participant
+    setScores(initialScores);
+
     for (let i = 0; i < participants.length; i += 2) {
       if (participants[i + 1]) {
         generatedBrackets.push([participants[i], participants[i + 1]]);
       } else {
-        generatedBrackets.push([participants[i], null]);
+        generatedBrackets.push([participants[i], null]); // Gestion des participants impairs
       }
     }
     setBrackets([generatedBrackets]);
     setCurrentRound(1);
-    setScores({});
   };
 
-  const handleScoreChange = (event, playerId) => {
+  // Fonction pour gérer les changements de score
+  const handleScoreChange = (event, matchIndex, playerIndex) => {
     const { value } = event.target;
     if (value <= 3) {
-      setScores((prevScores) => ({
-        ...prevScores,
-        [playerId]: parseInt(value),
-      }));
+      setScores((prevScores) => {
+        const updatedScores = [...prevScores];
+        updatedScores[matchIndex * 2 + playerIndex] = parseInt(value);
+        return updatedScores;
+      });
     }
   };
 
+  // Fonction pour passer à la manche suivante
   const nextRound = () => {
     const winners = [];
-    brackets[currentRound - 1].forEach(match => {
-      if (match[0] && scores[match[0].id] === 3) {
-        winners.push(match[0]);
+    brackets[currentRound - 1].forEach((match, matchIndex) => {
+      const player1 = match[0];
+      const player2 = match[1];
+      const player1Score = scores[matchIndex * 2];
+      const player2Score = scores[matchIndex * 2 + 1];
+
+      if (player1 && player1Score === 3) {
+        winners.push(player1);
       }
-      if (match[1] && scores[match[1].id] === 3) {
-        winners.push(match[1]);
+      if (player2 && player2Score === 3) {
+        winners.push(player2);
       }
     });
 
     if (winners.length === 1) {
-      setBrackets(prevBrackets => [...prevBrackets, [[winners[0], null]]]);
+      setBrackets((prevBrackets) => [...prevBrackets, [[winners[0], null]]]);
     } else {
       const newBrackets = [];
       for (let i = 0; i < winners.length; i += 2) {
@@ -78,9 +97,10 @@ const BracketGenerator = () => {
           newBrackets.push([winners[i], null]);
         }
       }
-      setBrackets(prevBrackets => [...prevBrackets, newBrackets]);
+      setBrackets((prevBrackets) => [...prevBrackets, newBrackets]);
       setCurrentRound(currentRound + 1);
-      setScores({});
+      const initialScores = winners.map(() => 0); // Réinitialise les scores pour les gagnants
+      setScores(initialScores);
     }
   };
 
@@ -101,8 +121,8 @@ const BracketGenerator = () => {
                   type="number"
                   min="0"
                   max="3"
-                  value={scores[match[0]?.id] || ''}
-                  onChange={(e) => handleScoreChange(e, match[0]?.id)}
+                  value={scores[matchIndex * 2] || ''}
+                  onChange={(e) => handleScoreChange(e, matchIndex, 0)}
                   className="w-16 p-1 text-black rounded"
                   disabled={!match[0]}
                 />
@@ -111,8 +131,8 @@ const BracketGenerator = () => {
                   type="number"
                   min="0"
                   max="3"
-                  value={scores[match[1]?.id] || ''}
-                  onChange={(e) => handleScoreChange(e, match[1]?.id)}
+                  value={scores[matchIndex * 2 + 1] || ''}
+                  onChange={(e) => handleScoreChange(e, matchIndex, 1)}
                   className="w-16 p-1 text-black rounded"
                   disabled={!match[1]}
                 />
