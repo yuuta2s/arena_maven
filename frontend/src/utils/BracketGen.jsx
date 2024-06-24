@@ -14,8 +14,8 @@ const BracketGenerator = () => {
       console.log(res.data);
       setParticipants(res.data);
 
-      const shuffledParticipants = shuffleArray(res.data);
-      generateBrackets(shuffledParticipants);
+      const sortedParticipants = sortParticipants(res.data);
+      generateBrackets(sortedParticipants);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -25,34 +25,57 @@ const BracketGenerator = () => {
     fetchData();
   }, [id]);
 
-  const shuffleArray = (array) => {
-    return array.sort(() => Math.random() - 0.5);
+  const sortParticipants = (participants) => {
+    // Sort participants based on some criteria (e.g., ranking or seed)
+    // Implement your custom sorting logic here
+    return participants.sort(/* your sorting logic */);
   };
 
-  const generateBrackets = (shuffledParticipants) => {
+  const generateBrackets = (sortedParticipants) => {
+    const totalRounds = Math.ceil(Math.log2(sortedParticipants.length));
+    const numberOfByes = Math.pow(2, totalRounds) - sortedParticipants.length;
+
     const generatedBrackets = [];
 
-    for (let i = 0; i < shuffledParticipants.length; i += 2) {
-      if (shuffledParticipants[i + 1]) {
-        generatedBrackets.push([shuffledParticipants[i], shuffledParticipants[i + 1]]);
-      } else {
-        generatedBrackets.push([shuffledParticipants[i], null]);
+    let byeIndex = 0;
+    for (let round = 0; round < totalRounds; round++) {
+      const roundMatches = [];
+
+      for (let match = 0; match < Math.pow(2, totalRounds - round - 1); match++) {
+        if (byeIndex < numberOfByes) {
+          roundMatches.push([null, sortedParticipants[byeIndex]]);
+          byeIndex++;
+        } else {
+          roundMatches.push([sortedParticipants.shift(), sortedParticipants.shift()]);
+        }
       }
+
+      generatedBrackets.push(roundMatches);
     }
 
     setBrackets(generatedBrackets);
   };
 
   return (
-    <div>
-      <h2>Brackets</h2>
-      <ul>
-        {brackets.map((bracket, index) => (
-          <li key={index}>
-            {bracket[0].username} vs {bracket[1] ? bracket[1].username : 'Bye'}
-          </li>
+    
+    <div className="mx-auto mx-auto ">
+      <h2 className="text-3xl font-bold mb-10 text-center">Tournament Brackets</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {brackets.map((round, roundIndex) => (
+          <div key={roundIndex} className="bg-gray-800 text-white rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-4">Round {roundIndex + 1}</h3>
+            {round.map((match, matchIndex) => (
+              <div key={matchIndex} className="mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-semibold">{match[0] ? match[0].username : 'Bye'}</span>
+                  <span className="text-sm">vs</span>
+                  <span className="text-lg font-semibold">{match[1] ? match[1].username : 'Bye'}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
