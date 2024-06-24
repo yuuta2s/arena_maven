@@ -10,14 +10,14 @@ import {
   Transition,
 } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Importer Link depuis react-router-dom
 import iconProfile from '../../assets/iconProfile.jpg';
 import headerVector from '../../assets/headerVector.svg';
 
 const navigation = [
-  { name: 'Accueil', href: '#', current: true },
-  { name: 'Découvrir', href: '#', current: false },
-  { name: 'Mes tournois', href: '#', current: false },
+  { name: 'Accueil', href: '/', current: true },
+  { name: 'Découvrir', href: '/decouvrir', current: false },
+  { name: 'Mes tournois', href: '/mes-tournois', current: false },
   { name: 'Contact', href: '/contact', current: false },
 ];
 
@@ -30,7 +30,7 @@ export default function Header() {
     <Disclosure as="nav" className="bg-opacity-0">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button */}
@@ -50,25 +50,25 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4 mx-auto">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'bg-primary text-white' : 'text-white hover:bg-53B84A hover:text-white',
-                          'relative rounded-md px-3 py-2 text-sm font-medium before:ease overflow-hidden   text-white shadow-2xl transition-all before:absolute before:top-1/2 before:h-0 before:w-64 before:origin-center before:-translate-x-20 before:rotate-45 before:bg-primary before:duration-300 hover:text-white hover:shadow-[0_4px_6px_-1px_rgba(83,184,74,1),0_2px_4px_-2px_rgba(83,184,74,1)] hover:before:h-64 hover:before:-translate-y-32'
+                          'relative rounded-md px-3 py-2 text-sm font-medium before:ease overflow-hidden text-white shadow-2xl transition-all before:absolute before:top-1/2 before:h-0 before:w-64 before:origin-center before:-translate-x-20 before:rotate-45 before:bg-primary before:duration-300 hover:text-white hover:shadow-[0_4px_6px_-1px_rgba(83,184,74,1),0_2px_4px_-2px_rgba(83,184,74,1)] hover:before:h-64 hover:before:-translate-y-32'
                         )}
                         data-text={item.name}
                         aria-current={item.current ? 'page' : undefined}
                       >
                         <span className="relative z-10">{item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
 
               {/* Header Vector */}
-              <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)' }}>
+              <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)'}}>
                 <img src={headerVector} alt="Header Vector" className="h-auto w-auto" />
               </div>
 
@@ -76,11 +76,11 @@ export default function Header() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
-                      <span className="absolute -inset-1.5" />
+                    <MenuButton className="relative flex rounded-full text-sm focus:outline-none">
+                      <span className="absolute" />
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-10 w-10 rounded-full"
+                        className="h-10 w-10 rounded-full -translate-x-14"
                         src={iconProfile}
                         alt=""
                       />

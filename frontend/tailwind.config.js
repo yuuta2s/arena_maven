@@ -17,7 +17,8 @@ module.exports = {
       tertiary: '#122604',
       vertBG: '#1c5b1a',
       black: '#000000',
-      white: '#FFFFFF'
+      white: '#FFFFFF',
+      red: 'f00020'
     },
     fontFamily: {
       inconsolata: ['Inconsolata', 'monospace'], 
@@ -25,6 +26,7 @@ module.exports = {
     extend: {
        backgroundImage: {
       'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
+      'underline-title': "url('/src/assets/Rectangle 261.svg')"
     },
       spacing: {
         '128': '32rem',
@@ -36,7 +38,7 @@ module.exports = {
     }
   },
   plugins: [
-    flowbite,
-    flowbiteReact.plugin(),
+    // flowbite,
+    // flowbiteReact.plugin(),
   ],
 };

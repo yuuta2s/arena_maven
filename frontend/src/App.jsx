@@ -5,6 +5,11 @@ import Homepage from '@components/Homepage/Homepage';
 import Contact from '@components/Contact/Contact';
 import Page404 from '@components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
+import TournamentList from './components/Tournament/TournamentList/TournamentList';
+import Contact from '@components/Contact/Contact';
+
+import Cards from './components/Cards/Cards'; 
+
 import './App.css';
 
 const App = () => {
