@@ -1,5 +1,3 @@
-
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -17,7 +15,7 @@ module.exports = {
       vertBG: '#1c5b1a',
       black: '#000000',
       white: '#FFFFFF',
-      red: 'f00020'
+      warning: '#f00020',
     },
     fontFamily: {
       inconsolata: ['Inconsolata', 'monospace'], 

@@ -35,7 +35,7 @@ export default function SmallCards({ tournament, index }) {
                   Registration Open
                 </span>
               ) : (
-                <span className="absolute top-2 right-2 bg-red text-white text-xs font-bold py-1 px-2 rounded-full">
+                <span className="absolute top-2 right-2 bg-warning text-white text-xs font-bold py-1 px-2 rounded-full">
                   Registration Closed
                 </span>
               )}
