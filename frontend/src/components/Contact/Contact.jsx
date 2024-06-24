@@ -25,14 +25,14 @@ export default function Contact() {
       <button
   type="button"
   onClick={() => formRef.current.submitForm()}
-  className="before:ease relative h-12 w-full sm:w-40 overflow-hidden border border-black bg-primary text-black shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-primary hover:before:-translate-x-40 px-4 py-2"
+  className="font-inconsolata before:ease relative h-12 w-full sm:w-40 overflow-hidden border border-black bg-primary text-black shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-primary hover:before:-translate-x-40 px-4 py-2"
 >
-  Send message
+  Send 
 </button>
 <button
   type="button"
   onClick={handleDiscard}
-  className="before:ease relative h-12 w-full sm:w-40 overflow-hidden border border-black bg-opacity-0 text-black shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-primary hover:before:-translate-x-40 px-4 py-2"
+  className="font-inconsolata before:ease relative h-12 w-full sm:w-40 overflow-hidden border border-black bg-opacity-0 text-black shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-primary hover:before:-translate-x-40 px-4 py-2"
 >
   Discard
 </button>

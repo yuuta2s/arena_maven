@@ -1,28 +1,41 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import Header from './components/Header/Header.jsx';
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
-import Contact from '@components/Contact/Contact'; // Assurez-vous que le chemin est correct
+import Contact from '@components/Contact/Contact';
+import Page404 from '@components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
 import './App.css';
 
 const App = () => {
   return (
-    <div className="bg-gradient-to-tr from-black via-vertBG to-black">
-    <Router>
-      <>
-        <Header />
+    <div className="bg-gradient-to-tr from-black via-vertBG to-black min-h-screen flex flex-col">
+      <Router>
         <Routes>
-          <Route path="/homepage" element={<Homepage />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/tournament/:id" element={<BracketGenerator />} />
-          <Route path="*" element={<div>404 Not Found</div>} />
+          {/* Routes with Header and Footer */}
+          <Route element={<LayoutWithHeaderFooter />}>
+            <Route path="/homepage" element={<Homepage />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/tournament/:id" element={<BracketGenerator />} />
+          </Route>
+
+          {/* Route without Header and Footer */}
+          <Route path="*" element={<Page404 />} />
         </Routes>
-        <Footer />
-      </>
-    </Router>
+      </Router>
     </div>
   );
 };
+
+// Layout Component with Header and Footer
+const LayoutWithHeaderFooter = () => (
+  <>
+    <Header />
+    <main className="flex-grow">
+      <Outlet />
+    </main>
+    <Footer />
+  </>
+);
 
 export default App;

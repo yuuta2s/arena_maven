@@ -20,7 +20,7 @@ module.exports = {
       white: '#FFFFFF'
     },
     fontFamily: {
-
+      inconsolata: ['Inconsolata', 'monospace'], 
     },
     extend: {
        backgroundImage: {
