@@ -51,9 +51,18 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const tournament = req.body;
+  const { tname, tdate, nbPlayer, tdescription } = req.body;
+  const timage = req.file ? req.file.filename : null;
+  console.log('Received data:', { tname, tdate, nbPlayer, tdescription, timage });
 
-  // TODO validations (length, format...)
+  const tournament = {
+    name: tname,
+    date: tdate,
+    tournament_img: timage,
+    organizer_id: 20,
+    total_players: nbPlayer,
+    short_description: tdescription
+  };
 
   models.tournament
     .insert(tournament)

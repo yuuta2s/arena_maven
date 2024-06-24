@@ -18,18 +18,15 @@ module.exports = {
       vertBG: '#1c5b1a',
       black: '#000000',
       white: '#FFFFFF',
-      red: {
-        500: '#EF4444',  // pour le span du composant Cards
-      },
-      green: {
-        500: '#22C55E',  // pour le span du composant Cards
-      },
+      red: 'f00020'
     },
     fontFamily: {
+
     },
     extend: {
        backgroundImage: {
       'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
+      'underline-title': "url('/src/assets/Rectangle 261.svg')"
     },
       spacing: {
         '128': '32rem',
@@ -41,7 +38,7 @@ module.exports = {
     }
   },
   plugins: [
-    flowbite,
-    flowbiteReact.plugin(),
+    // flowbite,
+    // flowbiteReact.plugin(),
   ],
 };

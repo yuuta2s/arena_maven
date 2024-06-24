@@ -48,7 +48,7 @@ class TournamentManager extends AbstractManager {
         tournament.short_description
       ]
     );
-  }
+  }  
 
   update(tournament) {
     return this.database.query(
@@ -66,7 +66,7 @@ class TournamentManager extends AbstractManager {
   }
 
   getParticipantByTournamentId(id){
-     return this.database.query(`SELECT u.username FROM tournament t INNER JOIN tournamentParticipation tp ON t.id = tp.tournament_id INNER JOIN user u ON u.id = tp.user_id WHERE t.id = ?
+     return this.database.query(`SELECT u.id FROM tournament t INNER JOIN tournamentParticipation tp ON t.id = tp.tournament_id INNER JOIN user u ON u.id = tp.user_id WHERE t.id = ?
      `,[id]);}
 }
 
