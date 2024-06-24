@@ -1,17 +1,29 @@
-// import Home from "./pages/Home";
-import Header from "./components/Header/Header.jsx"
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Header from "./components/Header/Header";
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
 import TournamentRequest from "@components/Tournament/TournamentRequest/TournamentRequest.jsx";
 import BracketGenerator from './utils/BracketGen';
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
-import './App.css';
+import TournamentList from './components/Tournament/TournamentList/TournamentList';
+
 import Cards from './components/Cards/Cards'; 
+
 
 
 const App = () => {
   return (
+
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/tournament/:id" element={<BracketGenerator />} />
+        <Route path="/decouvrir" element={<TournamentList />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <Footer />
+    </Router>
     < >
     <div className="bg-gradient-to-tr from-black via-vertBG to-black">
       <Header />
