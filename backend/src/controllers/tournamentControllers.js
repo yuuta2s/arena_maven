@@ -51,9 +51,18 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const tournament = req.body;
+  const { tname, tdate, nbPlayer, tdescription } = req.body;
+  const timage = req.file ? req.file.filename : null;
+  console.log('Received data:', { tname, tdate, nbPlayer, tdescription, timage });
 
-  // TODO validations (length, format...)
+  const tournament = {
+    name: tname,
+    date: tdate,
+    tournament_img: timage,
+    organizer_id: 20,
+    total_players: nbPlayer,
+    short_description: tdescription
+  };
 
   models.tournament
     .insert(tournament)
@@ -80,6 +89,20 @@ const destroy = (req, res) => {
       console.error(err);
       res.sendStatus(500);
     });
+
+};
+
+
+const getPbyTid = (req, res) => {
+  models.tournament
+    .getParticipantByTournamentId(req.params.id)
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
 
 module.exports = {
@@ -88,4 +111,5 @@ module.exports = {
   edit,
   add,
   destroy,
+  getPbyTid,
 };

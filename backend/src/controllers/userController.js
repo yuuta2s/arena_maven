@@ -46,7 +46,8 @@ const edit = (req, res) => {
     .update(user)
     .then((result) => {  // Removed destructuring as update likely returns the result directly
       if (result.affectedRows === 0) {
-        res.sendStatus(404);
+        res.sendStatus(404)
+        
       } else {
         res.sendStatus(204);
       }

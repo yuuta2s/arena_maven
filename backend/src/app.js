@@ -17,7 +17,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL ?? "http://localhost:3000",
+    origin: process.env.FRONTEND_URL ?? "http://localhost:5173",
     optionsSuccessStatus: 200,
   })
 );
@@ -31,6 +31,8 @@ app.use(router);
 // serve the `backend/public` folder for public resources
 
 app.use(express.static(path.join(__dirname, "../public")));
+
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // serve REACT APP
 

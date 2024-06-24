@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <svg width="476" height="133" viewBox="0 0 476 133" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="476" height="133" fill="#7C7F88"/>
 <rect width="2021" height="1445" transform="translate(-780 -217)" fill="url(#paint0_linear_3_2)"/>
@@ -10,6 +11,12 @@
 <stop offset="1"/>
 </linearGradient>
 <linearGradient id="paint1_linear_3_2" x1="0" y1="66.5" x2="476" y2="66.5" gradientUnits="userSpaceOnUse">
+=======
+<svg width="990" height="149" viewBox="0 0 990 149" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 0H24.5629L74.2735 101.674H990V149L966.5 118.121H59.6527L0 0Z" fill="url(#paint0_linear_99_3765)"/>
+<defs>
+<linearGradient id="paint0_linear_99_3765" x1="0" y1="74.5" x2="990" y2="74.5" gradientUnits="userSpaceOnUse">
+>>>>>>> 3ad58af946358021f9da3cce055c5ba2b34e7191
 <stop stop-color="#228D10"/>
 <stop offset="0.300059" stop-color="#28DB0B"/>
 <stop offset="1" stop-color="#319C20"/>
