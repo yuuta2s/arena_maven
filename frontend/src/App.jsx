@@ -1,17 +1,15 @@
-import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header.jsx';
-import Footer from '@components/Footer/Footer';
-import Homepage from '@components/Homepage/Homepage';
-import Contact from '@components/Contact/Contact';
-import Page404 from '@components/Page404/Page404';  
+import Footer from './components/Footer/Footer';
+import Homepage from './components/Homepage/Homepage';
+import Contact from './components/Contact/Contact';
+import Page404 from './components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
-import Contact from '@components/Contact/Contact';
-
-import Cards from './components/Cards/Cards'; 
-import TournamentRegister from "@components/Tournament/TournamentRegister/TournamentRegister.jsx";
-import AboutUs from "@components/AboutUs/AboutUs.jsx";
-import Winner from "./utils/Winner.jsx";
+import TournamentRegister from './components/Tournament/TournamentRegister/TournamentRegister.jsx';
+import AboutUs from './components/AboutUs/AboutUs.jsx';
+import Winner from './utils/Winner.jsx';
 
 import './App.css';
 
@@ -19,31 +17,20 @@ const App = () => {
   return (
     <div className="bg-gradient-to-tr from-black via-vertBG to-black min-h-screen flex flex-col">
       <Router>
+        <Header />
         <Routes>
-
-          <Route path="/register/tournament" element={<TournamentRegister/>}/>
-        <Route path="/tournament/:id" element={<BracketGenerator />} />
           <Route path="/" element={<Navigate to="/tournament/9" />} />
-        <Route path="/winner" element={<Winner />} />
+          <Route path="/tournament/:id" element={<BracketGenerator />} />
+          <Route path="/register/tournament" element={<TournamentRegister />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/winner" element={<Winner />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
-    </Router>
-          <AboutUs/>
-    <Footer/>
-    </>
-
-     
+        <Footer />
+      </Router>
+    </div>
   );
 };
-
-// Layout Component with Header and Footer
-const LayoutWithHeaderFooter = () => (
-  <>
-    <Header />
-    <main className="flex-grow">
-      <Outlet />
-    </main>
-    <Footer />
-  </>
-);
 
 export default App;
