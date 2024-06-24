@@ -1,4 +1,6 @@
 const models = require("../models");
+const {validationResult} = require('express-validator');
+
 
 const browse = (req, res) => {
   models.matchResults
@@ -51,7 +53,18 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const matchResults = req.body;
+ 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+   const matchResults = req.body;
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json({ errors: errors.array() });
+  // }
+  
+  
 
   // TODO validations (length, format...)
 

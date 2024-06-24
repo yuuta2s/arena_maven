@@ -39,7 +39,7 @@ export default function SmallCards({ tournament, index }) {
                   Registration Closed
                 </span>
               )}
-          <img  className="w-full h-full object-cover" src={tournament.tournament_img} alt={`image tournois ${index + 1}`} />
+          <img  className="w-full h-full object-cover" src={`http://localhost:5000/uploads/${tournament.tournament_img}`} alt={`image tournois ${tournament.name}`} />
         </div>
     );
   }

@@ -28,6 +28,7 @@ export default function Homepage() {
 
   return (
     <div className="p-4">
+
       <div className="flex flex-col items-center mb-24 bg-underline-title bg-no-repeat bg-bottom pb-14">
         <h1 className="text-7xl font-bold text-white">Become an Arena Maven</h1>
       </div>

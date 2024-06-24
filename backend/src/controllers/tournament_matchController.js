@@ -1,4 +1,5 @@
 const models = require("../models");
+const {validationResult} = require('express-validator');
 
 const browse = (req, res) => {
     models.tournament_match

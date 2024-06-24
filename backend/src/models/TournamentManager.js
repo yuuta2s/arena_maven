@@ -48,7 +48,7 @@ class TournamentManager extends AbstractManager {
         tournament.short_description
       ]
     );
-  }
+  }  
 
   update(tournament) {
     return this.database.query(

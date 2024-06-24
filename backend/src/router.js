@@ -1,4 +1,6 @@
 const express = require("express");
+const {body} = require('express-validator');
+const multer = require('multer');
 const router = express.Router();
 const {
     hashPassword,
@@ -15,7 +17,7 @@ const matchResultsController = require('./controllers/matchResultsController');
 router.get("/matchResults", matchResultsController.browse);
 router.get("/matchResults/:id", matchResultsController.read);
 router.put("/matchResults/:id", matchResultsController.edit);
-router.post("/matchResults", matchResultsController.add);
+router.post("/matchResults", matchResultsController.add, body('email').isEmpty().withMessage('Email is not valid'));
 router.delete("/matchResults/:id", matchResultsController.destroy);
 
 const itemControllers = require("./controllers/itemControllers");
@@ -58,13 +60,23 @@ router.put("/tournament-participation/:id", tournamentParticipationController.ed
 router.post("/tournament-participation", tournamentParticipationController.add);
 router.delete("/tournament-participation/:id", tournamentParticipationController.destroy);
 
-const tournamentControllers = require("./controllers/tournamentControllers");
-// const { verify } = require("argon2");
+const  tournamentControllers = require("./controllers/tournamentControllers");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Dossier de destination pour les fichiers uploadés
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`); // Nom du fichier
+  }
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/tournament", tournamentControllers.browse);
 router.get("/tournament/:id", tournamentControllers.read);
 router.put("/tournament/:id", tournamentControllers.edit);
-router.post("/tournament", tournamentControllers.add);
+router.post('/tournament', upload.single('timage'), tournamentControllers.add)
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);

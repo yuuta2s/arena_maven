@@ -1,24 +1,26 @@
-// import Home from "./pages/Home";
-import Header from "./components/Header/Header.jsx"
+import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
+import Header from './components/Header/Header.jsx';
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
+import Contact from '@components/Contact/Contact';
+import Page404 from '@components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
-import './App.css';
+import TournamentList from './components/Tournament/TournamentList/TournamentList';
+import Contact from '@components/Contact/Contact';
+
 import Cards from './components/Cards/Cards'; 
 import TournamentRegister from "@components/Tournament/TournamentRegister/TournamentRegister.jsx";
 import AboutUs from "@components/AboutUs/AboutUs.jsx";
 import Winner from "./utils/Winner.jsx";
 
+import './App.css';
 
 const App = () => {
   return (
-    <>
-    <Header />
-    <Homepage/>
-   <Router>
+    <div className="bg-gradient-to-tr from-black via-vertBG to-black min-h-screen flex flex-col">
+      <Router>
         <Routes>
+
           <Route path="/register/tournament" element={<TournamentRegister/>}/>
         <Route path="/tournament/:id" element={<BracketGenerator />} />
           <Route path="/" element={<Navigate to="/tournament/9" />} />
@@ -28,7 +30,20 @@ const App = () => {
           <AboutUs/>
     <Footer/>
     </>
+
+     
   );
 };
+
+// Layout Component with Header and Footer
+const LayoutWithHeaderFooter = () => (
+  <>
+    <Header />
+    <main className="flex-grow">
+      <Outlet />
+    </main>
+    <Footer />
+  </>
+);
 
 export default App;
