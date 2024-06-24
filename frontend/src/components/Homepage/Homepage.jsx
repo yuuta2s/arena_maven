@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import design2 from '../../assets/Rectangle 261.svg';
+import { Link } from 'react-router-dom';
 import mkLogo from '../../assets/mkLogo.png'
 import SmallCards from '@components/SmallCards/SmallCards';
 
@@ -37,9 +38,11 @@ export default function Homepage() {
           <h2 className="text-4xl font-bold text-white p-5">To be or not to be ? That is the question !</h2>
           <p className="text-white text-xl p-5">Bienvenue sur Arena Maven, la plateforme ultime pour créer et participer aux tournois de Tekken 8. Rejoignez la communauté des champions et montrez vos compétences dans l'arène !</p>
           <div className="flex flex-wrap justify-between items-center gap-3 p-5">
-            <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
-              Create a tournament
-            </button>
+            <Link to="/tournamentRequest">
+              <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
+                Create a tournament
+              </button>
+            </Link>
             <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
               Find a tournament
             </button>

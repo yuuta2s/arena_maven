@@ -14,32 +14,17 @@ import Cards from './components/Cards/Cards';
 const App = () => {
   return (
 
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/tournament/:id" element={<BracketGenerator />} />
-        <Route path="/decouvrir" element={<TournamentList />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-      <Footer />
-    </Router>
     < >
     <div className="bg-gradient-to-tr from-black via-vertBG to-black">
-      <Header />
-      <TournamentRequest/>
-      {/* <Homepage/> */}
-    {/* <Router>
-        <div>
-          <h1>Tournament Manager</h1>
-          <Routes>
-          <Route path="/tournament/:id" element={<BracketGenerator />} />
-            <Route path="/" element={<Navigate to="/tournament/9" />} />
-            <Route path="*" element={<div>404 Not Found</div>} />
-          </Routes>
-        </div>
-      </Router> */}
-      <Footer/>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/decouvrir" element={<TournamentList />} />
+          <Route path="/tournamentRequest" element={<TournamentRequest />} />
+        </Routes>
+        <Footer />
+      </Router>
     </div>
     </>
   );
