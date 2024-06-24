@@ -9,6 +9,9 @@ import TournamentList from './components/Tournament/TournamentList/TournamentLis
 import Contact from '@components/Contact/Contact';
 
 import Cards from './components/Cards/Cards'; 
+import TournamentRegister from "@components/Tournament/TournamentRegister/TournamentRegister.jsx";
+import AboutUs from "@components/AboutUs/AboutUs.jsx";
+import Winner from "./utils/Winner.jsx";
 
 import './App.css';
 
@@ -18,15 +21,11 @@ const App = () => {
     <div className="bg-gradient-to-tr from-black via-vertBG to-black min-h-screen flex flex-col">
       <Router>
         <Routes>
-          {/* Routes with Header and Footer */}
-          <Route element={<LayoutWithHeaderFooter />}>
-            <Route path="/homepage" element={<Homepage />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/tournament/:id" element={<BracketGenerator />} />
-          </Route>
 
-          {/* Route without Header and Footer */}
-          <Route path="*" element={<Page404 />} />
+          <Route path="/register/tournament" element={<TournamentRegister/>}/>
+        <Route path="/tournament/:id" element={<BracketGenerator />} />
+          <Route path="/" element={<Navigate to="/tournament/9" />} />
+        <Route path="/winner" element={<Winner />} />
         </Routes>
       </Router>
     </div>
