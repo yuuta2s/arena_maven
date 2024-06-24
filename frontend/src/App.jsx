@@ -6,42 +6,28 @@ import Homepage from '@components/Homepage/Homepage';
 import TournamentRequest from "@components/Tournament/TournamentRequest/TournamentRequest.jsx";
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
-
-import Cards from './components/Cards/Cards'; 
-
-
+import Login from './components/Account/Login/Login';
+import Register from './components/Account/Register/Register';
+import ProfileCheck from '@components/Account/ProfileCheck/ProfileCheck';
 
 const App = () => {
   return (
-
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/tournament/:id" element={<BracketGenerator />} />
-        <Route path="/decouvrir" element={<TournamentList />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-      <Footer />
-    </Router>
-    < >
-    <div className="bg-gradient-to-tr from-black via-vertBG to-black">
-      <Header />
-      <TournamentRequest/>
-      {/* <Homepage/> */}
-    {/* <Router>
-        <div>
-          <h1>Tournament Manager</h1>
-          <Routes>
+      <div className="bg-gradient-to-tr from-black via-vertBG to-black">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
           <Route path="/tournament/:id" element={<BracketGenerator />} />
-            <Route path="/" element={<Navigate to="/tournament/9" />} />
-            <Route path="*" element={<div>404 Not Found</div>} />
-          </Routes>
-        </div>
-      </Router> */}
-      <Footer/>
-    </div>
-    </>
+          <Route path="/decouvrir" element={<TournamentList />} />
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route path='/Login' element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/profile" element={<ProfileCheck/>}/>
+        </Routes>
+        <TournamentRequest />
+        <Footer />
+      </div>
+    </Router>
   );
 };
 

@@ -1,9 +1,11 @@
 const flowbite = require("flowbite/plugin");
-const flowbiteReact = require("flowbite-react/tailwind");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/flowbite/**/*.js"
+  ],
   theme: {
     screens: {
       sm: '480px',
@@ -21,13 +23,13 @@ module.exports = {
       red: 'f00020'
     },
     fontFamily: {
-
+      // Ajoutez vos polices ici
     },
     extend: {
-       backgroundImage: {
-      'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
-      'underline-title': "url('/src/assets/Rectangle 261.svg')"
-    },
+      backgroundImage: {
+        'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
+        'underline-title': "url('/src/assets/Rectangle 261.svg')"
+      },
       spacing: {
         '128': '32rem',
         '144': '36rem',
@@ -38,7 +40,6 @@ module.exports = {
     }
   },
   plugins: [
-    // flowbite,
-    // flowbiteReact.plugin(),
+    flowbite,
   ],
 };
