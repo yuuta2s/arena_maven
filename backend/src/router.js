@@ -1,4 +1,5 @@
 const express = require("express");
+const {body} = require('express-validator');
 const multer = require('multer');
 const router = express.Router();
 const {
@@ -16,7 +17,7 @@ const matchResultsController = require('./controllers/matchResultsController');
 router.get("/matchResults", matchResultsController.browse);
 router.get("/matchResults/:id", matchResultsController.read);
 router.put("/matchResults/:id", matchResultsController.edit);
-router.post("/matchResults", matchResultsController.add);
+router.post("/matchResults", matchResultsController.add, body('email').isEmpty().withMessage('Email is not valid'));
 router.delete("/matchResults/:id", matchResultsController.destroy);
 
 const itemControllers = require("./controllers/itemControllers");
