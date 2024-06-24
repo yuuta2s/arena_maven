@@ -43,9 +43,11 @@ export default function Homepage() {
                 Create a tournament
               </button>
             </Link>
-            <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
-              Find a tournament
-            </button>
+            <Link to="/tournamentRegister">
+              <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
+                Find a tournament
+              </button>
+            </Link>
           </div>
         </div>
         <div>
