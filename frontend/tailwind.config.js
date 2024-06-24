@@ -18,7 +18,7 @@ module.exports = {
       warning: '#f00020',
     },
     fontFamily: {
-
+      inconsolata: ['Inconsolata', 'monospace'], 
     },
     extend: {
        backgroundImage: {
