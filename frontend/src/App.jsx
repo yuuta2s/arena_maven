@@ -9,6 +9,7 @@ import './App.css';
 import Cards from './components/Cards/Cards'; 
 import TournamentRegister from "@components/Tournament/TournamentRegister/TournamentRegister.jsx";
 import AboutUs from "@components/AboutUs/AboutUs.jsx";
+import Winner from "./utils/Winner.jsx";
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/register/tournament" element={<TournamentRegister/>}/>
         <Route path="/tournament/:id" element={<BracketGenerator />} />
           <Route path="/" element={<Navigate to="/tournament/9" />} />
+        <Route path="/winner" element={<Winner />} />
         </Routes>
     </Router>
           <AboutUs/>

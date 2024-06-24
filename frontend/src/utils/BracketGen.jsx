@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const BracketGenerator = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [participants, setParticipants] = useState([]);
   const [brackets, setBrackets] = useState([]);
   const [currentRound, setCurrentRound] = useState(1);
@@ -112,6 +113,32 @@ const BracketGenerator = () => {
     }
   };
 
+  const endTournament = () => {
+    const currentMatches = brackets[currentRound - 1];
+    const currentWinners = [];
+
+    currentMatches.forEach((match, matchIndex) => {
+      const player1 = match[0];
+      const player2 = match[1];
+      const player1Score = scores[matchIndex][0];
+      const player2Score = scores[matchIndex][1];
+
+      if (player1 && player1Score === 3) {
+        currentWinners.push(player1);
+      }
+      if (player2 && player2Score === 3) {
+        currentWinners.push(player2);
+      }
+    });
+
+    if (currentWinners.length === 1) {
+      setWinner(currentWinners[0]);
+      navigate('/winner', { state: { winner: currentWinners[0] } });
+    } else {
+      alert("No single winner could be determined.");
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-8">
       <h2 className="text-3xl font-bold mb-10 text-center text-green-500">Tournament Brackets</h2>
@@ -174,7 +201,8 @@ const BracketGenerator = () => {
         </div>
       </div>
       <div className="flex justify-center mt-6">
-        <button onClick={nextRound} className="bg-green-500 text-white py-2 px-4 rounded">Next Round</button>
+        <button onClick={nextRound} className="bg-green-500 text-white py-2 px-4 rounded mr-4">Next Round</button>
+        <button onClick={endTournament} className="bg-red-500 text-white py-2 px-4 rounded">End Tournament</button>
       </div>
     </div>
   );
