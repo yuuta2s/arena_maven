@@ -21,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/decouvrir" element={<TournamentList />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/tournamentRequest" element={<TournamentRequest />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
