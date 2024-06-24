@@ -1,9 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useState } from 'react';
 import axios from 'axios';
+import Modal from '@components/Modal/Modal';
 
 export default function TournamentRequest() {
+
+  const [showModal, setShowModal] = useState(false);
   const formik = useFormik({
     initialValues: {
       tname: '',
@@ -34,6 +38,7 @@ export default function TournamentRequest() {
           },
         });
         console.log('Tournament created successfully:', response.data);
+        // setShowModal(true)
       } catch (error) {
         console.error('Error creating tournament:', error);
       }
@@ -53,7 +58,7 @@ export default function TournamentRequest() {
           <div className="w-full m-2">
             <label htmlFor="tname">Tournament's name</label>
             <input
-              className="w-full"
+              className="w-full bg-white p-1 rounded-md"
               type="text"
               id="tname"
               name="tname"
@@ -69,7 +74,7 @@ export default function TournamentRequest() {
           <div className="w-full m-2">
             <label htmlFor="tdate">Tournament's date</label>
             <input
-              className="w-full"
+              className="w-full bg-white p-1 rounded-md"
               type="date"
               id="tdate"
               name="tdate"
@@ -78,7 +83,7 @@ export default function TournamentRequest() {
               value={formik.values.tdate}
             />
             {formik.touched.tdate && formik.errors.tdate ? (
-              <div className="text-red-500">{formik.errors.tdate}</div>
+              <div className="text-red">{formik.errors.tdate}</div>
             ) : null}
           </div>
           <div className="w-full m-2">
@@ -86,6 +91,7 @@ export default function TournamentRequest() {
             <select
               id="nbPlayer"
               name="nbPlayer"
+              className=" bg-white p-1 rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.nbPlayer}
@@ -93,17 +99,15 @@ export default function TournamentRequest() {
               <option value="2">2</option>
               <option value="4">4</option>
               <option value="8">8</option>
-              <option value="16">16</option>
-              <option value="32">32</option>
             </select>
             {formik.touched.nbPlayer && formik.errors.nbPlayer ? (
-              <div className="text-red-500">{formik.errors.nbPlayer}</div>
+              <div className="text-red">{formik.errors.nbPlayer}</div>
             ) : null}
           </div>
           <div className="w-full m-2">
             <label htmlFor="tdescription">Short description</label>
             <textarea
-              className="w-full min-h-16"
+              className="w-full min-h-16 bg-white p-1 rounded-md"
               id="tdescription"
               name="tdescription"
               placeholder="Description.."
@@ -112,7 +116,7 @@ export default function TournamentRequest() {
               value={formik.values.tdescription}
             />
             {formik.touched.tdescription && formik.errors.tdescription ? (
-              <div className="text-red-500">{formik.errors.tdescription}</div>
+              <div className="text-red">{formik.errors.tdescription}</div>
             ) : null}
           </div>
           <div className="w-full m-2">
@@ -135,7 +139,9 @@ export default function TournamentRequest() {
             className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border border-secondary hover:border-tertiary rounded"
             type="submit"
             value="Submit"
+            onClick={() => setShowModal(true)}
           />
+          <Modal showModal={showModal} setShowModal={setShowModal} ></Modal>
         </form>
       </section>
     </div>
