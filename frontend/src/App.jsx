@@ -11,7 +11,8 @@ import TournamentRegister from "@components/Tournament/TournamentRegister/Tourna
 import TournamentRequest from '@components/Tournament/TournamentRequest/TournamentRequest.jsx';
 import AboutUs from "@components/AboutUs/AboutUs.jsx";
 import Winner from "./utils/Winner.jsx";
-
+import Register from "./components/Account/Register/Register";
+import Login from "./components/Account/Login/Login";
 import './App.css';
 
 const App = () => {
@@ -25,6 +26,8 @@ const App = () => {
             <Route path="/tournamentRequest" element={<TournamentRequest />} />
             <Route path="/tournamentRegister" element={<TournamentRegister />} />
             <Route path="/decouvrir" element={<TournamentList />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
           </Route>

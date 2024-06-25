@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 
 const hashPassword = (req, res, next) => {
+  console.log(req.body, "toujours des messages");
     // Hash the password using Argon2
     argon2.hash(req.body.password)
         .then((hashedPassword) => {
@@ -66,10 +67,12 @@ const verifyPassword = (req, res) => {
       res.sendStatus(401);
     }
   };
-  
+
+
 
 module.exports = {
     hashPassword,
     verifyPassword,
     verifyToken,
+
 };

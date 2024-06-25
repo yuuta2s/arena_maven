@@ -18,6 +18,7 @@ module.exports = {
   browse,
 };
 
+
 const read = (req, res) => {
     
   models.user
@@ -66,7 +67,7 @@ const add = async (req, res) => {
     const user = req.body;
     // const existingUsers = await models.user.findAll();
   
-
+console.log(user, "user")
     // Hash du mot de passe
 
     // user.password = await argon2.hash(user.password, hashingOptions);
@@ -131,3 +132,5 @@ module.exports = {
   destroy,
   getUserByEmail,
 };
+
+
