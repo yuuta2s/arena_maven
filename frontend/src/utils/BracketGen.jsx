@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ModalBracket from '@components/Modal/ModalBracket';
 
 const BracketGenerator = () => {
   const { id } = useParams();
@@ -11,6 +12,9 @@ const BracketGenerator = () => {
   const [scores, setScores] = useState([]);
   const [results, setResults] = useState([]);
   const [winner, setWinner] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,6 +120,7 @@ const BracketGenerator = () => {
   const endTournament = () => {
     const currentMatches = brackets[currentRound - 1];
     const currentWinners = [];
+    setShowModal(false)
 
     currentMatches.forEach((match, matchIndex) => {
       const player1 = match[0];
@@ -143,7 +148,7 @@ const BracketGenerator = () => {
     <div className="max-w-7xl mx-auto p-8">
       <h2 className="text-3xl font-bold mb-10 text-center text-green-500">Tournament Brackets</h2>
       <div className="flex justify-center mb-6">
-        <button onClick={startTournament} className="bg-green-500 text-white py-2 px-4 rounded">Start Tournament</button>
+        <button onClick={startTournament} className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">Start Tournament</button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-gray-900 text-white rounded-lg p-6">
@@ -200,10 +205,11 @@ const BracketGenerator = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center mt-6">
-        <button onClick={nextRound} className="bg-green-500 text-white py-2 px-4 rounded mr-4">Next Round</button>
-        <button onClick={endTournament} className="bg-red-500 text-white py-2 px-4 rounded">End Tournament</button>
+      <div className="flex justify-center gap-10 mt-6">
+        <button onClick={nextRound} className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">Next Round</button>
+        <button onClick={() => setShowModal(true)} className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">End Tournament</button>
       </div>
+      <ModalBracket showModal={showModal} setShowModal={setShowModal} endTournament={endTournament} ></ModalBracket>
     </div>
   );
 };

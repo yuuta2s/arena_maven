@@ -38,7 +38,7 @@ export default function TournamentRequest() {
           },
         });
         console.log('Tournament created successfully:', response.data);
-        // setShowModal(true)
+        setShowModal(true)
       } catch (error) {
         console.error('Error creating tournament:', error);
       }
@@ -139,7 +139,6 @@ export default function TournamentRequest() {
             className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border border-secondary hover:border-tertiary rounded"
             type="submit"
             value="Submit"
-            onClick={() => setShowModal(true)}
           />
           <Modal showModal={showModal} setShowModal={setShowModal} ></Modal>
         </form>
