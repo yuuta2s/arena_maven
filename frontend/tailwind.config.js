@@ -22,9 +22,10 @@ module.exports = {
     },
     extend: {
        backgroundImage: {
-        'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
+       'custom-svg': "url('../../frontend/src/assets/Vector_9.svg')",
         'underline-title': "url('/src/assets/Rectangle 261.svg')"
       },
+
       spacing: {
         '128': '32rem',
         '144': '36rem',
