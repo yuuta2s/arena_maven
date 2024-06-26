@@ -61,6 +61,9 @@ router.put("/tournament/:id", tournamentControllers.edit);
 router.post('/tournament', upload.single('timage'), tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
+// Routes pour obtenir les tournois dans lesquels s'est inscrit un user par son id
+router.get("/user/tournament/:id", tournamentControllers.findTbyUid);
+
 // Route pour obtenir la participation par ID de tournoi
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);
 

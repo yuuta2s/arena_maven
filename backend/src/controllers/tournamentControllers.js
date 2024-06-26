@@ -105,6 +105,18 @@ const getPbyTid = (req, res) => {
     });
 };
 
+const findTbyUid= (req, res) => {
+  models.tournament
+    .findTournamentByUserID(req.params.id)
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 module.exports = {
   browse,
   read,
@@ -112,4 +124,5 @@ module.exports = {
   add,
   destroy,
   getPbyTid,
+  findTbyUid,
 };
