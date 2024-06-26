@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cards from '@components/Cards/Cards';
-import design2 from '../../../assets/Rectangle 261.svg';
+
 
 const TournamentList = () => {
   const [tournaments, setTournaments] = useState([]);
@@ -35,7 +35,6 @@ const TournamentList = () => {
       <div className="flex flex-col items-center mb-12">
         <h1 className="text-4xl font-bold text-white">Découverte</h1>
         <div className="w-full h-20 flex justify-center absolute top-3.5 right-3.5">
-          <img src={design2} alt="Design" /> 
         </div>
       </div>
       <article className="mt-8">
