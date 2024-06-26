@@ -21,18 +21,28 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// Route pour l'inscription des utilisateurs
+router.post('/user/register', hashPassword, userController.add);
+
+// Route pour la connexion des utilisateurs
+router.post('/user/login', userController.getUserByEmail, verifyPassword);
+
+// Routes pour les tournois
+router.get("/tournament", tournamentControllers.browse);
+router.get("/tournament/:id", tournamentControllers.read);
+router.put("/tournament/:id", tournamentControllers.edit);
+router.post('/tournament', upload.single('timage'), tournamentControllers.add);
+router.delete("/tournament/:id", tournamentControllers.destroy);
+
+// Vérification du token
+router.use(verifyToken);
+
 // Routes pour les résultats de match
 router.get("/matchResults", matchResultsController.browse);
 router.get("/matchResults/:id", matchResultsController.read);
 router.put("/matchResults/:id", matchResultsController.edit);
 router.post("/matchResults", matchResultsController.add);
 router.delete("/matchResults/:id", matchResultsController.destroy);
-
-// Route pour l'inscription des utilisateurs
-router.post('/user/register', hashPassword, userController.add);
-
-// Route pour la connexion des utilisateurs
-router.post('/user/login', userController.getUserByEmail, verifyPassword);
 
 // Routes pour la gestion des utilisateurs
 router.get("/user", userController.browse);
@@ -54,12 +64,6 @@ router.put("/tournament-participation/:id", tournamentParticipationController.ed
 router.post("/tournament-participation", tournamentParticipationController.add);
 router.delete("/tournament-participation/:id", tournamentParticipationController.destroy);
 
-// Routes pour les tournois
-router.get("/tournament", tournamentControllers.browse);
-router.get("/tournament/:id", tournamentControllers.read);
-router.put("/tournament/:id", tournamentControllers.edit);
-router.post('/tournament', upload.single('timage'), tournamentControllers.add);
-router.delete("/tournament/:id", tournamentControllers.destroy);
 
 // Routes pour obtenir les tournois dans lesquels s'est inscrit un user par son id
 router.get("/user/tournament/:id", tournamentControllers.findTbyUid);
