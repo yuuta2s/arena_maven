@@ -51,15 +51,15 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const { tname, tdate, nbPlayer, tdescription } = req.body;
+  const { tname, tdate, nbPlayer, tdescription, torganizer_id } = req.body;
   const timage = req.file ? req.file.filename : null;
-  console.log('Received data:', { tname, tdate, nbPlayer, tdescription, timage });
+  console.log('Received data:', { tname, tdate, nbPlayer, tdescription, timage, torganizer_id });
 
   const tournament = {
     name: tname,
     date: tdate,
     tournament_img: timage,
-    organizer_id: 20,
+    organizer_id: torganizer_id,
     total_players: nbPlayer,
     short_description: tdescription
   };
