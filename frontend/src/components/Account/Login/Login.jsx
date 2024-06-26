@@ -73,7 +73,7 @@ function Login() {
               <Form>
                 <div className="p-3 mb-5 rounded-lg">
                   <label htmlFor="email" className="block mb-2">
-                    Adresse email / nom d'utilisateur
+                    Adresse email
                   </label>
                   <Field
                     name="adresse_email"
