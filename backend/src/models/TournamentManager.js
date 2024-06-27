@@ -75,6 +75,12 @@ class TournamentManager extends AbstractManager {
       id,
     ]);
   }
+
+  findTournamentByOrganizer(id) {
+    return this.database.query(`SELECT * FROM tournament WHERE organizer_id = ?`, [
+      id,
+    ]);
+  }
   
 }
 
