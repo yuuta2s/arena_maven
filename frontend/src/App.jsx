@@ -33,6 +33,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
+        
             <Route path="/winner" element={<Winner/>}/>
           </Route>
           {/* Route without Header and Footer */}

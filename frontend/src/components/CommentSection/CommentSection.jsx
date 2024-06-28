@@ -2,28 +2,41 @@ import React, { useState, useEffect } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
-function CommentSection({ tournament }) {
-  const { id } = useParams();
+function CommentSection({ tournament}) {
+  const { id }= useParams();
+  console.log("tournament id:", tournament.id);
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingComment, setEditingComment] = useState(null);
   const [editedContent, setEditedContent] = useState("");
 
-
   console.log(comments);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/comments/by-tournament/${id}`)
+      .get(`http://localhost:5000/comments/by-tournament/${tournament.id}`)
       .then((response) => {
         const lastThreeComments = response.data.slice(-3);
+        console.log("Fetched comments:", lastThreeComments); // Check fetched comments
         setComments(lastThreeComments);
+        localStorage.setItem(`comments-${id}`, JSON.stringify(lastThreeComments));
       })
-      .catch((error) => console.error("Error loading comments:", error));
-  }, [tournament.id, id]);
+      .catch((error) => {
+        console.error("Error loading comments:", error);
+        const savedComments = localStorage.getItem(`comments-${id}`);
+        if (savedComments) {
+          console.log("Loaded comments from localStorage:", JSON.parse(savedComments));
+          setComments(JSON.parse(savedComments));
+        }
+      });
+  }, [id]);
+  
+  
+   
+  
 
   useEffect(() => {
     axios
@@ -44,8 +57,10 @@ function CommentSection({ tournament }) {
     }
     return null;
   };
-  
-  // const userInfo = getUserInfo();
+
+  const updateLocalStorage = (comments) => {
+    localStorage.setItem(`comments-${id}`, JSON.stringify(comments));
+  };
 
   const handleAddComment = () => {
     const userInfo = getUserInfo();
@@ -53,27 +68,29 @@ function CommentSection({ tournament }) {
       console.error("User not logged in");
       return;
     }
-    
+
     const commentData = {
       content: newComment,
       user_id: userInfo.sub.id,
       tournament_id: tournament.id,
     };
-  
+
     axios
       .post("http://localhost:5000/comments", commentData)
       .then((response) => {
         console.log("Response from server after adding comment:", response.data);
         if (response.status === 201) {
-          setComments([
+          const newComments = [
             ...comments,
             {
               ...commentData,
               username: userInfo.sub.username,
               created_at: new Date().toISOString(),
-              id: response.data.id, // Assurez-vous que l'ID est correctement défini ici
+              id: response.data.id, // Ensure ID is correctly set here
             },
-          ]);
+          ];
+          setComments(newComments);
+          updateLocalStorage(newComments);
           setNewComment("");
         } else {
           console.error("Failed to add comment:", response);
@@ -82,8 +99,6 @@ function CommentSection({ tournament }) {
       .catch((error) => console.error("Failed to add comment:", error));
   };
 
-
-  
   const handleEditComment = (commentId) => {
     console.log("Editing comment with ID:", commentId);
     setEditingComment(commentId);
@@ -98,7 +113,7 @@ function CommentSection({ tournament }) {
       console.error("User not logged in");
       return;
     }
-  
+
     axios
       .put(`http://localhost:5000/comments/${commentId}`, {
         content: editedContent,
@@ -106,27 +121,29 @@ function CommentSection({ tournament }) {
         tournament_id: tournament.id,
       })
       .then(() => {
-        setComments(
-          comments.map((comment) =>
-            comment.id === commentId ? { ...comment, content: editedContent } : comment
-          )
+        const updatedComments = comments.map((comment) =>
+          comment.id === commentId ? { ...comment, content: editedContent } : comment
         );
+        setComments(updatedComments);
+        updateLocalStorage(updatedComments);
         setEditingComment(null);
         setEditedContent("");
       })
       .catch((error) => console.error("Failed to update comment:", error));
   };
-  
+
   const handleDeleteComment = (commentId) => {
     console.log("Deleting comment with ID:", commentId);
     axios
       .delete(`http://localhost:5000/comments/${commentId}`)
       .then(() => {
-        setComments(comments.filter((comment) => comment.id !== commentId));
+        const updatedComments = comments.filter((comment) => comment.id !== commentId);
+        setComments(updatedComments);
+        updateLocalStorage(updatedComments);
       })
       .catch((error) => console.error("Failed to delete comment:", error));
   };
-  
+
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     return new Date(dateString).toLocaleDateString("fr-FR", options);
