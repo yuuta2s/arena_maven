@@ -16,6 +16,7 @@ module.exports = {
       black: '#000000',
       white: '#FFFFFF',
       warning: '#f00020',
+      grey: '#606060'
     },
     fontFamily: {
       inconsolata: ['Inconsolata', 'monospace'], 
