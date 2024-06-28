@@ -70,7 +70,7 @@ router.delete("/tournament-participation/:id", tournamentParticipationController
 router.get("/comments", commentControllers.browse);
 router.get("/comments/:id", commentControllers.read);
 router.get("/comments/by-tournament/:id", commentControllers.findByTournament);
-router.post("/comment", commentControllers.add);
+router.post("/comments", commentControllers.add);
 router.put("/comments/:id", commentControllers.edit);
 router.delete("/comments/:id", commentControllers.destroy);
 

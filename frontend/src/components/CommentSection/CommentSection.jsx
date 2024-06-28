@@ -45,7 +45,7 @@ function CommentSection({ tournament }) {
     return null;
   };
   
-  const userInfo = getUserInfo();
+  // const userInfo = getUserInfo();
 
   const handleAddComment = () => {
     const userInfo = getUserInfo();
@@ -61,7 +61,7 @@ function CommentSection({ tournament }) {
     };
   
     axios
-      .post("http://localhost:5000/comment", commentData)
+      .post("http://localhost:5000/comments", commentData)
       .then((response) => {
         console.log("Response from server after adding comment:", response.data);
         if (response.status === 201) {
