@@ -1,6 +1,6 @@
-
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../Account/Login/AuthProvider';
 import {
   Disclosure,
   DisclosureButton,
@@ -15,6 +15,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom'; // Importer Link depuis react-router-dom
 import iconProfile from '../../assets/iconProfile.jpg';
 import headerVector from '../../assets/headerVector.svg';
+import Login from '@components/Account/Login/Login';
 
 const navigation = [
   { name: 'Accueil', href: '/', current: true },
@@ -27,7 +28,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+
 export default function Header() {
+  const { login, logout, userData} = useContext(AuthContext);
+  
   return (
     <Disclosure as="nav" className="bg-opacity-0">
       {({ open }) => (
@@ -100,10 +104,10 @@ export default function Header() {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                            href="/Login"
+                            href="*"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            Your Profile
+                            {userData ? `Logged in as ${userData.name}` : 'Votre Profil'}
                           </a>
                         )}
                       </MenuItem>
@@ -111,11 +115,34 @@ export default function Header() {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/Login"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            Sign out
+                           Sign in 
                           </a>
+                        )}
+                      </MenuItem>
+                     
+                      
+                      <MenuItem>
+                        {({ active }) => (
+                          <a
+                            href="/register"
+                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
+                          >
+                            Sign up
+                          </a>
+                        )}
+                      </MenuItem>
+
+                      <MenuItem>
+                        {({ active }) => (
+                          <button
+                            onClick={logout} // Appeler la fonction logout
+                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
+                          >
+                            Déconnexion
+                          </button>
                         )}
                       </MenuItem>
                     </MenuItems>
@@ -150,4 +177,3 @@ export default function Header() {
     </Disclosure>
   );
 }
-

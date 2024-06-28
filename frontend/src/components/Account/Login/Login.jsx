@@ -1,16 +1,47 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import img from "../../../assets/Rectangle 261.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import AuthContext from "./auth";
 import "../../../assets/style.css";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = React.useContext(AuthContext);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = async (values, { setSubmitting, setFieldError }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          email: values.adresse_email,
+          password: values.password,
+        }
+      );
+      console.log("User logged in successfully:", response.data);
+      localStorage.setItem("token", response.data.token);
+      login(response.data.token);
+    } catch (error) {
+      console.error("Error logging in:", error);
+      if (error.response && error.response.status === 401) {
+        setFieldError(
+          "adresse_email",
+          "Adresse email ou mot de passe incorrect"
+        );
+        setFieldError("password", "Adresse email ou mot de passe incorrect");
+      } else {
+        setFieldError(
+          "adresse_email",
+          "Erreur lors de la connexion. Veuillez réessayer."
+        );
+      }
+    }
+    setSubmitting(false);
   };
 
   return (
@@ -39,35 +70,7 @@ function Login() {
                 )
                 .required("Le mot de passe est requis"),
             })}
-            onSubmit={async (values, { setSubmitting, setFieldError }) => {
-              try {
-                const response = await axios.post(
-                  "http://localhost:5000/user/login",
-                  {
-                    email: values.adresse_email,
-                    password: values.password,
-                  }
-                );
-                console.log("User logged in successfully:", response.data);
-                localStorage.setItem("token", response.data.token);
-                // Handle successful login (e.g., redirect, store token)
-              } catch (error) {
-                console.error("Error logging in:", error);
-                if (error.response && error.response.status === 401) {
-                  setFieldError(
-                    "adresse_email",
-                    "Adresse email ou mot de passe incorrect"
-                  );
-                  setFieldError("password", "Adresse email ou mot de passe incorrect");
-                } else {
-                  setFieldError(
-                    "adresse_email",
-                    "Erreur lors de la connexion. Veuillez réessayer."
-                  );
-                }
-              }
-              setSubmitting(false);
-            }}
+            onSubmit={handleLogin}
           >
             {({ handleChange, handleBlur, values, isSubmitting }) => (
               <Form>
