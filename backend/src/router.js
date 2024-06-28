@@ -47,10 +47,11 @@ router.delete("/matchResults/:id", matchResultsController.destroy);
 // Routes pour la gestion des utilisateurs
 router.get("/user", userController.browse);
 router.get("/user/:id", userController.read);
+router.post("/user/:id", userController.add);
 router.put("/user/:id", userController.edit);
 router.delete("/user/:id", userController.destroy);
 
-// Routes pour les matchs de tournoi
+// Routes pour les matchs de tournois
 router.get("/tournament_matches", tournament_matchController.browse);
 router.get("/tournament_matches/:id", tournament_matchController.read);
 router.post("/tournament_matches", tournament_matchController.add);
