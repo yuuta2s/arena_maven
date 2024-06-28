@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import Modal from '@components/Modal/Modal';
+import ModalCreaTournament from '@components/Modals/ModalCreaTournament/ModalCreaTournament';
 import { jwtDecode } from 'jwt-decode';
 
 export default function TournamentRequest() {
@@ -169,7 +169,7 @@ export default function TournamentRequest() {
             type="submit"
             value="Submit"
           />
-          <Modal showModal={showModal} setShowModal={setShowModal} />
+          <ModalCreaTournament showModal={showModal} setShowModal={setShowModal} />
         </form>
       </section>
     </div>
