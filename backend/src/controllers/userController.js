@@ -85,8 +85,18 @@ console.log(user, "user")
 
 };
 
-
-
+const findIfUserSubController= (req, res) => {
+  const { tournament_id, user_id } = req.params;
+  models.user
+    .findIfUserSub(tournament_id, user_id)
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 
 const getUserByEmail = (req, res, next) => {
   const { email } = req.body;
@@ -132,6 +142,7 @@ module.exports = {
   add,
   destroy,
   getUserByEmail,
+  findIfUserSubController,
 };
 
 
