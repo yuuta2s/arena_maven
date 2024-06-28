@@ -1,9 +1,24 @@
 import React, { useEffect, useRef } from "react";
+import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 
 export default function ModalVisuTournament({ showModal, setShowModal, tournament, remainingSlots, formattedDate }) {
-  const modalRef = useRef(null); // Create a reference for the modal
+  const getToken = () => {
+    return localStorage.getItem('token');
+  };
 
+  const getUserInfo = () => {
+    const token = getToken();
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      return decodedToken; // { id, username, email, role }
+    }
+    return null;
+  };
+
+  const userInfo = getUserInfo();
+
+  const modalRef = useRef(null); // Create a reference for the modal
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -26,9 +41,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     <>
       {showModal ? (
         <>
-          <div
-            className="mx-2 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-          >
+          <div className="mx-2 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div ref={modalRef} className="relative w-auto my-6 mx-auto max-w-lg border-solid border-2 rounded-lg">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary outline-none focus:outline-none">
@@ -87,15 +100,25 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                         S'inscrire
                       </button>
                     </Link>
-                  ) : (
-                    <button
-                      className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => setShowModal(false)}
-                      disabled
-                    >
-                      Inscription fermé
-                    </button>
+                  ) : userInfo && userInfo.sub && userInfo.sub.id === tournament.organizer_id ? (
+                        <Link to={`/tournament/${tournament.id}`}>
+                            <button
+                            className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => setShowModal(false)}
+                            >
+                            Commencer le tournoi
+                            </button>
+                        </Link>
+                    ) : (
+                        <button
+                        className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        disabled
+                        >
+                        Inscription fermé
+                        </button>
                   )}
                 </div>
               </div>
