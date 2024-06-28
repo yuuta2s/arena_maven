@@ -65,6 +65,12 @@ router.post("/tournament-participation", tournamentParticipationController.add);
 router.delete("/tournament-participation/:id", tournamentParticipationController.destroy);
 
 
+// Routes pour obtenir les tournois dans lesquels s'est inscrit un user par son id
+router.get("/user/registered-tournaments/:id", tournamentControllers.findTbyUid);
+
+// Routes pour obtenir les tournois créé par un user par son id
+router.get("/user/created-tournaments/:id", tournamentControllers.findTbyOid);
+
 // Route pour obtenir la participation par ID de tournoi
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);
 

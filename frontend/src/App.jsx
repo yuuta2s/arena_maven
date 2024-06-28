@@ -6,6 +6,7 @@ import Contact from '@components/Contact/Contact';
 import Page404 from '@components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
+import MyTournament from '@components/MyTournaments/MyTournament.jsx';
 import Cards from './components/Cards/Cards'; 
 import TournamentRegister from "@components/Tournament/TournamentRegister/TournamentRegister.jsx";
 import TournamentRequest from '@components/Tournament/TournamentRequest/TournamentRequest.jsx';
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/tournamentRequest" element={<TournamentRequest />} />
             <Route path="/tournamentRegister" element={<TournamentRegister />} />
             <Route path="/decouvrir" element={<TournamentList />} />
+            <Route path="/mes-tournois" element={<MyTournament />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />

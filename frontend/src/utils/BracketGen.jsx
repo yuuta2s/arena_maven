@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ModalBracket from '@components/Modal/ModalBracket';
+import ModalBracket from '@components/Modals/ModalBracket/ModalBracket';
 
 const BracketGenerator = () => {
   const { id } = useParams();
