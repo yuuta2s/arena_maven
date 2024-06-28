@@ -6,9 +6,8 @@ import Contact from '@components/Contact/Contact';
 import Page404 from '@components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
-import Contact from '@components/Contact/Contact';
-
-import Cards from './components/Cards/Cards'; 
+import Cards from './components/Cards/Cards';
+import Profil from './components/Profil/Profil';  
 
 import './App.css';
 
@@ -21,6 +20,7 @@ const App = () => {
           <Route element={<LayoutWithHeaderFooter />}>
             <Route path="/homepage" element={<Homepage />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profil />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
           </Route>
 
