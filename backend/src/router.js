@@ -35,7 +35,7 @@ router.post('/tournament', upload.single('timage'), tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
 // Vérification du token
-router.use(verifyToken);
+// router.use(verifyToken);
 
 // Routes pour les résultats de match
 router.get("/matchResults", matchResultsController.browse);
