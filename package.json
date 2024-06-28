@@ -32,6 +32,7 @@
     "dom": "^0.0.3",
     "express-validator": "^7.1.0",
     "formik": "^2.4.6",
+    "heroicons": "^2.1.4",
     "jquery": "^3.7.1",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",

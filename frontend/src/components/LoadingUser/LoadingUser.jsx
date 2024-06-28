@@ -56,6 +56,9 @@ const LoadingUser = () => {
                     <p className="hint-text" ref={(el) => hintRefs.current[3] = el}>
                       Si vous rencontrez le moindre problème, n'hésitez pas à nous contacter dans notre page 'Contactez Nous' depuis l'accueil.
                     </p>
+                    <p className="hint-text" ref={(el) => hintRefs.current[4] = el}>
+                    Tekken 8 est le premier jeu de la série à utiliser l'Unreal Engine 5, promettant des graphismes encore plus réalistes et un gameplay plus fluide que ses prédécesseurs !
+                    </p>
                   </div>
                 </div>
               </div>
