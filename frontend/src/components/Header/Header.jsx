@@ -5,7 +5,7 @@ import {
   Transition,
 } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import iconProfile from '../../assets/iconProfile.jpg';
 import headerVector from '../../assets/headerVector.svg';
 
@@ -28,23 +28,23 @@ export default function Header() {
       {({ open }) => (
         <>
           <div className="mx-auto">
-            <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <div className="relative flex h-20 items-center justify-between">
+              <div className="absolute inset-y-0 left-0 flex items-center bp1000:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-primary hover:text-white focus:outline-none">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="block h-12 w-12" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="block h-12 w-12" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
 
               {/* Navigation buttons */}
-              <div className="flex flex-1 items-center justify-center sm:justify-center">
-                <div className="hidden sm:ml-6 sm:block">
+              <div className="flex flex-1 items-center justify-center bp1000:justify-center">
+                <div className="hidden bp1000:ml-6 bp1000:block">
                   <div className="flex space-x-4 mx-auto">
                     {navigation.map((item) => (
                       <Link
@@ -58,7 +58,7 @@ export default function Header() {
                         data-text={item.name}
                         aria-current={selected === item.name ? 'page' : undefined}
                       >
-                        <span className="relative z-10">{item.name}</span>
+                        <span className="relative z-10 text-3xl">{item.name}</span>
                       </Link>
                     ))}
                   </div>
@@ -70,18 +70,20 @@ export default function Header() {
                 <img src={headerVector} alt="Header Vector" className="h-auto w-auto" />
               </div>
 
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 bp1000:static bp1000:inset-auto bp1000:ml-6 bp1000:pr-0">
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full text-sm focus:outline-none">
+                    <Menu.Button className="relative flex rounded-full text-sm focus:outline-none">
                       <span className="absolute" />
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-10 w-10 rounded-full -translate-x-14"
+                        className="h-10 w-10 rounded-full -translate-x-14 -translate-y-3"
                         src={iconProfile}
                         alt=""
                       />
+                    </Menu.Button>
                     </Menu.Button>
                   </div>
                   <Transition
@@ -92,6 +94,8 @@ export default function Header() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
@@ -118,12 +122,14 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/register"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
                             Sign out
                           </a>
                         )}
+                      </Menu.Item>
+                    </Menu.Items>
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
@@ -133,7 +139,7 @@ export default function Header() {
           </div>
 
           {/* Mobile navigation */}
-          <Disclosure.Panel className="sm:hidden min-[320px]">
+          <Disclosure.Panel className="bp1000:hidden min-[320px]">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <Disclosure.Button

@@ -66,8 +66,22 @@ class TournamentManager extends AbstractManager {
   }
 
   getParticipantByTournamentId(id){
-     return this.database.query(`SELECT u.id FROM tournament t INNER JOIN tournamentParticipation tp ON t.id = tp.tournament_id INNER JOIN user u ON u.id = tp.user_id WHERE t.id = ?
-     `,[id]);}
+    return this.database.query(`SELECT u.username FROM tournament t INNER JOIN tournamentParticipation tp ON t.id = tp.tournament_id INNER JOIN user u ON u.id = tp.user_id WHERE t.id = ?
+    `,[id]);
+  }
+
+  findTournamentByUserID(id) {
+    return this.database.query(`SELECT t.id, t.name, t.tournament_img, t.date, t.total_players FROM tournament t INNER JOIN tournamentParticipation tp ON t.id = tp.tournament_id INNER JOIN user u ON u.id = tp.user_id WHERE u.id = ?`, [
+      id,
+    ]);
+  }
+
+  findTournamentByOrganizer(id) {
+    return this.database.query(`SELECT * FROM tournament WHERE organizer_id = ?`, [
+      id,
+    ]);
+  }
+  
 }
 
 module.exports = TournamentManager;
