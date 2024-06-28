@@ -12,6 +12,9 @@ function CommentSection({ tournament }) {
   const [editingComment, setEditingComment] = useState(null);
   const [editedContent, setEditedContent] = useState("");
 
+
+  console.log(comments);
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/comments/by-tournament/${id}`)
@@ -20,7 +23,7 @@ function CommentSection({ tournament }) {
         setComments(lastThreeComments);
       })
       .catch((error) => console.error("Error loading comments:", error));
-  }, [tournament.id]);
+  }, [tournament.id, id]);
 
   useEffect(() => {
     axios
@@ -41,8 +44,9 @@ function CommentSection({ tournament }) {
     }
     return null;
   };
+  
   const userInfo = getUserInfo();
-console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
   const handleAddComment = () => {
     const userInfo = getUserInfo();
     if (!userInfo) {
@@ -52,12 +56,14 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     
     const commentData = {
       content: newComment,
-      user_id: userInfo.sub.id, // Use user ID from token
+      user_id: userInfo.sub.id,
       tournament_id: tournament.id,
     };
+  
     axios
       .post("http://localhost:5000/comment", commentData)
       .then((response) => {
+        console.log("Response from server after adding comment:", response.data);
         if (response.status === 201) {
           setComments([
             ...comments,
@@ -65,7 +71,7 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
               ...commentData,
               username: userInfo.sub.username,
               created_at: new Date().toISOString(),
-              id: response.data.id,
+              id: response.data.id, // Assurez-vous que l'ID est correctement défini ici
             },
           ]);
           setNewComment("");
@@ -76,12 +82,17 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       .catch((error) => console.error("Failed to add comment:", error));
   };
 
+
+  
   const handleEditComment = (commentId) => {
+    console.log("Editing comment with ID:", commentId);
     setEditingComment(commentId);
     const comment = comments.find((comment) => comment.id === commentId);
     setEditedContent(comment.content);
   };
+
   const handleUpdateComment = (commentId) => {
+    console.log("Updating comment with ID:", commentId);
     const userInfo = getUserInfo();
     if (!userInfo) {
       console.error("User not logged in");
@@ -91,11 +102,10 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     axios
       .put(`http://localhost:5000/comments/${commentId}`, {
         content: editedContent,
-        user_id: userInfo.sub.id, // Use user ID from token
+        user_id: userInfo.sub.id,
         tournament_id: tournament.id,
       })
       .then(() => {
-      
         setComments(
           comments.map((comment) =>
             comment.id === commentId ? { ...comment, content: editedContent } : comment
@@ -103,12 +113,12 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         );
         setEditingComment(null);
         setEditedContent("");
-
       })
       .catch((error) => console.error("Failed to update comment:", error));
   };
   
   const handleDeleteComment = (commentId) => {
+    console.log("Deleting comment with ID:", commentId);
     axios
       .delete(`http://localhost:5000/comments/${commentId}`)
       .then(() => {
@@ -124,8 +134,7 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
   const getUserName = (id) => {
     const user = users.find((user) => user.id === parseInt(id, 10));
-    return  user ? userInfo.sub.username : "Unknown User";
-   
+    return user ? user.username : "Unknown User";
   };
 
   return (
@@ -142,7 +151,7 @@ console.log(userInfo, "cacaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 onChange={(e) => setEditedContent(e.target.value)}
               />
               <button
-                className="mt-2 bg-warning hover:bg-vertBG text-white font-bold py-2 px-4 rounded w-/4"
+                className="mt-2 bg-warning hover:bg-vertBG text-white font-bold py-2 px-4 rounded"
                 onClick={() => handleUpdateComment(comment.id)}
               >
                 Modifier votre commentaire

@@ -34,13 +34,18 @@ const add = (req, res) => {
   models.comment
     .insert(comment)
     .then(([result]) => {
-      res.location(`/comments/${result.insertId}`).sendStatus(201);
+      const insertedComment = {
+        id: result.insertId, // Assurez-vous que l'ID est correctement défini ici
+        ...comment,
+      };
+      res.status(201).json(insertedComment); // Retournez l'objet de commentaire avec l'ID
     })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
     });
 };
+
 
 const edit = (req, res) => {
     const comment = req.body;
