@@ -1,3 +1,3 @@
-import { AuthContext } from './AuthProvider'; // Chemin mis à jour
+import { AuthContext } from './AuthProvider';
 
 export default AuthContext;

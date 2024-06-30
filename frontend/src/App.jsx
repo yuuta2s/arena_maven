@@ -16,7 +16,6 @@ import Login from "./components/Account/Login/Login";
 import './App.css';
 import ProfileCreation from '@components/Account/ProfileCreation/ProfileCreation';
 import AuthProvider, { AuthContext } from './components/Account/Login/AuthProvider';
-// import { AuthContext } from './components/Account/Login/AuthProvider';
 import React, { useContext } from 'react';
 
 
@@ -25,15 +24,14 @@ const App = () => {
     <div className="bg-gradient-to-tr from-black via-vertBG to-black min-h-screen flex flex-col">
       <AuthProvider>
       <Router>
-      <AuthStatus />
         <Routes>
+        <Route element={<LayoutWithHeaderFooter />}>
           {/* Routes with Header and Footer */}
-          <Route element={<LayoutWithHeaderFooter />}>
-            <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Homepage />} />
             <Route path="/tournamentRequest" element={<TournamentRequest />} />
             <Route path="/tournamentRegister" element={<TournamentRegister />} />
             <Route path="/decouvrir" element={<TournamentList />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<ProfileCreation />} />
             <Route path="/contact" element={<Contact />} />
@@ -47,39 +45,20 @@ const App = () => {
     </div>
   );
 }
-
 function AuthStatus() {
   const { user, isAuthenticated } = useContext(AuthContext);
   return (
     <div>
-      {isAuthenticated ? `Logged in as ${user.name}` : 'Not logged in'}
+      {isAuthenticated ? `Logged in as ${user.email}` : 'Not logged in'}
     </div>
   );
 }
 
-// const AuthStatus = () => {
-//   const { isAuthenticated, user } = useContext(AuthContext);
-
-//   return (
-//     <div className="auth-status">
-//       {isAuthenticated ? (
-//         <>
-//           <p>Vous êtes connecté</p>
-//           <button onClick={logout}>Se déconnecter</button>
-//         </>
-//       ) : (
-//         <>
-//           <p>Vous n'êtes pas connecté</p>
-//           <button onClick={login}>Se connecter</button>
-//         </>
-//       )}
-//     </div>
-//   );
-// }
 // Layout Component with Header and Footer
 const LayoutWithHeaderFooter = () => (
   <>
     <Header />
+    <AuthStatus />
     <main className="flex-grow">
       <Outlet />
     </main>

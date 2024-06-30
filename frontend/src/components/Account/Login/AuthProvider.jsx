@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -7,22 +8,27 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = (userData) => {
-    setUser(userData);
-    setIsAuthenticated(true);
+    if (userData && userData.email) {
+      setUser(userData);
+      setIsAuthenticated(true);
+      console.log('Utilisateur connecté:', userData);
+    } else {
+      console.warn('Données utilisateur invalides:', userData);
+    }
   };
 
-  const logout = async() => {
-      try {
-        await axios.post('http://localhost:5000/user/login'); // Appel à l'API de déconnexion
-        localStorage.setItem('token', res.data.token);
+
+  const logout = async () => {
+    try {
+      await axios.delete('http://localhost:5000/user/logout');
+        localStorage.removeItem('token');
         setIsAuthenticated(false);
-        setUser(null); // Mettre à jour l'état de l'utilisateur
+        setUser(null);
+        console.log('Déconnexion réussie');
       } catch (error) {
-        console.error('Erreur lors de la déconnexion:', error);
+        console.error('La déconnexion a échoué côté serveur');
       }
   };
-
-  
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>

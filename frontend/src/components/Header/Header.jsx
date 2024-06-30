@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../Account/Login/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 import {
   Disclosure,
   DisclosureButton,
@@ -30,7 +31,14 @@ function classNames(...classes) {
 
 
 export default function Header() {
-  const { login, logout, userData} = useContext(AuthContext);
+  const { logout, isAuthenticated, userData } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   
   return (
     <Disclosure as="nav" className="bg-opacity-0">
@@ -107,23 +115,11 @@ export default function Header() {
                             href="*"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            {userData ? `Logged in as ${userData.name}` : 'Votre Profil'}
-                          </a>
-                        )}
-                      </MenuItem>
-                      
-                      <MenuItem>
-                        {({ active }) => (
-                          <a
-                            href="/Login"
-                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
-                          >
-                           Sign in 
+                            {userData ? `Logged in as ${userData.name}` : 'your profile'}
                           </a>
                         )}
                       </MenuItem>
                      
-                      
                       <MenuItem>
                         {({ active }) => (
                           <a
@@ -134,15 +130,26 @@ export default function Header() {
                           </a>
                         )}
                       </MenuItem>
-
                       <MenuItem>
                         {({ active }) => (
-                          <button
-                            onClick={logout} // Appeler la fonction logout
-                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
-                          >
-                            Déconnexion
-                          </button>
+                          isAuthenticated ? (
+                            <button
+                              onClick={handleLogout}
+                              className={classNames(
+                                active ? 'bg-red-600' : 'bg-red-500',
+                                'block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600'
+                              )}
+                            >
+                              Se déconnecter
+                            </button>
+                          ) : (
+                            <a 
+                              href="/Login" 
+                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
+                            >
+                              Se connecter 
+                            </a>
+                          )
                         )}
                       </MenuItem>
                     </MenuItems>
