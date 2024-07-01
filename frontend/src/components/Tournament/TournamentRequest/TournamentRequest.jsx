@@ -3,7 +3,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import ModalCreaTournament from '@components/Modals/ModalCreaTournament/ModalCreaTournament';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
+
 
 export default function TournamentRequest() {
   const [showModal, setShowModal] = useState(false);
