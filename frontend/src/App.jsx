@@ -3,7 +3,7 @@ import Header from './components/Header/Header.jsx';
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
 import Contact from '@components/Contact/Contact';
-import Page404 from '@components/Page404/Page404';  
+import Page404 from '@components/Page404/Page404';
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
 import Cards from './components/Cards/Cards'; 
@@ -13,6 +13,8 @@ import AboutUs from "@components/AboutUs/AboutUs.jsx";
 import Winner from "./utils/Winner.jsx";
 import Register from "./components/Account/Register/Register";
 import Login from "./components/Account/Login/Login";
+import CreateGuildPage from "./components/Guild/CreateGuildPage";
+
 import './App.css';
 
 const App = () => {
@@ -29,6 +31,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/create-guild" element={<CreateGuildPage />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
           </Route>
           {/* Route without Header and Footer */}
@@ -37,7 +40,7 @@ const App = () => {
       </Router>
     </div>
   );
-}
+};
 
 // Layout Component with Header and Footer
 const LayoutWithHeaderFooter = () => (
