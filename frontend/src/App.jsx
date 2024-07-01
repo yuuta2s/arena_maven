@@ -50,6 +50,7 @@ const App = () => {
             <Route path="/tournament/:id" element={<BracketGenerator />} />
 
             <Route path="/winner" element={<Winner/>}/>
+        </Route>
 
             <Route path="/tournament/:id/winner" element={<Winner />} />
 
