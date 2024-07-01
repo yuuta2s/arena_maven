@@ -7,7 +7,7 @@ class UserManager extends AbstractManager {
 
   insert(user) {
     return this.database.query(
-      `INSERT INTO ${this.table} (username,email, password, profil_picture) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO ${this.table} (username, email, password, profil_picture, role) VALUES (?, ?, ?, ?, ?)`,
       [
         user.username,
         user.email,
@@ -32,6 +32,18 @@ class UserManager extends AbstractManager {
     );
   }
 
+  find(id) {
+    return this.database.query(`SELECT * FROM ${this.table} WHERE id = ?`, [id]);
+  }
+
+  findAll() {
+    return this.database.query(`SELECT * FROM ${this.table}`);
+  }
+
+  delete(id) {
+    return this.database.query(`DELETE FROM ${this.table} WHERE id = ?`, [id]);
+  }
+
   findUserByEmail(email) {
     return this.database.query(`SELECT * FROM ${this.table} WHERE email = ?`, [
       email,
@@ -47,4 +59,3 @@ class UserManager extends AbstractManager {
 }
 
 module.exports = UserManager;
-

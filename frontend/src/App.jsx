@@ -13,6 +13,9 @@ import AboutUs from "@components/AboutUs/AboutUs.jsx";
 import Winner from "./utils/Winner.jsx";
 import Register from "./components/Account/Register/Register";
 import Login from "./components/Account/Login/Login";
+import Cards from './components/Cards/Cards';
+import Profil from './components/Profil/Profil';  
+
 import './App.css';
 import LoadingUser from '@components/LoadingUser/LoadingUser.jsx';
 
@@ -31,6 +34,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profil />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
 
             <Route path="/winner" element={<Winner/>}/>
