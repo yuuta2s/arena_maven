@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import img from "../../../assets/Rectangle 261.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../../assets/style.css";

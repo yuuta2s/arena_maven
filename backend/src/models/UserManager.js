@@ -49,6 +49,13 @@ class UserManager extends AbstractManager {
       email,
     ]);
   }
+
+  findIfUserSub(tournament_id, user_id) {
+    return this.database.query(`SELECT * FROM tournamentParticipation WHERE tournament_id = ? AND user_id = ?`, [
+      tournament_id,
+      user_id,
+    ])
+  }
 }
 
 module.exports = UserManager;

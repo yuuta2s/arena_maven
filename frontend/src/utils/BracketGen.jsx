@@ -138,7 +138,7 @@ const BracketGenerator = () => {
 
     if (currentWinners.length === 1) {
       setWinner(currentWinners[0]);
-      navigate('/winner', { state: { winner: currentWinners[0] } });
+      navigate(`/tournament/${id}/winner`, { state: { winner: currentWinners[0] } });
     } else {
       alert("No single winner could be determined.");
     }
