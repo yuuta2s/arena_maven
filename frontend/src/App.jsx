@@ -6,17 +6,24 @@ import Contact from '@components/Contact/Contact';
 import Page404 from '@components/Page404/Page404';  
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
-import Cards from './components/Cards/Cards'; 
+import MyTournament from '@components/MyTournaments/MyTournament.jsx';
 import TournamentRegister from "@components/Tournament/TournamentRegister/TournamentRegister.jsx";
 import TournamentRequest from '@components/Tournament/TournamentRequest/TournamentRequest.jsx';
 import AboutUs from "@components/AboutUs/AboutUs.jsx";
 import Winner from "./utils/Winner.jsx";
 import Register from "./components/Account/Register/Register";
 import Login from "./components/Account/Login/Login";
+import Cards from './components/Cards/Cards';
+import Profil from './components/Profil/Profil';  
+
 import './App.css';
+
 import ProfileCreation from '@components/Account/ProfileCreation/ProfileCreation';
 import AuthProvider, { AuthContext } from './components/Account/Login/AuthProvider';
 import React, { useContext } from 'react';
+
+
+import LoadingUser from '@components/LoadingUser/LoadingUser.jsx';
 
 
 const App = () => {
@@ -31,14 +38,24 @@ const App = () => {
             <Route path="/tournamentRequest" element={<TournamentRequest />} />
             <Route path="/tournamentRegister" element={<TournamentRegister />} />
             <Route path="/decouvrir" element={<TournamentList />} />
+
             <Route path="/login" element={<Login/>} />
+
+            <Route path="/mes-tournois" element={<MyTournament />} />
+
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<ProfileCreation />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profil />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
-          </Route>
+
+            <Route path="/winner" element={<Winner/>}/>
+
+            <Route path="/tournament/:id/winner" element={<Winner />} />
+
           {/* Route without Header and Footer */}
           <Route path="*" element={<Page404 />} />
+          <Route path="/loading" element={<LoadingUser/>}/>
         </Routes>
       </Router>
       </AuthProvider>

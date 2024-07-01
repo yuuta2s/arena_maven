@@ -38,6 +38,8 @@ const TournamentParticipationManager = require("./TournamentParticipationManager
 
 const Tournament_matchManager = require("./TournamentmatchManager");
 const MatchResultsManager = require("./matchResultsManager");
+const CommentManager = require("./CommentManager");
+
 models.item = new ItemManager();
 models.item.setDatabase(pool);
 
@@ -61,7 +63,8 @@ models.tournament = new TournamentManager();
 models.tournament.setDatabase(pool);
 
 
-
+models.comment = new CommentManager();
+models.comment.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

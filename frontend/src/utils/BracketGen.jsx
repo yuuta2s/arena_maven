@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ModalBracket from '@components/Modal/ModalBracket';
+import ModalBracket from '@components/Modals/ModalBracket/ModalBracket';
 
 const BracketGenerator = () => {
   const { id } = useParams();
@@ -138,7 +138,7 @@ const BracketGenerator = () => {
 
     if (currentWinners.length === 1) {
       setWinner(currentWinners[0]);
-      navigate('/winner', { state: { winner: currentWinners[0] } });
+      navigate(`/tournament/${id}/winner`, { state: { winner: currentWinners[0] } });
     } else {
       alert("No single winner could be determined.");
     }

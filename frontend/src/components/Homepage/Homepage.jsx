@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import design2 from '../../assets/Rectangle 261.svg';
+
 import { Link } from 'react-router-dom';
 import mkLogo from '../../assets/mkLogo.png'
 import SmallCards from '@components/SmallCards/SmallCards';
