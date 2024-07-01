@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import axios from 'axios';
-import img from "../../../assets/Rectangle 261.svg";
+
 import "../../../assets/style.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";

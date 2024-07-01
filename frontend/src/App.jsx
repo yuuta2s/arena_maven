@@ -14,6 +14,7 @@ import Winner from "./utils/Winner.jsx";
 import Register from "./components/Account/Register/Register";
 import Login from "./components/Account/Login/Login";
 import './App.css';
+import LoadingUser from '@components/LoadingUser/LoadingUser.jsx';
 
 const App = () => {
   return (
@@ -31,10 +32,14 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
+
+            <Route path="/winner" element={<Winner/>}/>
+
             <Route path="/tournament/:id/winner" element={<Winner />} />
-          </Route>
+
           {/* Route without Header and Footer */}
           <Route path="*" element={<Page404 />} />
+          <Route path="/loading" element={<LoadingUser/>}/>
         </Routes>
       </Router>
     </div>

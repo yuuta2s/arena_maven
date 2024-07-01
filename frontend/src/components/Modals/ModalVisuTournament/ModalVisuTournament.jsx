@@ -1,9 +1,16 @@
+
+
+
 import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
+
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
+import CommentSection from '../../CommentSection/CommentSection'; // import the CommentSection component
 
 export default function ModalVisuTournament({ showModal, setShowModal, tournament, remainingSlots, formattedDate }) {
+
+
 
     const [sub, setSub] = useState([]);
 
@@ -37,6 +44,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
 
   console.log("blabla", sub);
 
+
   const modalRef = useRef(null); // Create a reference for the modal
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,9 +70,8 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
         <>
           <div className="mx-2 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div ref={modalRef} className="relative w-auto my-6 mx-auto max-w-lg border-solid border-2 rounded-lg">
-              {/*content*/}
+
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary outline-none focus:outline-none">
-                {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid rounded-t">
                   <h3 className="text-3xl font-semibold">
                     {tournament.name}
@@ -78,7 +85,6 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                     </span>
                   </button>
                 </div>
-                {/*body*/}
                 <div className="relative py-6">
                   <div className="min-w-80 max-h-80 max-w-lg flex justify-center overflow-hidden">
                     <img className="object-cover" src={`http://localhost:5000/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
@@ -87,6 +93,24 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                     <p className="font-semibold">Date de l'événement: </p>
                     <p>{tournament.date.substring(0, 10)}</p>
                     <p className="font-semibold">Description :</p>
+
+                    <p className="text-sm text-justify">{tournament.description}</p>
+                    <p className="font-semibold">Nombre de joueurs max : {tournament.max_player}</p>
+                    <p className="font-semibold">Place restantes : {remainingSlots}</p>
+                    {userInfo && userInfo.role === 'admin' && (
+                      <>
+                        <Link to={`/modifytournament/${tournament.id}`} className="flex justify-center mt-2">
+                          <button className="bg-butterscotch hover:bg-caramel text-white font-bold py-2 px-4 rounded">
+                            Modifier le tournoi
+                          </button>
+                        </Link>
+                      </>
+                    )}
+                    <CommentSection tournament={tournament} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-end p-6 border-t border-solid rounded-b">
+
                     <p className="my-4 text-lg leading-relaxed w-full">
                       {tournament.short_description}
                     </p>
@@ -102,14 +126,15 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 rounded-b">
+
                   <button
-                    className="background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
                     Fermer
                   </button>
-                  {remainingSlots > 0 && tournament.date > formattedDate ? (
+         {remainingSlots > 0 && tournament.date > formattedDate ? (
                     userInfo.sub.id === tournament.organizer_id || sub.length != 0 ? (
                         <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled >Attendre le début</button>
                     ) : (
@@ -128,6 +153,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                         ) : (
                             <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled >Inscription fermé</button>
                   )}
+
                 </div>
               </div>
             </div>
