@@ -28,7 +28,6 @@ export default function MyTournament() {
         try {
           const res = await axios.get(`http://localhost:5000/user/registered-tournaments/${userInfo.sub.id}`);
         
-          console.log(res.data);
           setInscription(res.data);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -39,7 +38,6 @@ export default function MyTournament() {
         try {
           const res = await axios.get(`http://localhost:5000/user/created-tournaments/${userInfo.sub.id}`);
         
-          console.log(res.data);
           setCreation(res.data);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -50,9 +48,6 @@ export default function MyTournament() {
         fetchDataInscription();
         fetchDataCreation();
       }, []);
-
-      console.log(inscription);
-      console.log(creation);
     
       return (
         <div>

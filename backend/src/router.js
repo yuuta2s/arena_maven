@@ -85,4 +85,7 @@ router.get("/user/created-tournaments/:id", tournamentControllers.findTbyOid);
 // Route pour obtenir la participation par ID de tournoi
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);
 
+// Route pour vérifier si un utilisateur est inscrit à un tournoi
+router.get("/tournament/:tournament_id/user/:user_id", userController.findIfUserSubController);
+
 module.exports = router;
