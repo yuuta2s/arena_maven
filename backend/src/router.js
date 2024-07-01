@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const { hashPassword, verifyPassword, verifyToken } = require('./auth');
@@ -44,6 +43,24 @@ router.get("/matchResults/:id", matchResultsController.read);
 router.put("/matchResults/:id", matchResultsController.edit);
 router.post("/matchResults", matchResultsController.add);
 router.delete("/matchResults/:id", matchResultsController.destroy);
+
+
+// Route pour l'inscription des utilisateurs
+router.post('/user/register', hashPassword, userController.add);
+
+// Route pour la connexion des utilisateurs
+router.post('/user/login', userController.getUserByEmail, verifyPassword);
+
+// Route pour la déconnexion des utilisateurs
+router.delete('/user/logout', userController.destroy);
+
+// Route pour la déconnexion
+router.delete('/logout', (req, res) => {
+  // Logique de déconnexion
+  // Par exemple, invalider le token, détruire la session, etc.
+  res.status(200).json({ message: "Déconnexion réussie" });
+});
+
 
 // Routes pour la gestion des utilisateurs
 router.get("/user", userController.browse);
