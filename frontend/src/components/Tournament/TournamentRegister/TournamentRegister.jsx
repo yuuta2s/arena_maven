@@ -17,7 +17,7 @@ const TournamentRegister = () => {
           </p>
         </div>
         <div className="bg-black text-white p-8 shadow-lg rounded-lg w-80 h-80">
-          <h2 className="text-xl font-bold mb-4">Register Now</h2>
+          <h2 className="text-xl font-bold mb-4">Inscris-toi</h2>
           <form>
             <div className="mb-4">
               <p>ici mettre toutes les règles des tournois --en général-- </p>

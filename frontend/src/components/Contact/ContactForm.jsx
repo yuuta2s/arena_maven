@@ -51,14 +51,14 @@ const ContactForm = forwardRef((props, ref) => {
               <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <label htmlFor="name" className="block text-lg font-bold leading-7 text-black">
-                    What should we call you?
+                    Nom
                   </label>
                   <div className="mt-2.5">
                     <Field
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="Your name"
+                      placeholder="Castiel"
                       autoComplete="name"
                       className="block w-full border-0 px-3.5 py-2 bg-black text-white shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-lg leading-7"
                     />
@@ -75,7 +75,7 @@ const ContactForm = forwardRef((props, ref) => {
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="your.name@acme.com"
+                      placeholder="Castiel@mail.com"
                       autoComplete="email"
                       className="block w-full border-0 px-3.5 py-2 bg-black text-white shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-lg leading-7"
                     />
@@ -92,7 +92,7 @@ const ContactForm = forwardRef((props, ref) => {
                       as="textarea"
                       name="message"
                       id="message"
-                      placeholder="Hi, I am writing you about ..."
+                      placeholder="Bonjour, je vous contacte au sujet de ..."
                       rows={4}
                       className="block w-full border-0 px-3.5 py-2 bg-black text-white shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-lg leading-7"
                     />

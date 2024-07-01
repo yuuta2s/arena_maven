@@ -56,7 +56,7 @@ export default function MyTournament() {
             </div>
             <section className="max-w-7xl mx-auto">
                 <article className="mt-8">
-                    <h2 className="text-3xl text-white">Registered tournaments :</h2>
+                    <h2 className="text-3xl text-white">Tournois effectués :</h2>
                     <div className="flex flex-wrap items-center justify-evenly">
                         {inscription.length === 0 ? (
                             <p className="text-white">Pas de tournois</p>
@@ -68,7 +68,7 @@ export default function MyTournament() {
                     </div>
                 </article>
                 <article className="mt-8">
-                    <h2 className="text-3xl text-white">Tournaments created :</h2>
+                    <h2 className="text-3xl text-white">Tournois créés :</h2>
                     <div className="flex flex-wrap items-center justify-evenly">
                         {creation.length === 0 ? (
                             <p className="text-white">Pas de tournois</p>
