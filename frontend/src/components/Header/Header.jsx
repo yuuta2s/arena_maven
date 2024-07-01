@@ -13,7 +13,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom"; // Importer Link depuis react-router-dom
+import { Link } from "react-router-dom"; 
 import iconProfile from "../../assets/iconProfile.jpg";
 import headerVector from "../../assets/headerVector.svg";
 import Login from "@components/Account/Login/Login";
@@ -48,7 +48,7 @@ export default function Header() {
                 {/* Mobile menu button */}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-primary hover:text-white focus:outline-none">
                   <span className="absolute -inset-0.5" />
-                  <span className="sr-only">Open main menu</span>
+                  <span className="sr-only">Menu principal</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
@@ -99,7 +99,7 @@ export default function Header() {
                   <div>
                     <MenuButton className="relative flex rounded-full text-sm focus:outline-none">
                       <span className="absolute" />
-                      <span className="sr-only">Open user menu</span>
+                      <span className="sr-only">Menu principal</span>
                       <img
                         className="h-10 w-10 rounded-full -translate-x-14"
                         src={iconProfile}
@@ -119,7 +119,7 @@ export default function Header() {
                       <MenuItem>
                         {({ active }) => (
                           <a
-                            href="*"
+                            href="/profil"
                             className={classNames(
                               active ? "bg-primary" : "",
                               "block px-4 py-2 text-sm text-black hover:text-white"
@@ -127,7 +127,7 @@ export default function Header() {
                           >
                             {userData
                               ? `Logged in as ${userData.name}`
-                              : "your profile"}
+                              : "Profil"}
                           </a>
                         )}
                       </MenuItem>
@@ -141,7 +141,7 @@ export default function Header() {
                               "block px-4 py-2 text-sm text-black hover:text-white"
                             )}
                           >
-                            Sign up
+                            Inscription
                           </a>
                         )}
                       </MenuItem>
@@ -155,7 +155,7 @@ export default function Header() {
                                 "block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600 hover:text-white"
                               )}
                             >
-                              Se déconnecter
+                              Déconnexion
                             </button>
                           ) : (
                             <a
@@ -165,7 +165,7 @@ export default function Header() {
                                 "block px-4 py-2 text-sm text-black hover:text-white"
                               )}
                             >
-                              Se connecter
+                              Connexion
                             </a>
                           )
                         }
