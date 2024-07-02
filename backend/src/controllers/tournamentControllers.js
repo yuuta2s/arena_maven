@@ -31,8 +31,6 @@ const read = (req, res) => {
 const edit = (req, res) => {
   const tournament = req.body;
 
-  // TODO validations (length, format...)
-
   tournament.id = parseInt(req.params.id, 10);
 
   models.tournament
