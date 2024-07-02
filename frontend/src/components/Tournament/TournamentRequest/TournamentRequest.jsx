@@ -78,7 +78,7 @@ export default function TournamentRequest() {
   return (
     <div>
       <div className="flex flex-col items-center sm:max-w-md md:max-w-xl lg:max-w-4xl mt-10 pb-4 sm:pb-6 md:pb-10 lg:pb-14 mx-auto bg-no-repeat bg-bottom bg-underline-title bg-contain ">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white ">Tournament Request</h1>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white ">Créer un tournois</h1>
       </div>
       <section className="my-16">
         <form
@@ -86,13 +86,13 @@ export default function TournamentRequest() {
           className="bg-primary rounded-xl m-5 p-5 max-w-3xl mx-auto flex flex-wrap justify-center items-center"
         >
           <div className="w-full m-2">
-            <label htmlFor="tname">Tournament's name:</label>
+            <label htmlFor="tname">Nom du tournois :</label>
             <input
               className="w-full bg-white text-black p-1 rounded-md"
               type="text"
               id="tname"
               name="tname"
-              placeholder="Name.."
+              placeholder="Nom.."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.tname}
@@ -102,7 +102,7 @@ export default function TournamentRequest() {
             ) : null}
           </div>
           <div className="w-full m-2">
-            <label htmlFor="tdate">Tournament's date:</label>
+            <label htmlFor="tdate">Date du tournois :</label>
             <input
               className="w-full bg-white text-black p-1 rounded-md"
               type="date"
@@ -117,7 +117,7 @@ export default function TournamentRequest() {
             ) : null}
           </div>
           <div className="w-full m-2">
-            <label htmlFor="nbPlayer">Number of players:    </label>
+            <label htmlFor="nbPlayer">Nombre de joueurs :    </label>
             <select
               id="nbPlayer"
               name="nbPlayer"
@@ -135,7 +135,7 @@ export default function TournamentRequest() {
             ) : null}
           </div>
           <div className="w-full m-2">
-            <label htmlFor="tdescription">Short description:</label>
+            <label htmlFor="tdescription">Description :</label>
             <textarea
               className="w-full min-h-16 bg-white text-black p-1 rounded-md"
               id="tdescription"
@@ -150,7 +150,7 @@ export default function TournamentRequest() {
             ) : null}
           </div>
           <div className="w-full m-2">
-            <label htmlFor="timage">Tournament Image:</label>
+            <label htmlFor="timage">Bannière du tournois :</label>
             <input
               className="w-full"
               type="file"
@@ -168,7 +168,7 @@ export default function TournamentRequest() {
           <input
             className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border border-secondary hover:border-tertiary rounded"
             type="submit"
-            value="Submit"
+            value="Soumettre"
           />
           <ModalCreaTournament showModal={showModal} setShowModal={setShowModal} />
         </form>
