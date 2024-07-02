@@ -116,12 +116,12 @@ export default function Homepage() {
           <div className="flex flex-wrap justify-between items-center gap-3 p-5">
             <Link to="/tournamentRequest">
               <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
-                Create a tournament
+              Créer un tournois
               </button>
             </Link>
             <Link to="/tournamentRegister">
               <button className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">
-                Find a tournament
+                Trouver un tournois
               </button>
             </Link>
           </div>
@@ -132,7 +132,9 @@ export default function Homepage() {
       </section>
       <section className="max-w-7xl mx-auto">
         <article className="mt-8">
+
           <h2 className="text-3xl text-white">Novelty:</h2>
+          <h2 className="text-3xl text-white">Nouveautés :</h2>
           {tournaments.length > 0 && (
             <div className="flex flex-wrap items-center justify-evenly">
               {tournaments.slice(-3).reverse().map((tournament, index) => (
@@ -143,6 +145,7 @@ export default function Homepage() {
         </article>
         <article className="mt-8">
           <h2 className="text-3xl text-white">Last Chance:</h2>
+          <h2 className="text-3xl text-white">Dernières chances :</h2>
           {tournaments.length > 0 && (
             <div className="flex flex-wrap items-center justify-evenly">
               {tournaments.slice(0, 3).map((tournament, index) => (

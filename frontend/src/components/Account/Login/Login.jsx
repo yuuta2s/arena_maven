@@ -1,17 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import img from "../../../assets/Rectangle 261.svg";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+
+
+
 import axios from "axios";
+import { AuthContext } from "./AuthProvider";
 import "../../../assets/style.css";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const { login, isAuthenticated, user  } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleLogin = async (values, { setSubmitting, setFieldError, resetForm }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          email: values.adresse_email,
+          password: values.password,
+        }
+      );
+      console.log("User logged in successfully:", response.data);
+      setSubmitStatus({ type: 'success', message: 'Connexion réussie!' });
+      resetForm();
+      localStorage.setItem("token", response.data.token);
+      console.log("Données de la réponse:", response.data);
+      
+      if (response.data && response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        
+        // Décodage du token pour obtenir les informations de l'utilisateur
+        const tokenPayload = JSON.parse(atob(response.data.token.split('.')[1]));
+        const userData = tokenPayload.sub;
+      
+        if (userData && userData.email) {
+          login(userData);
+          setSubmitStatus({ type: 'success', message: 'Connexion réussie!' });
+          navigate('/');
+        } else {
+          console.warn('Données utilisateur incomplètes dans le token');
+          setSubmitStatus({ type: 'error', message: 'Erreur lors de la connexion. Veuillez réessayer.' });
+        }
+      } else {
+        console.warn('Structure de la réponse invalide:', JSON.stringify(response.data, null, 2));
+        setSubmitStatus({ type: 'error', message: 'Erreur lors de la connexion. Veuillez réessayer.' });
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      if (error.response && error.response.status === 401) {
+        setFieldError(
+          "adresse_email",
+          "Adresse email ou mot de passe incorrect"
+        );
+        setFieldError("password", "Adresse email ou mot de passe incorrect");
+      } else {
+        setFieldError(
+          "adresse_email",
+          "Erreur lors de la connexion. Veuillez réessayer."
+        );
+      }
+    }
+    setSubmitting(false);
+  };
+
+  if (isAuthenticated) {
+    return (
+      <div>
+        <p>Bienvenue, {user.name}</p>
+        <button onClick={() => navigate('/dashboard')}>Aller au tableau de bord</button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bigShouldersDisplay text-white p-4">
@@ -39,35 +107,7 @@ function Login() {
                 )
                 .required("Le mot de passe est requis"),
             })}
-            onSubmit={async (values, { setSubmitting, setFieldError }) => {
-              try {
-                const response = await axios.post(
-                  "http://localhost:5000/user/login",
-                  {
-                    email: values.adresse_email,
-                    password: values.password,
-                  }
-                );
-                console.log("User logged in successfully:", response.data);
-                localStorage.setItem("token", response.data.token);
-                // Handle successful login (e.g., redirect, store token)
-              } catch (error) {
-                console.error("Error logging in:", error);
-                if (error.response && error.response.status === 401) {
-                  setFieldError(
-                    "adresse_email",
-                    "Adresse email ou mot de passe incorrect"
-                  );
-                  setFieldError("password", "Adresse email ou mot de passe incorrect");
-                } else {
-                  setFieldError(
-                    "adresse_email",
-                    "Erreur lors de la connexion. Veuillez réessayer."
-                  );
-                }
-              }
-              setSubmitting(false);
-            }}
+            onSubmit={handleLogin}
           >
             {({ handleChange, handleBlur, values, isSubmitting }) => (
               <Form>
@@ -150,6 +190,11 @@ function Login() {
               </Form>
             )}
           </Formik>
+          {submitStatus && (
+            <div className={`text-center mt-4 p-2 ${submitStatus.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+              {submitStatus.message}
+            </div>
+          )}
         </article>
       </div>
     </div>

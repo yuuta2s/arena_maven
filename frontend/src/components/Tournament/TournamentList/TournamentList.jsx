@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cards from '@components/Cards/Cards';
-import design2 from '../../../assets/Rectangle 261.svg';
+
 
 const TournamentList = () => {
   const [tournaments, setTournaments] = useState([]);
@@ -32,8 +32,10 @@ const TournamentList = () => {
 
   return (
     <div className="bg-gradient-to-tr from-black via-vertBG to-black p-4">
-      <div className="flex flex-col items-center sm:max-w-md md:max-w-xl lg:max-w-4xl mt- mb-20 pb-4 sm:pb-6 md:pb-10 lg:pb-14 mx-auto bg-no-repeat bg-bottom bg-underline-title bg-contain ">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white ">Tournament List</h1>
+      <div className="flex flex-col items-center mb-12">
+        <h1 className="text-4xl font-bold text-white">Découverte</h1>
+        <div className="w-full h-20 flex justify-center absolute top-3.5 right-3.5">
+        </div>
       </div>
       <article className="mt-8">
         <h2 className="text-3xl text-white">Tournois à venir :</h2>
