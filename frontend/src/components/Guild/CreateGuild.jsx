@@ -26,19 +26,43 @@ export default function CreateGuild() {
       data.append('name', values.name);
       data.append('description', values.description);
       data.append('image', values.image);
-      data.append('creator_id', 41); // Assurez-vous que l'ID du créateur est correctement défini
+
+      // Retrieve and decode the token to get the user ID
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('Token not found in local storage');
+        return;
+      }
+
+      let creatorId;
+      try {
+        // Decode the token to get user ID
+        const tokenPayload = token.split('.')[1];
+        const decodedToken = JSON.parse(atob(tokenPayload));
+        creatorId = decodedToken.sub.id;
+        if (!creatorId) {
+          throw new Error('User ID not found in token');
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return;
+      }
+
+      data.append('creator_id', creatorId);
 
       try {
+        // Send POST request to create guild
         const response = await axios.post('http://localhost:5000/guild', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
           },
         });
         console.log('Guild created successfully:', response.data);
-        setGuildDetails(response.data); // Stocker les détails de la guilde
-        setShowModal(true);
+        setGuildDetails(response.data); // Store guild details
+        setShowModal(true); // Display modal after successful creation
       } catch (error) {
-        console.error('Error creating guild:', error);
+        console.error('Error creating guild:', error.response?.data || error.message);
       }
     },
   });

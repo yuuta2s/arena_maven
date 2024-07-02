@@ -7,35 +7,29 @@ class GuildManager extends AbstractManager {
 
   insert(guild) {
     return this.database.query(
-      `INSERT INTO ${this.table} (name, description, creator_id) VALUES (?, ?, ?)`,
-      [guild.name, guild.description, guild.creator_id]
+      `INSERT INTO ${this.table} (name, description, creator_id, members) VALUES (?, ?, ?, ?)`,
+      [guild.name, guild.description, guild.creator_id, JSON.stringify(guild.members)]
     );
   }
 
   update(guild) {
     return this.database.query(
-      `UPDATE ${this.table} SET name = ?, description = ? WHERE id = ?`,
-      [guild.name, guild.description, guild.id]
+      `UPDATE ${this.table} SET name = ?, description = ?, members = ? WHERE id = ?`,
+      [guild.name, guild.description, JSON.stringify(guild.members), guild.id]
     );
   }
 
-  // findByCreatorId(creatorId) {
-  //   return this.database.query(
-  //     `SELECT * FROM ${this.table} WHERE creator_id = ?`,
-  //     [creatorId]
-  //   );
-  // }
   addUserToGuild(userId, guildId) {
     return this.database.query(
-      `INSERT INTO guild_user (guild_id, user_id) VALUES (?, ?)`,
-      [guildId, userId]
+      `UPDATE ${this.table} SET members = JSON_ARRAY_APPEND(members, '$', CAST(? AS JSON)) WHERE id = ?`,
+      [userId, guildId]
     );
   }
 
   removeUserFromGuild(userId, guildId) {
     return this.database.query(
-      `DELETE FROM guild_user WHERE guild_id = ? AND user_id = ?`,
-      [guildId, userId]
+      `UPDATE ${this.table} SET members = JSON_REMOVE(members, JSON_UNQUOTE(JSON_SEARCH(members, 'one', CAST(? AS JSON)))) WHERE id = ?`,
+      [userId, guildId]
     );
   }
 }

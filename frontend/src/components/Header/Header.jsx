@@ -151,16 +151,10 @@
 // }
 
 // src/components/Header/Header.jsx
-import React from 'react';
-import React, { useState, useEffect } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../Account/Login/AuthProvider";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Disclosure,
-  Menu,
-  Transition,
-} from '@headlessui/react';
+import { AuthContext } from "../Account/Login/AuthProvider";
+import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import iconProfile from '../../assets/iconProfile.jpg';
@@ -172,18 +166,6 @@ const navigation = [
   { name: 'Mes tournois', href: '/mes-tournois', current: false },
   { name: 'Contact', href: '/contact', current: false },
   { name: 'Créer une guilde', href: '/create-guild', current: false },
-} from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom"; 
-import iconProfile from "../../assets/iconProfile.jpg";
-import headerVector from "../../assets/headerVector.svg";
-import Login from "@components/Account/Login/Login";
-
-const navigation = [
-  { name: "Accueil", href: "/", current: true },
-  { name: "Découvrir", href: "/decouvrir", current: false },
-  { name: "Mes tournois", href: "/mes-tournois", current: false },
-  { name: "Contact", href: "/contact", current: false },
 ];
 
 function classNames(...classes) {
@@ -242,16 +224,6 @@ export default function Header() {
 
               <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)'}}>
                 <img src={headerVector} alt="Header Vector" className="h-auto w-auto" />
-              {/* Header Vector */}
-              <div
-                className="absolute right-0 top-0 mt-0"
-                style={{ transform: "translateY(-15%)" }}
-              >
-                <img
-                  src={headerVector}
-                  alt="Header Vector"
-                  className="h-auto w-auto"
-                />
               </div>
 
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -296,7 +268,8 @@ export default function Header() {
                           </Link>
                         )}
                       </Menu.Item>
-                    </Menu.Items>
+                      <Menu.Item>
+                        {({ active }) => (
                           <a
                             href="/profil"
                             className={classNames(
@@ -309,9 +282,8 @@ export default function Header() {
                               : "Profil"}
                           </a>
                         )}
-                      </MenuItem>
-
-                      <MenuItem>
+                      </Menu.Item>
+                      <Menu.Item>
                         {({ active }) => (
                           <a
                             href="/register"
@@ -323,8 +295,8 @@ export default function Header() {
                             Inscription
                           </a>
                         )}
-                      </MenuItem>
-                      <MenuItem>
+                      </Menu.Item>
+                      <Menu.Item>
                         {({ active }) =>
                           isAuthenticated ? (
                             <button
@@ -348,8 +320,8 @@ export default function Header() {
                             </a>
                           )
                         }
-                      </MenuItem>
-                    </MenuItems>
+                      </Menu.Item>
+                    </Menu.Items>
                   </Transition>
                 </Menu>
               </div>

@@ -29,7 +29,7 @@ const Cards = ({ tournaments }) => {
             key={item.id}
             className="cursor-pointer max-w-sm w-full rounded-lg shadow-xl transform transition-transform duration-300 hover:scale-105 card-custom-bg mb-5"
           >
-            <a href={item.details} className="flex flex-col justify-between h-full">
+            <div className="flex flex-col justify-between h-full">
               <div className="relative">
                 <img
                   className="w-full h-36 object-cover rounded-t-lg"
@@ -38,15 +38,15 @@ const Cards = ({ tournaments }) => {
                 />
                 {item.total_players > item.participants.length && item.date > formattedDate ? (
                   <span className="absolute top-2 right-2 bg-primary text-white text-xs font-bold py-1 px-2 rounded-full">
-                    Inscriptions ouvertes
+                    Registration Open
                   </span>
                 ) : (
                   <span className="absolute top-2 right-2 bg-warning text-white text-xs font-bold py-1 px-2 rounded-full">
-                    Inscriptions fermées
+                    Registration Closed
                   </span>
                 )}
                 <div className="absolute bottom-0 left-0 right-0 bg-white text-black text-center text-sm py-1">
-                  Date de l'événement: {item.date.substring(0, 10)}
+                  Date de l'événement: {item.date ? item.date.substring(0, 10) : 'N/A'}
                 </div>
               </div>
               <div className="p-4">
@@ -66,13 +66,19 @@ const Cards = ({ tournaments }) => {
                   Places restantes: {remainingSlots >= 0 ? remainingSlots : 'N/A'}
                 </span>
               </div>
-            </a>
+            </div>
           </div>
         );
       })}
 
       {selectedTournament && (
-        <ModalVisuTournament showModal={showModal} setShowModal={setShowModal} tournament={selectedTournament} remainingSlots={selectedTournament.total_players - selectedTournament.participants.length} formattedDate={formattedDate} />
+        <ModalVisuTournament
+          showModal={showModal}
+          setShowModal={setShowModal}
+          tournament={selectedTournament}
+          remainingSlots={selectedTournament.total_players - selectedTournament.participants.length}
+          formattedDate={formattedDate}
+        />
       )}
     </div>
   );
