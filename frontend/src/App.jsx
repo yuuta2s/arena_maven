@@ -3,7 +3,7 @@ import Header from './components/Header/Header.jsx';
 import Footer from '@components/Footer/Footer';
 import Homepage from '@components/Homepage/Homepage';
 import Contact from '@components/Contact/Contact';
-import Page404 from '@components/Page404/Page404';  
+import Page404 from '@components/Page404/Page404';
 import BracketGenerator from './utils/BracketGen';
 import TournamentList from './components/Tournament/TournamentList/TournamentList';
 import MyTournament from '@components/MyTournaments/MyTournament.jsx';
@@ -13,6 +13,7 @@ import AboutUs from "@components/AboutUs/AboutUs.jsx";
 import Winner from "./utils/Winner.jsx";
 import Register from "./components/Account/Register/Register";
 import Login from "./components/Account/Login/Login";
+import CreateGuildPage from "./components/Guild/CreateGuildPage";
 import Cards from './components/Cards/Cards';
 import Profil from './components/Profil/Profil';  
 
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<ProfileCreation />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/create-guild" element={<CreateGuildPage />} />
             <Route path="/profil" element={<Profil />} />
             <Route path="/tournament/:id" element={<BracketGenerator />} />
 
@@ -70,7 +72,7 @@ function AuthStatus() {
       {isAuthenticated ? `Logged in as ${user.email}` : 'Not logged in'}
     </div>
   );
-}
+};
 
 // Layout Component with Header and Footer
 const LayoutWithHeaderFooter = () => (
