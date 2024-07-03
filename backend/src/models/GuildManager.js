@@ -35,7 +35,6 @@
 // }
 
 // module.exports = GuildManager;
-
 const AbstractManager = require("./AbstractManager");
 
 class GuildManager extends AbstractManager {
@@ -44,30 +43,27 @@ class GuildManager extends AbstractManager {
   }
 
   insert(guild) {
+    const { name, description, creator_id, members, image } = guild;
+
     return this.database.query(
-      `INSERT INTO ${this.table} (name, description, creator_id, members) VALUES (?, ?, ?, ?)`,
-      [guild.name, guild.description, guild.creator_id, JSON.stringify(guild.members)]
+      `INSERT INTO ${this.table} (name, description, creator_id, members, image) VALUES (?, ?, ?, ?, ?)`,
+      [name, description, creator_id, JSON.stringify(members), image]
     );
   }
 
   update(guild) {
+    const { id, name, description, members, image } = guild;
+
     return this.database.query(
-      `UPDATE ${this.table} SET name = ?, description = ?, members = ? WHERE id = ?`,
-      [guild.name, guild.description, JSON.stringify(guild.members), guild.id]
+      `UPDATE ${this.table} SET name = ?, description = ?, members = ?, image = ? WHERE id = ?`,
+      [name, description, JSON.stringify(members), image, id]
     );
   }
 
-  addUserToGuild(userId, guildId) {
-    return this.database.query(
-      `UPDATE ${this.table} SET members = JSON_ARRAY_APPEND(members, '$', ?) WHERE id = ?`,
-      [userId, guildId]
-    );
-  }
-
-  removeUserFromGuild(userId, guildId) {
-    return this.database.query(
-      `UPDATE ${this.table} SET members = JSON_REMOVE(members, JSON_UNQUOTE(JSON_SEARCH(members, 'one', ?))) WHERE id = ?`,
-      [userId, guildId]
+  findById(id) {
+    return this.database.queryOne(
+      `SELECT * FROM ${this.table} WHERE id = ?`,
+      [id]
     );
   }
 }

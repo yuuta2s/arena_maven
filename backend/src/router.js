@@ -137,6 +137,136 @@
 // module.exports = router;
 
 
+// const express = require('express');
+// const router = express.Router();
+// const { hashPassword, verifyPassword, verifyToken } = require('./auth'); // Import des fonctions d'authentification
+
+// const userController = require("./controllers/userController");
+// const matchResultsController = require('./controllers/matchResultsController');
+// const tournament_matchController = require("./controllers/tournament_matchController");
+// const tournamentParticipationController = require("./controllers/tournamentParticipationController");
+// const tournamentControllers = require("./controllers/tournamentControllers");
+// const guildController = require("./controllers/guildController");
+// const commentControllers = require("./controllers/commentControllers");
+
+// // Middleware de gestion des fichiers téléchargés avec multer
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/'); // Dossier de destination pour les fichiers uploadés
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   }
+// });
+// const upload = multer({ storage: storage });
+
+// // Middleware pour vérifier le token JWT avant d'accéder à la route contact
+// router.post("/contact", verifyToken, (req, res) => {
+//   console.log("Accessing protected route: /contact");
+//   res.send("Route contact accessible uniquement avec un token valide.");
+// });
+// // Route pour l'inscription des utilisateurs
+// router.post('/user/register', hashPassword, userController.add);
+
+// // Route pour la connexion des utilisateurs
+// router.post('/user/login', userController.getUserByEmail, verifyPassword);
+
+// // Routes pour les tournois
+// router.get("/tournament", tournamentControllers.browse);
+// router.get("/tournament/:id", tournamentControllers.read);
+// router.put("/tournament/:id", tournamentControllers.edit);
+// router.post('/tournament', upload.single('timage'), tournamentControllers.add);
+// router.delete("/tournament/:id", tournamentControllers.destroy);
+
+// // Vérification du token
+// // router.use(verifyToken);
+
+// // Routes pour les résultats de match
+// router.get("/matchResults", matchResultsController.browse);
+// router.get("/matchResults/:id", matchResultsController.read);
+// router.put("/matchResults/:id", matchResultsController.edit);
+// router.post("/matchResults", matchResultsController.add);
+// router.delete("/matchResults/:id", matchResultsController.destroy);
+
+// // Route pour la déconnexion des utilisateurs
+// router.delete('/user/logout', userController.destroy);
+
+// // Route pour la déconnexion
+// router.delete('/logout', (req, res) => {
+//   // Logique de déconnexion
+//   // Par exemple, invalider le token, détruire la session, etc.
+//   res.status(200).json({ message: "Déconnexion réussie" });
+// });
+
+// // Routes pour la gestion des utilisateurs
+// router.get("/user", userController.browse);
+// router.get("/user/:id", userController.read);
+// router.post("/user/:id", userController.add);
+// router.put("/user/:id", userController.edit);
+// router.delete("/user/:id", userController.destroy);
+
+// // Routes pour les participations aux tournois
+// router.get("/participation", tournamentParticipationController.browse);
+// router.get("/participation/:id", tournamentParticipationController.read);
+// router.put("/participation/:id", tournamentParticipationController.edit);
+// router.post("/participation", tournamentParticipationController.add);
+// router.delete("/participation/:id", tournamentParticipationController.destroy);
+
+// // Routes pour les matchs de tournoi
+// router.get("/tournament_match", tournament_matchController.browse);
+// router.get("/tournament_match/:id", tournament_matchController.read);
+// router.put("/tournament_match/:id", tournament_matchController.edit);
+// router.post("/tournament_match", tournament_matchController.add);
+// router.delete("/tournament_match/:id", tournament_matchController.destroy);
+
+// // Routes pour les guildes
+// router.get("/guild", guildController.browse);
+// router.get("/guild/:id", guildController.read);
+// router.put("/guild/:id", guildController.edit);
+// router.post("/guild", upload.single('image'), guildController.add); // Utilisation de multer pour gérer l'upload de l'image
+// router.delete("/guild/:id", guildController.destroy);
+// router.post("/guild/:id/join", guildController.join);
+// router.post("/guild/:id/leave", guildController.leave);
+
+// // Routes pour les commentaires
+// router.get("/comment", commentControllers.browse);
+// router.get("/comment/:id", commentControllers.read);
+// router.put("/comment/:id", commentControllers.edit);
+// router.post("/comment", commentControllers.add);
+// router.delete("/comment/:id", commentControllers.destroy);
+
+// module.exports = router;
+
+// const express = require('express');
+// const router = express.Router();
+// const { hashPassword, verifyPassword, verifyToken } = require('./auth'); // Import des fonctions d'authentification
+
+// const userController = require("./controllers/userController");
+// const matchResultsController = require('./controllers/matchResultsController');
+// const tournament_matchController = require("./controllers/tournament_matchController");
+// const tournamentParticipationController = require("./controllers/tournamentParticipationController");
+// const tournamentControllers = require("./controllers/tournamentControllers");
+// const guildController = require("./controllers/guildController");
+// const commentControllers = require("./controllers/commentControllers");
+
+// // Middleware de gestion des fichiers téléchargés avec multer
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/'); // Dossier de destination pour les fichiers uploadés
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   }
+// });
+// const upload = multer({ storage: storage });
+
+// // Middleware pour vérifier le token JWT avant d'accéder à la route contact
+// router.post("/contact", verifyToken, (req, res) => {
+//   console.log("Accessing protected route: /contact");
+//   res.send("Route contact accessible uniquement avec un token valide.");
+// });
 const express = require('express');
 const router = express.Router();
 const { hashPassword, verifyPassword, verifyToken } = require('./auth'); // Import des fonctions d'authentification
@@ -166,6 +296,7 @@ router.post("/contact", verifyToken, (req, res) => {
   console.log("Accessing protected route: /contact");
   res.send("Route contact accessible uniquement avec un token valide.");
 });
+
 // Route pour l'inscription des utilisateurs
 router.post('/user/register', hashPassword, userController.add);
 
@@ -179,9 +310,6 @@ router.put("/tournament/:id", tournamentControllers.edit);
 router.post('/tournament', upload.single('timage'), tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
-// Vérification du token
-// router.use(verifyToken);
-
 // Routes pour les résultats de match
 router.get("/matchResults", matchResultsController.browse);
 router.get("/matchResults/:id", matchResultsController.read);
@@ -191,13 +319,6 @@ router.delete("/matchResults/:id", matchResultsController.destroy);
 
 // Route pour la déconnexion des utilisateurs
 router.delete('/user/logout', userController.destroy);
-
-// Route pour la déconnexion
-router.delete('/logout', (req, res) => {
-  // Logique de déconnexion
-  // Par exemple, invalider le token, détruire la session, etc.
-  res.status(200).json({ message: "Déconnexion réussie" });
-});
 
 // Routes pour la gestion des utilisateurs
 router.get("/user", userController.browse);
@@ -246,11 +367,10 @@ router.get("/user/created-tournaments/:id", tournamentControllers.findTbyOid);
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);
 
 // Routes pour les guildes
-// router.get('/api/guild', guildController.browse);
 router.get("/guild", guildController.browse);
 router.get("/guild/:id", guildController.read);
 router.post("/guild", upload.single('image'), guildController.add); // Route pour ajouter une guilde avec image
-router.put("/guild/:id", guildController.edit); // Route pour modifier une guilde
+router.put("/guild/:id", upload.single('image'), guildController.edit); // Route pour modifier une guilde avec image
 router.delete("/guild/:id", guildController.destroy); // Route pour supprimer une guilde
 router.post("/guild/:id/join", verifyToken, guildController.join); // Route pour rejoindre une guilde
 router.post("/guild/:id/leave", verifyToken, guildController.leave); // Route pour quitter une guilde
