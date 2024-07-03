@@ -1,6 +1,26 @@
 import UserPic from '../../assets/UserPic.png';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+
 
 export default function Profil() {
+    const [tournaments, setTournaments] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await axios.get("http://localhost:5000/tournament");
+        
+          console.log(res.data);
+          setTournaments(res.data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }, []);
+
     return (
         <div>
             {/* Profil section */}
