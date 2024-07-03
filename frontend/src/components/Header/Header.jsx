@@ -166,6 +166,7 @@ const navigation = [
   { name: 'Mes tournois', href: '/mes-tournois', current: false },
   { name: 'Contact', href: '/contact', current: false },
   { name: 'Créer une guilde', href: '/create-guild', current: false },
+  { name: 'Guildes', href: '/guilds', current: false }, // Nouveau lien pour la page des guildes
 ];
 
 function classNames(...classes) {

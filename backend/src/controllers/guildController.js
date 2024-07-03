@@ -27,7 +27,7 @@
 // };
 
 // const add = async (req, res) => {
-//   const { name, description, creator_id } = req.body;
+//   const { name, description, creator_id, members } = req.body;
 
 //   if (!name || !description || !creator_id) {
 //     return res.status(400).send("Missing required fields");
@@ -37,11 +37,12 @@
 //     name,
 //     description,
 //     creator_id,
+//     members: members || [],
 //   };
 
 //   try {
 //     // Vérifiez si l'utilisateur existe
-//     const user = await models.user.findById(creator_id);
+//     const user = await models.user.find(creator_id);
 //     if (!user) {
 //       return res.status(400).json({ message: "Creator does not exist" });
 //     }
@@ -57,7 +58,7 @@
 
 // const edit = async (req, res) => {
 //   const guildId = req.params.id;
-//   const { name, description } = req.body;
+//   const { name, description, members } = req.body;
 
 //   if (!name || !description) {
 //     return res.status(400).send("Missing required fields");
@@ -73,6 +74,7 @@
 //       ...guild,
 //       name,
 //       description,
+//       members: members || guild.members,
 //     };
 
 //     await models.guild.update(updatedGuild);
@@ -114,7 +116,7 @@
 //       return res.status(404).send("Guild not found");
 //     }
 
-//     // Ajoutez l'utilisateur à la guilde (implémentez la logique selon vos modèles)
+//     // Ajoutez l'utilisateur à la guilde
 //     await models.guild.addUserToGuild(userId, guildId);
 //     res.sendStatus(204);
 //   } catch (err) {
@@ -138,7 +140,7 @@
 //       return res.status(404).send("Guild not found");
 //     }
 
-//     // Supprimez l'utilisateur de la guilde (implémentez la logique selon vos modèles)
+//     // Supprimez l'utilisateur de la guilde
 //     await models.guild.removeUserFromGuild(userId, guildId);
 //     res.sendStatus(204);
 //   } catch (err) {
