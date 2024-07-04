@@ -1,9 +1,10 @@
 import React from 'react';
 
 const ModalDetailsGuild = ({ showModal, setShowModal, guildDetails }) => {
-  if (!showModal) return null;
+  if (!showModal || !guildDetails) return null;
 
-  const members = Array.isArray(guildDetails?.members) ? guildDetails.members : [];
+  // Parse members string into an array of member IDs
+  const members = JSON.parse(guildDetails.members || '[]');
 
   return (
     <>
@@ -24,26 +25,20 @@ const ModalDetailsGuild = ({ showModal, setShowModal, guildDetails }) => {
             </div>
             {/* Body */}
             <div className="relative p-6 flex-auto">
-              {guildDetails ? (
-                <>
-                  <p><strong>Nom:</strong> {guildDetails.name || 'Pas d\'informations'}</p>
-                  <p><strong>Description:</strong> {guildDetails.description || 'Pas d\'informations'}</p>
-                  <p><strong>Créateur ID:</strong> {guildDetails.creator_id || 'Pas d\'informations'}</p>
-                  <p><strong>Nombre de membres:</strong> {members.length || 'Pas d\'informations'}</p>
-                  <p><strong>Membres:</strong></p>
-                  <ul>
-                    {members.length > 0 ? (
-                      members.map((member, index) => (
-                        <li key={index}>{member}</li>
-                      ))
-                    ) : (
-                      <li>Pas d'informations</li>
-                    )}
-                  </ul>
-                </>
-              ) : (
-                <p>Chargement des détails...</p>
-              )}
+              <p><strong>Nom:</strong> {guildDetails.name || 'Pas d\'informations'}</p>
+              <p><strong>Description:</strong> {guildDetails.description || 'Pas d\'informations'}</p>
+              <p><strong>Créateur ID:</strong> {guildDetails.creator_id || 'Pas d\'informations'}</p>
+              <p><strong>Nombre de membres:</strong> {members.length || 'Pas d\'informations'}</p>
+              <p><strong>Membres:</strong></p>
+              <ul>
+                {members.length > 0 ? (
+                  members.map((memberId, index) => (
+                    <li key={index}>{memberId}</li>
+                  ))
+                ) : (
+                  <li>Pas d'informations</li>
+                )}
+              </ul>
             </div>
             {/* Footer */}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
