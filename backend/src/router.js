@@ -372,8 +372,8 @@ router.get("/guild/:id", guildController.read);
 router.post("/guild", upload.single('image'), guildController.add); // Route pour ajouter une guilde avec image
 router.put("/guild/:id", upload.single('image'), guildController.edit); // Route pour modifier une guilde avec image
 router.delete("/guild/:id", guildController.destroy); // Route pour supprimer une guilde
-router.post("/guild/:id/join", verifyToken, guildController.join); // Route pour rejoindre une guilde
-router.post("/guild/:id/leave", verifyToken, guildController.leave); // Route pour quitter une guilde
+router.post("/guild/:id/join", guildController.join); // Route pour rejoindre une guilde
+router.post("/guild/:id/leave", guildController.leave); // Route pour quitter une guilde
 
 // Route pour vérifier si un utilisateur est inscrit à un tournoi
 router.get("/tournament/:tournament_id/user/:user_id", userController.findIfUserSubController);

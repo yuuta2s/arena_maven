@@ -67,6 +67,25 @@ export default function CreateGuild() {
     },
   });
 
+  // Fonction pour rejoindre une guilde
+  const handleJoinGuild = async (guildId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur depuis localStorage
+
+      // Envoyez la requête POST pour rejoindre la guilde avec `userId` dans le corps
+      await axios.post(`http://localhost:5000/guild/${guildId}/join`, { userId }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      // Mettre à jour l'état ou effectuer d'autres actions après l'inscription
+    } catch (error) {
+      console.error('Error joining guild:', error);
+    }
+  };
+
   return (
     <div>
       <form

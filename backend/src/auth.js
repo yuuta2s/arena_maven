@@ -46,7 +46,7 @@ const verifyPassword = async (req, res, next) => {
 const verifyToken = (req, res, next) => {
   try {
     const authorizationHeader = req.headers.authorization;
-peu
+
     if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
       throw new Error('Authorization header is missing or invalid');
     }

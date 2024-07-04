@@ -51,6 +51,13 @@ class GuildManager extends AbstractManager {
     );
   }
 
+  findById(id) {
+    return this.database.query(
+      `SELECT * FROM ${this.table} WHERE id = ?`,
+      [id]
+    );
+  }
+
   update(guild) {
     const { id, name, description, members, image } = guild;
 
@@ -60,10 +67,41 @@ class GuildManager extends AbstractManager {
     );
   }
 
-  findById(id) {
-    return this.database.queryOne(
-      `SELECT * FROM ${this.table} WHERE id = ?`,
-      [id]
+  async addUserToGuild(userId, guildId) {
+    // Récupérer la liste actuelle des membres
+    const [[guild]] = await this.database.query(
+      `SELECT members FROM ${this.table} WHERE id = ?`,
+      [guildId]
+    );
+
+    // Ajouter le nouvel utilisateur à la liste des membres
+    let members = guild.members ? JSON.parse(guild.members) : [];
+    if (!members.includes(userId)) {
+      members.push(userId);
+    }
+
+    // Mettre à jour la liste des membres
+    return this.database.query(
+      `UPDATE ${this.table} SET members = ? WHERE id = ?`,
+      [JSON.stringify(members), guildId]
+    );
+  }
+
+  async removeUserFromGuild(userId, guildId) {
+    // Récupérer la liste actuelle des membres
+    const [[guild]] = await this.database.query(
+      `SELECT members FROM ${this.table} WHERE id = ?`,
+      [guildId]
+    );
+
+    // Supprimer l'utilisateur de la liste des membres
+    let members = guild.members ? JSON.parse(guild.members) : [];
+    members = members.filter(memberId => memberId !== userId);
+
+    // Mettre à jour la liste des membres
+    return this.database.query(
+      `UPDATE ${this.table} SET members = ? WHERE id = ?`,
+      [JSON.stringify(members), guildId]
     );
   }
 }
