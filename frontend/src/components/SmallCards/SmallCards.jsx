@@ -13,7 +13,6 @@ export default function SmallCards({ tournament, index }) {
       try {
         const res = await axios.get(`http://localhost:5000/participation/tournament/${tournament.id}`);
       
-        console.log(res.data);
         setParticipants(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
