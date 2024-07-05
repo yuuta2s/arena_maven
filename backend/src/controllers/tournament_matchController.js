@@ -37,15 +37,15 @@ const read = (req, res) => {
 };
 
 const edit = (req, res) => {
-  const user = req.body;
+  const tournament_match = req.body;
 
-  // TODO validations (length, format...)
+  // TODO: validations (length, format...)
 
-  user.id = parseInt(req.params.id, 10);
+  tournament_match.id = parseInt(req.params.id, 10);
 
   models.tournament_match
     .update(tournament_match)
-    .then((result) => {  // Removed destructuring as update likely returns the result directly
+    .then((result) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
       } else {
@@ -54,19 +54,19 @@ const edit = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.sendStatus(500);
+      res.sendStatus(500); // Ensure this is the only place sending a response
     });
 };
 
 const add = (req, res) => {
   const tournament_match = req.body;
 
-  // TODO validations (length, format...)
+  // TODO: validations (length, format...)
 
   models.tournament_match
     .insert(tournament_match)
-    .then((result) => {  // Removed destructuring as insert likely returns the result directly
-      res.location(`/tournament_match/${result.insertId}`).sendStatus(201);
+    .then(([result]) => {
+      res.location(`/tournament_match/${result.insertId}`).json({ id: result.insertId }).status(201);
     })
     .catch((err) => {
       console.error(err);
