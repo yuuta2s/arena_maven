@@ -12,9 +12,8 @@ const BracketGenerator = () => {
   const [scores, setScores] = useState([]);
   const [results, setResults] = useState([]);
   const [winner, setWinner] = useState(null);
-
   const [showModal, setShowModal] = useState(false);
-
+  const [matchIds, setMatchIds] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +21,7 @@ const BracketGenerator = () => {
         const res = await axios.get(`http://localhost:5000/participation/tournament/${id}`);
         setParticipants(res.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching participants:', error);
       }
     };
 
@@ -33,12 +32,16 @@ const BracketGenerator = () => {
     return array.sort(() => Math.random() - 0.5);
   };
 
-  const startTournament = () => {
-    const shuffledParticipants = shuffleArray(participants);
-    generateBrackets(shuffledParticipants);
+  const startTournament = async () => {
+    try {
+      const shuffledParticipants = shuffleArray(participants);
+      await generateBrackets(shuffledParticipants);
+    } catch (error) {
+      console.error('Error starting tournament:', error);
+    }
   };
 
-  const generateBrackets = (participants) => {
+  const generateBrackets = async (participants) => {
     const generatedBrackets = [];
     const initialScores = participants.map(() => [0, 0]);
     setScores(initialScores);
@@ -50,10 +53,38 @@ const BracketGenerator = () => {
         generatedBrackets.push([participants[i], null]);
       }
     }
-    setBrackets([generatedBrackets]);
+
     setCurrentRound(1);
     setResults([]);
     setWinner(null);
+
+    const roundMatches = generatedBrackets.map((match) => ({
+      tournament_id: id,
+      player1_id: match[0]?.id,
+      player2_id: match[1]?.id,
+      round: 1,
+      winner_id: null,
+      score: null,
+    }));
+
+    const matchIdPromises = roundMatches.map(async (match) => {
+      try {
+        const res = await axios.post('http://localhost:5000/tournament_matches', match);
+        return res.data.id;
+      } catch (error) {
+        console.error('Error creating match:', error);
+        throw error; // Propagate the error up
+      }
+    });
+
+    try {
+      const ids = await Promise.all(matchIdPromises);
+      setMatchIds(ids);
+      setBrackets([generatedBrackets]);
+    } catch (error) {
+      console.error('Error setting match IDs:', error);
+      throw error; // Propagate the error up
+    }
   };
 
   const handleScoreChange = (event, matchIndex, playerIndex) => {
@@ -67,22 +98,26 @@ const BracketGenerator = () => {
     }
   };
 
-  const nextRound = () => {
+  const nextRound = async () => {
     const winners = [];
     const currentMatches = brackets[currentRound - 1];
     const roundResults = [];
 
-    currentMatches.forEach((match, matchIndex) => {
+    for (let matchIndex = 0; matchIndex < currentMatches.length; matchIndex++) {
+      const match = currentMatches[matchIndex];
       const player1 = match[0];
       const player2 = match[1];
       const player1Score = scores[matchIndex][0];
       const player2Score = scores[matchIndex][1];
+      let winner = null;
 
       if (player1 && player1Score === 3) {
         winners.push(player1);
+        winner = player1;
       }
       if (player2 && player2Score === 3) {
         winners.push(player2);
+        winner = player2;
       }
 
       roundResults.push({
@@ -92,7 +127,21 @@ const BracketGenerator = () => {
         player2,
         player2Score,
       });
-    });
+
+      const matchId = matchIds[matchIndex];
+      const updatedMatch = {
+        score: `${player1Score} : ${player2Score}`,
+        winner_id: winner?.id || null,
+        id: matchId,
+      };
+
+      try {
+        await axios.put(`http://localhost:5000/tournament_matches/${matchId}`, updatedMatch);
+      } catch (error) {
+        console.error('Error updating match:', error);
+        throw error; // Propagate the error up
+      }
+    }
 
     setResults((prevResults) => [...prevResults, { round: currentRound, matches: roundResults }]);
 
@@ -112,50 +161,53 @@ const BracketGenerator = () => {
       setCurrentRound(currentRound + 1);
       const initialScores = winners.map(() => [0, 0]);
       setScores(initialScores);
-    } else {
-      setWinner(null);
+
+      const roundMatches = newBrackets.map((match) => ({
+        tournament_id: id,
+        player1_id: match[0]?.id,
+        player2_id: match[1]?.id,
+        round: currentRound + 1,
+        winner_id: null,
+        score: null,
+      }));
+
+      const newMatchIdPromises = roundMatches.map(async (match) => {
+        try {
+          const res = await axios.post('http://localhost:5000/tournament_matches', match);
+          return res.data.id;
+        } catch (error) {
+          console.error('Error creating match:', error);
+          throw error; // Propagate the error up
+        }
+      });
+
+      try {
+        const ids = await Promise.all(newMatchIdPromises);
+        setMatchIds(ids);
+      } catch (error) {
+        console.error('Error setting match IDs:', error);
+        throw error; // Propagate the error up
+      }
+      console.log("id au deuxieme round", matchIds);
     }
   };
 
   const endTournament = () => {
-    const currentMatches = brackets[currentRound - 1];
-    const currentWinners = [];
-    setShowModal(false)
-
-    currentMatches.forEach((match, matchIndex) => {
-      const player1 = match[0];
-      const player2 = match[1];
-      const player1Score = scores[matchIndex][0];
-      const player2Score = scores[matchIndex][1];
-
-      if (player1 && player1Score === 3) {
-        currentWinners.push(player1);
-      }
-      if (player2 && player2Score === 3) {
-        currentWinners.push(player2);
-      }
-    });
-
-    if (currentWinners.length === 1) {
-      setWinner(currentWinners[0]);
-      navigate(`/tournament/${id}/winner`, { state: { winner: currentWinners[0] } });
-    } else {
-      alert("No single winner could be determined.");
-    }
+    setShowModal(false);
+    navigate('/tournaments');
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-8">
-      <h2 className="text-3xl font-bold mb-10 text-center text-green-500">Tournament Brackets</h2>
-      <div className="flex justify-center mb-6">
+    <div className="flex flex-col gap-10 w-full">
+      <div className="flex justify-center mt-4">
         <button onClick={startTournament} className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">Start Tournament</button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="flex justify-center gap-20 mt-6">
         <div className="bg-gray-900 text-white rounded-lg p-6">
-          <h3 className="text-2xl font-semibold mb-6 text-center text-green-400">Matches - Round {currentRound}</h3>
+          <h3 className="text-2xl font-semibold mb-6 text-center text-green-400">Matches</h3>
           <ul>
-            {brackets[currentRound - 1] && brackets[currentRound - 1].map((match, matchIndex) => (
-              <li key={matchIndex} className="flex justify-between items-center p-4 bg-gray-800 rounded-lg mb-4">
+            {brackets[currentRound - 1]?.map((match, matchIndex) => (
+              <li key={matchIndex} className="flex justify-between items-center p-2 bg-gray-800 rounded-lg mb-2">
                 <span className="text-lg font-semibold">{match[0] ? match[0].username : 'Bye'}</span>
                 <input
                   type="number"
@@ -209,7 +261,7 @@ const BracketGenerator = () => {
         <button onClick={nextRound} className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">Next Round</button>
         <button onClick={() => setShowModal(true)} className="bg-primary hover:bg-secondary text-2xl text-white font-bold py-2 px-4 border-b-4 border-secondary hover:border-tertiary rounded">End Tournament</button>
       </div>
-      <ModalBracket showModal={showModal} setShowModal={setShowModal} endTournament={endTournament} ></ModalBracket>
+      <ModalBracket showModal={showModal} setShowModal={setShowModal} endTournament={endTournament}></ModalBracket>
     </div>
   );
 };
