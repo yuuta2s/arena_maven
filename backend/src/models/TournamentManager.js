@@ -1,34 +1,3 @@
-// const AbstractManager = require("./AbstractManager");
-
-// class TournamentManager extends AbstractManager {
-//   constructor() {
-//     super({ table: "tournament" });
-//   }
-
-//   insert(tournament) {
-//     return this.database.query(`insert into ${this.table} (name) values (?)`, [
-//       tournament.id,
-//       tournament.name,
-//       tournament.date,
-//       tournament.tournament_img,
-//       tournament.organizer_id,
-//       tournament.total_players,
-//       tournament.short_description
-      
-//     ]);
-//   }
-
-//   update(tournament) {
-//     return this.database.query(
-//       `update ${this.table} set name = ? where id = ?`,
-//       [tournament.username, tournament.id]
-//     );
-//   }
-// }
-
-// module.exports = TournamentManager;
-
-
 const AbstractManager = require("./AbstractManager");
 
 class TournamentManager extends AbstractManager {

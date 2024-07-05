@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalDetailsGuild from '../Modal/ModalDetailsGuild';
 
-export default function GuildList() {
+const GuildList = () => {
   const [guilds, setGuilds] = useState([]);
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState(null);
@@ -14,14 +14,13 @@ export default function GuildList() {
       try {
         const response = await axios.get('http://localhost:5000/guild');
         console.log('Response data:', response.data);
-        setGuilds(response.data[0]); // Assurez-vous que les guildes sont correctement récupérées depuis l'API
+        setGuilds(response.data[0]); // Assumer que response.data est un tableau de guildes
       } catch (err) {
         console.error('Error fetching guilds:', err);
         setError(err.message || 'Error fetching guilds');
       }
     };
 
-    // Retrieve user ID from token
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -36,8 +35,6 @@ export default function GuildList() {
     fetchGuilds();
   }, []);
 
-  console.log('Current guilds state:', guilds);
-
   const handleViewMore = (guild) => {
     setSelectedGuild(guild);
     setShowModal(true);
@@ -51,7 +48,6 @@ export default function GuildList() {
           'Authorization': `Bearer ${token}`
         }
       });
-      // Update guild list or state after joining
       setGuilds(prevGuilds => {
         return prevGuilds.map(guild => {
           if (guild.id === guildId) {
@@ -73,7 +69,6 @@ export default function GuildList() {
           'Authorization': `Bearer ${token}`
         }
       });
-      // Update guild list or state after leaving
       setGuilds(prevGuilds => {
         return prevGuilds.map(guild => {
           if (guild.id === guildId) {
@@ -108,7 +103,7 @@ export default function GuildList() {
                 <div className="text-sm text-gray-500 mb-4">Créé par: {guild.creator_id}</div>
                 {guild.image && (
                   <img
-                    src={`http://localhost:5000/${guild.image}`}  // Assurez-vous que l'URL est correctement formée
+                    src={`http://localhost:5000/${guild.image}`}
                     alt={guild.name}
                     className="w-full rounded-lg"
                   />
@@ -119,7 +114,16 @@ export default function GuildList() {
                 >
                   Voir plus
                 </button>
-                {/* Conditionally render join or leave button based on user's membership */}
+
+                {/* Affichage du nombre de membres et des membres */}
+                {guild.members && Array.isArray(guild.members) && (
+                  <>
+                    <p className="mt-4"><strong>Nombre de membres:</strong> {guild.members.length}</p>
+                    <p><strong>Membres:</strong> {guild.members.length > 0 ? guild.members.join(', ') : 'Pas d\'informations'}</p>
+                  </>
+                )}
+
+                {/* Bouton d'inscription/désinscription */}
                 {guild.members && guild.members.includes(userId) ? (
                   <button
                     className="bg-secondary hover:bg-primary text-white font-bold py-2 px-4 rounded mt-4"
@@ -140,11 +144,17 @@ export default function GuildList() {
           ))}
         </div>
       </div>
-      <ModalDetailsGuild
-        showModal={showModal}
-        setShowModal={setShowModal}
-        guildDetails={selectedGuild}
-      />
+      {/* Affichage du modal pour les détails de la guilde sélectionnée */}
+      {selectedGuild && (
+        <ModalDetailsGuild
+          showModal={showModal}
+          setShowModal={setShowModal}
+          guildDetails={selectedGuild}
+          userId={userId}
+        />
+      )}
     </div>
   );
-}
+};
+
+export default GuildList;
