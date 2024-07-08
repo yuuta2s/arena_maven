@@ -15,7 +15,8 @@ import Register from "./components/Account/Register/Register";
 import Login from "./components/Account/Login/Login";
 import CreateGuildPage from "./components/Guild/CreateGuildPage";
 import Cards from './components/Cards/Cards';
-import Profil from './components/Profil/Profil';  
+import Profil from './components/Profil/Profil';
+import GuildList from './components/Guild/GuildList';
 
 import './App.css';
 
@@ -23,48 +24,41 @@ import ProfileCreation from '@components/Account/ProfileCreation/ProfileCreation
 import AuthProvider, { AuthContext } from './components/Account/Login/AuthProvider';
 import React, { useContext } from 'react';
 
-
 import LoadingUser from '@components/LoadingUser/LoadingUser.jsx';
-
 
 const App = () => {
   return (
     <div className="bg-gradient-to-tr from-black via-vertBG to-black min-h-screen flex flex-col">
       <AuthProvider>
-      <Router>
-        <Routes>
-        <Route element={<LayoutWithHeaderFooter />}>
-          {/* Routes with Header and Footer */}
-          <Route path="/" element={<Homepage />} />
-            <Route path="/tournamentRequest" element={<TournamentRequest />} />
-            <Route path="/tournamentRegister" element={<TournamentRegister />} />
-            <Route path="/decouvrir" element={<TournamentList />} />
+        <Router>
+          <Routes>
+            <Route element={<LayoutWithHeaderFooter />}>
+              {/* Routes with Header and Footer */}
+              <Route path="/" element={<Homepage />} />
+              <Route path="/tournamentRequest" element={<TournamentRequest />} />
+              <Route path="/tournamentRegister" element={<TournamentRegister />} />
+              <Route path="/decouvrir" element={<TournamentList />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/mes-tournois" element={<MyTournament />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<ProfileCreation />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/create-guild" element={<CreateGuildPage />} />
+              <Route path="/guilds" element={<GuildList />} />
+              <Route path="/winner" element={<Winner />} />
+              <Route path="/tournament/:id/winner" element={<Winner />} />
 
-            <Route path="/login" element={<Login/>} />
-
-            <Route path="/mes-tournois" element={<MyTournament />} />
-
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<ProfileCreation />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/create-guild" element={<CreateGuildPage />} />
-            <Route path="/profil" element={<Profil />} />
-            <Route path="/tournament/:id" element={<BracketGenerator />} />
-
-            <Route path="/winner" element={<Winner/>}/>
-        </Route>
-
-            <Route path="/tournament/:id/winner" element={<Winner />} />
-
-          {/* Route without Header and Footer */}
-          <Route path="*" element={<Page404 />} />
-          <Route path="/loading" element={<LoadingUser/>}/>
-        </Routes>
-      </Router>
+              {/* Route without Header and Footer */}
+              <Route path="*" element={<Page404 />} />
+              <Route path="/loading" element={<LoadingUser />} />
+            </Route>
+          </Routes>
+        </Router>
       </AuthProvider>
     </div>
   );
-}
+};
+
 function AuthStatus() {
   const { user, isAuthenticated } = useContext(AuthContext);
   return (
@@ -72,7 +66,7 @@ function AuthStatus() {
       {isAuthenticated ? `Logged in as ${user.email}` : 'Not logged in'}
     </div>
   );
-};
+}
 
 // Layout Component with Header and Footer
 const LayoutWithHeaderFooter = () => (

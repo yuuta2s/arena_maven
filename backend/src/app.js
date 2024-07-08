@@ -26,7 +26,7 @@ const reactIndexPath = path.join(__dirname, "../../frontend/dist/index.html");
 if (fs.existsSync(reactIndexPath)) {
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
   app.get("*", (req, res) => {
-    res.sendFile(reactIndexPath);
+    res.sendFile(reactIndexPath); 
   });
 }
 

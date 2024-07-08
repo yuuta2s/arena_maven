@@ -1,5 +1,6 @@
 import React from 'react';
 import CreateGuild from './CreateGuild';
+// import GuildList from './GuildList';
 
 export default function CreateGuildPage() {
   return (
@@ -9,6 +10,7 @@ export default function CreateGuildPage() {
       </div>
       <section>
         <CreateGuild />
+        {/* <GuildList/> */}
       </section>
     </div>
   );

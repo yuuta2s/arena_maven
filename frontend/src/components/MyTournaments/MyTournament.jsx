@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import SmallCards from '@components/SmallCards/SmallCards';
+
 
 export default function MyTournament() {
 
@@ -83,3 +83,6 @@ export default function MyTournament() {
         </div>
     );
 }
+
+
+

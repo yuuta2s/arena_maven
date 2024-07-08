@@ -7,10 +7,11 @@ export default function Page404() {
             <div className="noise"></div>
             <div className="overlay"></div>
             <div className="terminal">
-                <h1>Error <span className="errorcode">404</span></h1>
-                <p className="output">The page you are looking for might have been removed, had its name changed or is temporarily unavailable.</p>
-                <p className="output">Please <a href="/">return to the homepage</a>.</p>
-                <p className="output">Good luck.</p>
+                <h1>Erreur <span className="errorcode"> 404</span></h1>
+                <p className="output">Il semble que nous n'ayons pas pu trouver la page que vous cherchiez.
+                    <br></br>Peut-être que vous avez saisi une mauvaise URL, ou que la page que vous cherchez a été déplacée ou supprimée.</p>
+                <p className="output">Retour à la <a href="/">page d'accueil</a>.</p>
+                <p className="output">Bonne chance.</p>
             </div>
         </div>
     );
