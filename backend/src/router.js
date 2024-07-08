@@ -27,6 +27,7 @@ router.post("/contact", verifyToken, (req, res) => {
   console.log("Accessing protected route: /contact");
   res.send("Route contact accessible uniquement avec un token valide.");
 });
+
 // Route pour l'inscription des utilisateurs
 router.post('/user/register', hashPassword, userController.add);
 
@@ -40,9 +41,6 @@ router.put("/tournament/:id", tournamentControllers.edit);
 router.post('/tournament', upload.single('timage'), tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
-// Vérification du token
-// router.use(verifyToken);
-
 // Routes pour les résultats de match
 router.get("/matchResults", matchResultsController.browse);
 router.get("/matchResults/:id", matchResultsController.read);
@@ -50,24 +48,8 @@ router.put("/matchResults/:id", matchResultsController.edit);
 router.post("/matchResults", matchResultsController.add);
 router.delete("/matchResults/:id", matchResultsController.destroy);
 
-
-// Route pour l'inscription des utilisateurs
-router.post('/user/register', hashPassword, userController.add);
-
-// Route pour la connexion des utilisateurs
-router.post("/user/login", userController.getUserByEmail, verifyPassword);
-
-
 // Route pour la déconnexion des utilisateurs
 router.delete('/user/logout', userController.destroy);
-
-// Route pour la déconnexion
-router.delete('/logout', (req, res) => {
-  // Logique de déconnexion
-  // Par exemple, invalider le token, détruire la session, etc.
-  res.status(200).json({ message: "Déconnexion réussie" });
-});
-
 
 // Routes pour la gestion des utilisateurs
 router.get("/user", userController.browse);
@@ -106,30 +88,23 @@ router.post("/comments", commentControllers.add);
 router.put("/comments/:id", commentControllers.edit);
 router.delete("/comments/:id", commentControllers.destroy);
 
-
-
 // Routes pour obtenir les tournois dans lesquels s'est inscrit un user par son id
 router.get("/user/registered-tournaments/:id", tournamentControllers.findTbyUid);
 
 // Routes pour obtenir les tournois créé par un user par son id
 router.get("/user/created-tournaments/:id", tournamentControllers.findTbyOid);
 
-
 // Route pour obtenir la participation par ID de tournoi
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);
 
-
 // Routes pour les guildes
-// router.get("/user/guild/:id", guildController.getUserGuildById); // fait cracher le serveur ?
-
-
 router.get("/guild", guildController.browse);
 router.get("/guild/:id", guildController.read);
 router.post("/guild", upload.single('image'), guildController.add); // Route pour ajouter une guilde avec image
-router.put("/guild/:id", guildController.edit); // Route pour modifier une guilde
+router.put("/guild/:id", upload.single('image'), guildController.edit); // Route pour modifier une guilde avec image
 router.delete("/guild/:id", guildController.destroy); // Route pour supprimer une guilde
 router.post("/guild/:id/join", guildController.join); // Route pour rejoindre une guilde
-router.post("/guild/:id/leave", guildController.leave);
+router.post("/guild/:id/leave", guildController.leave); // Route pour quitter une guilde
 
 // Route pour vérifier si un utilisateur est inscrit à un tournoi
 router.get("/tournament/:tournament_id/user/:user_id", userController.findIfUserSubController);
