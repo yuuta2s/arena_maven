@@ -55,7 +55,7 @@ const edit = (req, res) => {
       res.status(400).send("Invalid comment ID");
       return;
     }
-  
+  //express validator
     models.comment
       .update(comment)
       .then(([result]) => {

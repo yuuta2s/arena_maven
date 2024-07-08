@@ -32,9 +32,6 @@ function CommentSection({ tournament}) {
       });
   }, [id]);
   
-  
-   
-  
 
   useEffect(() => {
     axios
