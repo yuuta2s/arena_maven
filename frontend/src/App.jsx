@@ -17,12 +17,10 @@ import CreateGuildPage from "./components/Guild/CreateGuildPage";
 import Cards from './components/Cards/Cards';
 import Profil from './components/Profil/Profil';
 import GuildList from './components/Guild/GuildList';
-
-import './App.css';
-
 import ProfileCreation from '@components/Account/ProfileCreation/ProfileCreation';
 import AuthProvider, { AuthContext } from './components/Account/Login/AuthProvider';
 import React, { useContext } from 'react';
+import './App.css';
 
 import LoadingUser from '@components/LoadingUser/LoadingUser.jsx';
 
@@ -42,6 +40,7 @@ const App = () => {
               <Route path="/mes-tournois" element={<MyTournament />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfileCreation />} />
+              <Route path="/profil" element={<Profil />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/create-guild" element={<CreateGuildPage />} />
               <Route path="/guilds" element={<GuildList />} />
