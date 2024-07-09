@@ -56,21 +56,25 @@ const edit = (req, res) => {
 };
 
 // Fonction pour ajouter une nouvelle participation au tournoi
-const add = (req, res) => {
-  const tournamentParticipation = req.body;
+const add = async (req, res) => {
+  try {
+    const tournamentParticipation = req.body;
 
-  // TODO validations (length, format...)
-  // Validations pour vérifier la longueur, le format, etc. des données
+    // Validate the data
+    if (!tournamentParticipation.user_id || !tournamentParticipation.tournament_id) {
+      console.error('Validation error: user_id and tournament_id are required.');
+      return res.status(400).send('user_id and tournament_id are required.');
+    }
 
-  models.tournamentParticipation
-    .insert(tournamentParticipation) // Appelle la méthode insert pour ajouter une nouvelle participation
-    .then(([result]) => {
-      res.location(`/tournamentParticipations/${result.insertId}`).sendStatus(201); // Envoie un statut 201 (Created) avec la localisation de la nouvelle ressource
-    })
-    .catch((err) => {
-      console.error(err); // Affiche l'erreur dans la console
-      res.sendStatus(500); // Envoie un statut 500 (Internal Server Error) si une erreur se produit
-    });
+    // Insert the tournament participation
+    const insertId = await models.tournamentParticipation.insert(tournamentParticipation);
+
+    // Respond with the location of the new resource
+    res.location(`/tournamentParticipations/${insertId}`).sendStatus(201);
+  } catch (err) {
+    console.error('Error inserting tournament participation:', err);
+    res.status(500).send({ error: 'Internal Server Error', details: err.message });
+  }
 };
 
 // Fonction pour supprimer une participation au tournoi

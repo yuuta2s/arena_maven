@@ -215,9 +215,11 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                     userInfo.sub.id === tournament.organizer_id || sub.length !== 0 ? (
                       <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
                     ) : (
-                      <Link to="/">
-                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>S'inscrire</button>
-                      </Link>
+                      <Link to={`/tournament-register/${tournament.id}`}>
+                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                        S'inscrire
+                      </button>
+                    </Link>
                     )
                   ) : userInfo.sub.id === tournament.organizer_id ? (
                     <Link to={`/tournament/${tournament.id}`}>

@@ -36,7 +36,8 @@ const App = () => {
               {/* Routes with Header and Footer */}
               <Route path="/" element={<Homepage />} />
               <Route path="/tournamentRequest" element={<TournamentRequest />} />
-              <Route path="/tournamentRegister" element={<TournamentRegister />} />
+              <Route path="/tournament-register/:tournamentId" element={<TournamentRegister />} />
+
               <Route path="/decouvrir" element={<TournamentList />} />
               <Route path="/login" element={<Login />} />
               <Route path="/mes-tournois" element={<MyTournament />} />
