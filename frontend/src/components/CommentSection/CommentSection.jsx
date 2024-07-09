@@ -4,14 +4,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 
-function CommentSection({ tournament}) {
-  const { id }= useParams();
+function CommentSection({ tournament }) {
+  const { id } = useParams();
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingComment, setEditingComment] = useState(null);
   const [editedContent, setEditedContent] = useState("");
-
 
   useEffect(() => {
     axios
@@ -30,11 +29,7 @@ function CommentSection({ tournament}) {
           setComments(JSON.parse(savedComments));
         }
       });
-  }, [id]);
-  
-  
-   
-  
+  }, [id, tournament.id]);
 
   useEffect(() => {
     axios
@@ -152,6 +147,8 @@ function CommentSection({ tournament}) {
     return user ? user.username : "Unknown User";
   };
 
+  const userInfo = getUserInfo();
+
   return (
     <div className="w-full mt-4">
       <div className="overflow-y-auto max-h-80">
@@ -176,20 +173,22 @@ function CommentSection({ tournament}) {
             ) : (
               <p className="text-sm">{comment.content}</p>
             )}
-            <div className="flex space-x-2 mt-2 justify-end">
-              <button
-                className="text-blue-500 hover:text-blue-700"
-                onClick={() => handleEditComment(comment.id)}
-              >
-                <PencilIcon className="w-5 h-5" />
-              </button>
-              <button
-                className="text-red-500 hover:text-red-700"
-                onClick={() => handleDeleteComment(comment.id)}
-              >
-                <TrashIcon className="w-5 h-5" />
-              </button>
-            </div>
+            {userInfo && (userInfo.sub.id === comment.user_id || userInfo.sub.role === "moderator") && (
+              <div className="flex space-x-2 mt-2 justify-end">
+                <button
+                  className="text-blue-500 hover:text-blue-700"
+                  onClick={() => handleEditComment(comment.id)}
+                >
+                  <PencilIcon className="w-5 h-5" />
+                </button>
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => handleDeleteComment(comment.id)}
+                >
+                  <TrashIcon className="w-5 h-5" />
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

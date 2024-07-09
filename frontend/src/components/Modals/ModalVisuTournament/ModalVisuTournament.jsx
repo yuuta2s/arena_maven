@@ -141,7 +141,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       onClick={() => setShowModal(false)}
                     >
                       <span className="bg-transparent text-terciary h-6 w-6 text-4xl block outline-none focus:outline-none">
-                        ×
+                        
                       </span>
                     </button>
                   </div>
