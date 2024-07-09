@@ -33,7 +33,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/tournament/${tournament.id}/user/${userInfo.sub.id}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}/user/${userInfo.sub.id}`);
       setSub(res.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -70,7 +70,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
 
   const handleEdit = async () => {
     try {
-      const res = await axios.put(`http://localhost:5000/tournament/${tournament.id}`, {
+      const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`, {
         name: editedName,
         short_description: editedDescription
       });
@@ -86,7 +86,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
 
   const deleteTournament = async () => {
     try {
-      const res = await axios.delete(`http://localhost:5000/tournament/${tournament.id}`);
+      const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`);
       if (res.status === 204) {
         setShowPopup(false);
         setShowModal(false); // Ferme les deux modals car le tournoi est supprimé
@@ -150,7 +150,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                 <div className="relative flex flex-wrap justify-start items-end">
                   <div className="min-[954px]:border-r min-[954px]:border-solid p-4">
                     <div className="min-w-80 max-h-80 max-w-lg flex justify-center overflow-hidden">
-                      <img className="object-cover" src={`http://localhost:5000/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
+                      <img className="object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
                     </div>
                     <div>
                       {!isModified ? (

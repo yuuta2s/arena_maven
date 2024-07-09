@@ -11,7 +11,7 @@ export default function SmallCards({ tournament, index }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/participation/tournament/${tournament.id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/participation/tournament/${tournament.id}`);
       
         setParticipants(res.data);
       } catch (error) {
@@ -43,7 +43,7 @@ export default function SmallCards({ tournament, index }) {
                   Inscriptions fermées
                 </span>
               )}
-          <img  className="w-full h-full object-cover" src={`http://localhost:5000/uploads/${tournament.tournament_img}`} alt={`image tournois ${tournament.name}`} />
+          <img  className="w-full h-full object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${tournament.tournament_img}`} alt={`image tournois ${tournament.name}`} />
         </div>
         <ModalVisuTournament showModal={showModal} setShowModal={setShowModal} tournament={tournament} remainingSlots={remainingSlots} formattedDate={formattedDate} />
       </>

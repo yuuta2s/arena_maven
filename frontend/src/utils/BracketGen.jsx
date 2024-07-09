@@ -18,7 +18,7 @@ const BracketGenerator = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/participation/tournament/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/participation/tournament/${id}`);
         setParticipants(res.data);
       } catch (error) {
         console.error('Error fetching participants:', error);
@@ -69,7 +69,7 @@ const BracketGenerator = () => {
 
     const matchIdPromises = roundMatches.map(async (match) => {
       try {
-        const res = await axios.post('http://localhost:5000/tournament_matches', match);
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/tournament_matches`, match);
         return res.data.id;
       } catch (error) {
         console.error('Error creating match:', error);
@@ -136,7 +136,7 @@ const BracketGenerator = () => {
       };
 
       try {
-        await axios.put(`http://localhost:5000/tournament_matches/${matchId}`, updatedMatch);
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/tournament_matches/${matchId}`, updatedMatch);
       } catch (error) {
         console.error('Error updating match:', error);
         throw error; // Propagate the error up
@@ -173,7 +173,7 @@ const BracketGenerator = () => {
 
       const newMatchIdPromises = roundMatches.map(async (match) => {
         try {
-          const res = await axios.post('http://localhost:5000/tournament_matches', match);
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/tournament_matches`, match);
           return res.data.id;
         } catch (error) {
           console.error('Error creating match:', error);

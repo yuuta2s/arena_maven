@@ -33,7 +33,7 @@ const ModalDetailsGuild = ({ showModal, setShowModal, guildDetails, userId }) =>
         }
       };
 
-      const response = await axios.put(`http://localhost:5000/guild/${guildDetails.id}`, formData, config);
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/guild/${guildDetails.id}`, formData, config);
       console.log('Guild updated:', response.data);
       setShowModal(false);
     } catch (error) {
@@ -84,7 +84,7 @@ const ModalDetailsGuild = ({ showModal, setShowModal, guildDetails, userId }) =>
               />
               {guildDetails.image && (
                 <img
-                  src={`http://localhost:5000/${guildDetails.image}`}  
+                  src={`${import.meta.env.VITE_BACKEND_URL}/${guildDetails.image}`}  
                   alt={guildDetails.name}
                   className="w-full rounded-lg mt-4"
                 />
