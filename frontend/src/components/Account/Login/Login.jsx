@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { AuthContext } from "./AuthProvider";
-import "../../../assets/style.css";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
