@@ -3,30 +3,21 @@ import axios from 'axios';
 import img from '../../../assets/iconProfile.jpg';
 
 function ProfileCreation() {
-  const [user, setUser] = useState({
-    username: '',
-    email: '',
-    major: '',
-    password: '',
-    presentation: '',
-    role: '',
-    language: '',
-    timeZone: '',
-    level: '',
-    location: '',
-    preferredGameMode: '',
-    gameGenre: '',
-    preferredEventType: '',
-    privacySettings: '',
-    accountCreationDate: '',
-  });
+  const [user, setUser] = useState(null); // Initialisez à null pour vérifier la disponibilité des données
+  const [isEditing, setIsEditing] = useState(false); // State pour gérer l'édition du profil
+  const [formData, setFormData] = useState({}); // State pour gérer les données du formulaire
+  const [file, setFile] = useState(null); // State pour gérer le fichier de la photo de profil
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:5000/user');
-        setUser(response.data);
-        console.log('user', response.data);
+        const users = response.data;
+        if (users && users.length > 0) {
+          setUser(users[0]); // Sélectionnez le premier utilisateur du tableau
+          setFormData(users[0]); // Initialisez le formulaire avec les données utilisateur
+          console.log('user', users[0]);
+        }
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -34,6 +25,40 @@ function ProfileCreation() {
 
     fetchData();
   }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]); // Met à jour le fichier de la photo de profil
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`http://localhost:5000/user/${user.id}`, formData);
+      setUser(response.data);
+      setIsEditing(false);
+      console.log('User updated:', response.data);
+    } catch (error) {
+      console.error('Error updating user:', error);
+    }
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setFormData(user); // Réinitialisez le formulaire avec les données originales
+  };
+
+  if (!user) {
+    return <div>Loading...</div>; // Affichez un indicateur de chargement si les données ne sont pas encore disponibles
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bigShouldersDisplay text-white p-4">
@@ -44,44 +69,45 @@ function ProfileCreation() {
         <div className="flex flex-col md:flex-row gap-4 md:gap-20">
           <div className="p-7 rounded-lg bg-black flex flex-col items-center w-full md:w-1/3">
             <h1>Informations personnelles</h1>
-            <p>Nom d'utilisateur: {user.username}</p>
-            <hr className="w-full bg-white" />
-            <p>Email: {user.email}</p>
-            <hr className="w-full bg-white" />
-            <p>Major: {user.major}</p>
-            <hr className="w-full bg-white" />
-            <p>Mot de passe: {user.password}</p>
-            <hr className="w-full bg-white" />
-            <p>Texte de présentation: {user.presentation}</p>
-            <hr className="w-full bg-white" />
-            <p>Rôle: {user.role}</p>
-            <hr className="w-full bg-white" />
-          </div>
-          <div className="p-7 rounded-lg bg-black flex flex-col items-center w-full md:w-1/3">
-            <h1>Préférence de jeu</h1>
-            <p>Langue: {user.language}</p>
-            <hr className="w-full bg-white" />
-            <p>Fuseau horaire: {user.timeZone}</p>
-            <hr className="w-full bg-white" />
-            <p>Niveau: {user.level}</p>
-            <hr className="w-full bg-white" />
-            <p>Localisation géographique: {user.location}</p>
-            <hr className="w-full bg-white" />
-            <p>Mode de jeu préféré: {user.preferredGameMode}</p>
-            <hr className="w-full bg-white" />
-            <p>Genre de jeu: {user.gameGenre}</p>
-            <hr className="w-full bg-white" />
-            <p>Type d'événement préféré: {user.preferredEventType}</p>
-            <hr className="w-full bg-white" />
-            <p>Paramètres de confidentialité: {user.privacySettings}</p>
-            <hr className="w-full bg-white" />
+            {isEditing ? (
+              <form onSubmit={handleSubmit}>
+                <label>
+                  Nom d'utilisateur:
+                  <input type="text" name="username" value={formData.username} onChange={handleChange} />
+                </label>
+                <label>
+                  Email:
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} />
+                </label>
+                <label>
+                  Mot de passe:
+                  <input type="password" name="password" value={formData.password} onChange={handleChange} />
+                </label>
+                <label>
+                  Photo de profil:
+                  <input type="file" name="profilePicture" onChange={handleFileChange} />
+                </label>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onClick={handleCancel}>Annuler</button>
+              </form>
+            ) : (
+              <>
+                <p>Nom d'utilisateur: {user.username}</p>
+                <hr className="w-full bg-white" />
+                <p>Email: {user.email}</p>
+                <hr className="w-full bg-white" />
+                <p>Mot de passe: {user.password}</p>
+                <hr className="w-full bg-white" />
+                <p>Rôle: {user.role}</p>
+                <hr className="w-full bg-white" />
+                <button onClick={handleEdit}>Éditer</button>
+              </>
+            )}
           </div>
           <div className="p-2 rounded-lg bg-black flex flex-col items-center w-full md:w-1/3">
-            <h1>Informations personnelles</h1>
             <section>
               <p>Photo de profil</p>
-              <img src={img} alt="Profile" />
-              <h2>Date de création du compte: {user.accountCreationDate}</h2>
+              <img src={user.profil_picture || img} alt="Profile" className="rounded-full" />
             </section>
           </div>
         </div>

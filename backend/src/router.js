@@ -56,6 +56,7 @@ router.get("/user", userController.browse);
 router.get("/user/:id", userController.read);
 router.post("/user/:id", userController.add);
 router.put("/user/:id", userController.edit);
+router.put("/users/:id", upload.single('image'), userController.edit);
 router.delete("/user/:id", userController.destroy);
 
 // Routes pour les matchs de tournois

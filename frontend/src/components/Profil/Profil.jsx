@@ -12,7 +12,7 @@ export default function Profil() {
             try {
                 const res = await axios.get("http://localhost:5000/tournament");
                 setTournaments(res.data);
-                // Fetch participants for each tournament
+                // Récupère les participants de tournois spécifiques
                 const participantsPromises = res.data.map(tournament =>
                     axios.get(`http://localhost:5000/participation/tournament/${tournament.id}`)
                 );
