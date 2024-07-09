@@ -1,7 +1,8 @@
 require("dotenv").config();
-
+// const models = require('./models'); 
 const mysql = require("mysql2/promise");
-
+const GuildManager = require("./GuildManager");
+const UserManager = require("./UserManager");
 // create a connection pool to the database
 
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
@@ -31,13 +32,18 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const userManager = require("./UserManager");
-
 const TournamentManager = require("./TournamentManager");
-
 const TournamentParticipationManager = require("./TournamentParticipationManager");
-
 const Tournament_matchManager = require("./TournamentmatchManager");
 const MatchResultsManager = require("./matchResultsManager");
+
+// const GuildManager = require("./GuildManager");
+
+models.guild = new GuildManager();
+models.guild.setDatabase(pool);
+const CommentManager = require("./CommentManager");
+
+
 models.item = new ItemManager();
 models.item.setDatabase(pool);
 
@@ -61,7 +67,8 @@ models.tournament = new TournamentManager();
 models.tournament.setDatabase(pool);
 
 
-
+models.comment = new CommentManager();
+models.comment.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

@@ -7,38 +7,54 @@ class UserManager extends AbstractManager {
 
   insert(user) {
     return this.database.query(
-      `INSERT INTO ${this.table} (username, major, date_creation, email, password, profil_picture) VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO ${this.table} (username, email, password, profil_picture, role) VALUES (?, ?, ?, ?, ?)`,
       [
         user.username,
-        user.major,
-        user.date_creation,
         user.email,
         user.password,
-        user.profil_picture
+        user.profil_picture,
+        user.role
       ]
     );
   }
 
   update(user) {
     return this.database.query(
-      `UPDATE ${this.table} SET username = ?, major = ?, date_creation = ?, email = ?, password = ?, profil_picture = ?, role = ?? WHERE id = ?`,
+      `UPDATE ${this.table} SET username = ?, email = ?, password = ?, profil_picture = ?, role = ? WHERE id = ?`,
       [
         user.username,
-        user.major,
-        user.date_creation,
         user.email,
         user.password,
         user.profil_picture,
         user.role,
-        user.id
+        user.id,
       ]
     );
   }
 
+  find(id) {
+    return this.database.query(`SELECT * FROM ${this.table} WHERE id = ?`, [id]);
+  }
+
+  findAll() {
+    return this.database.query(`SELECT * FROM ${this.table}`);
+  }
+
+  delete(id) {
+    return this.database.query(`DELETE FROM ${this.table} WHERE id = ?`, [id]);
+  }
+
   findUserByEmail(email) {
-    return this.database.query(`select * from  ${this.table} where email = ?`, [
+    return this.database.query(`SELECT * FROM ${this.table} WHERE email = ?`, [
       email,
     ]);
+  }
+
+  findIfUserSub(tournament_id, user_id) {
+    return this.database.query(`SELECT * FROM tournamentParticipation WHERE tournament_id = ? AND user_id = ?`, [
+      tournament_id,
+      user_id,
+    ])
   }
 }
 
