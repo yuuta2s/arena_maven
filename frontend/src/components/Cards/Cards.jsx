@@ -33,7 +33,7 @@ const Cards = ({ tournaments }) => {
               <div className="relative">
                 <img
                   className="w-full h-36 object-cover rounded-t-lg"
-                  src={`http://localhost:5000/uploads/${item.tournament_img}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${item.tournament_img}`}
                   alt={item.name}
                 />
                 {item.total_players > item.participants.length && item.date > formattedDate ? (

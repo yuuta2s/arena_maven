@@ -24,7 +24,7 @@ function ProfileCreation() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/user');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user`);
         setUser(response.data);
         console.log('user', response.data);
       } catch (error) {

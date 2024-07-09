@@ -26,7 +26,7 @@ export default function MyTournament() {
 
       const fetchDataInscription = async () => {
         try {
-          const res = await axios.get(`http://localhost:5000/user/registered-tournaments/${userInfo.sub.id}`);
+          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/registered-tournaments/${userInfo.sub.id}`);
         
           setInscription(res.data);
         } catch (error) {
@@ -36,7 +36,7 @@ export default function MyTournament() {
 
       const fetchDataCreation = async () => {
         try {
-          const res = await axios.get(`http://localhost:5000/user/created-tournaments/${userInfo.sub.id}`);
+          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/created-tournaments/${userInfo.sub.id}`);
         
           setCreation(res.data);
         } catch (error) {

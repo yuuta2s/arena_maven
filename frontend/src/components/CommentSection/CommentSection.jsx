@@ -14,7 +14,7 @@ function CommentSection({ tournament }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/comments/by-tournament/${tournament.id}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/comments/by-tournament/${tournament.id}`)
       .then((response) => {
         const lastThreeComments = response.data.slice(-3);
         console.log("Fetched comments:", lastThreeComments); // Check fetched comments
@@ -33,7 +33,7 @@ function CommentSection({ tournament }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/user")
+      .get(`${import.meta.env.VITE_BACKEND_URL}/user`)
       .then((response) => setUsers(response.data))
       .catch((error) => console.error("Error loading users:", error));
   }, []);
@@ -69,7 +69,7 @@ function CommentSection({ tournament }) {
     };
 
     axios
-      .post("http://localhost:5000/comments", commentData)
+      .post(`${import.meta.env.VITE_BACKEND_URL}/comments`, commentData)
       .then((response) => {
         console.log("Response from server after adding comment:", response.data);
         if (response.status === 201) {
@@ -108,7 +108,7 @@ function CommentSection({ tournament }) {
     }
 
     axios
-      .put(`http://localhost:5000/comments/${commentId}`, {
+      .put(`${import.meta.env.VITE_BACKEND_URL}/comments/${commentId}`, {
         content: editedContent,
         user_id: userInfo.sub.id,
         tournament_id: tournament.id,
@@ -128,7 +128,7 @@ function CommentSection({ tournament }) {
   const handleDeleteComment = (commentId) => {
     console.log("Deleting comment with ID:", commentId);
     axios
-      .delete(`http://localhost:5000/comments/${commentId}`)
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/comments/${commentId}`)
       .then(() => {
         const updatedComments = comments.filter((comment) => comment.id !== commentId);
         setComments(updatedComments);

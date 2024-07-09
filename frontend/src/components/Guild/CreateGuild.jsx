@@ -52,7 +52,7 @@ export default function CreateGuild() {
 
       try {
         // Send POST request to create guild
-        const response = await axios.post('http://localhost:5000/guild', data, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/guild`, data, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
@@ -74,7 +74,7 @@ export default function CreateGuild() {
       const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur depuis localStorage
 
       // Envoyez la requête POST pour rejoindre la guilde avec `userId` dans le corps
-      await axios.post(`http://localhost:5000/guild/${guildId}/join`, { userId }, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/guild/${guildId}/join`, { userId }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -204,7 +204,7 @@ export default function CreateGuild() {
 
 //       try {
 //         // Send POST request to create guild
-//         const response = await axios.post('http://localhost:5000/guild', data, {
+//         const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/guild', data, {
 //           headers: {
 //             'Content-Type': 'multipart/form-data',
 //             'Authorization': `Bearer ${token}`

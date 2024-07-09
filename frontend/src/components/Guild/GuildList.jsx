@@ -12,7 +12,7 @@ const GuildList = () => {
   useEffect(() => {
     const fetchGuilds = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/guild');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/guild`);
         console.log('Response data:', response.data);
         setGuilds(response.data[0]); // Assumer que response.data est un tableau de guildes
       } catch (err) {
@@ -43,7 +43,7 @@ const GuildList = () => {
   const handleJoin = async (guildId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/guild/${guildId}/join`, { userId }, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/guild/${guildId}/join`, { userId }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -64,7 +64,7 @@ const GuildList = () => {
   const handleLeave = async (guildId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/guild/${guildId}/leave`, { userId }, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/guild/${guildId}/leave`, { userId }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -103,7 +103,7 @@ const GuildList = () => {
                 <div className="text-sm text-gray-500 mb-4">Créé par: {guild.creator_id}</div>
                 {guild.image && (
                   <img
-                    src={`http://localhost:5000/${guild.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${guild.image}`}
                     alt={guild.name}
                     className="w-full rounded-lg"
                   />

@@ -13,7 +13,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const res = await axios.get("http://localhost:5000/tournament");
+//         const res = await axios.get("${import.meta.env.VITE_BACKEND_URL}/tournament");
       
 //         console.log(res.data);
 //         setTournaments(res.data);
@@ -94,7 +94,7 @@ export default function Homepage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/tournament");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament`);
         console.log(res.data);
         setTournaments(res.data);
       } catch (error) {
