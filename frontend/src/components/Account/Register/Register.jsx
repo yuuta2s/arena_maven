@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-import "../../../assets/style.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
