@@ -85,7 +85,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import mkLogo from '../../assets/mkLogo.png';
+
 import SmallCards from '../SmallCards/SmallCards';
 
 export default function Homepage() {
@@ -127,7 +127,7 @@ export default function Homepage() {
           </div>
         </div>
         <div>
-          <img src={mkLogo} alt="Logo Mortal Kombat" />
+  
         </div>
       </section>
       <section className="max-w-7xl mx-auto">
