@@ -200,7 +200,7 @@ function CommentSection({ tournament }) {
           onChange={(e) => setNewComment(e.target.value)}
         />
         <button
-          className="mt-2 bg-butterscotch hover:bg-caramel text-white font-bold py-2 px-4 rounded"
+          className="mt-2 bg-primary hover:bg-vertBG text-white font-bold py-2 px-4 rounded"
           onClick={handleAddComment}
         >
           Envoyer
