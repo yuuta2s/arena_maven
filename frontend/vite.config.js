@@ -5,11 +5,11 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // build: {
-  //   rollupOptions: {
-  //     external: ['build.rollupOptions.external'] // Remplacez 'module-name' par le nom du module à externaliser
-  //   }
-  // },
+  build: {
+    rollupOptions: {
+      external: ['build.rollupOptions.external'] // Remplacez 'module-name' par le nom du module à externaliser
+    }
+  },
   plugins: [react(),svgr()],
   resolve: {
     alias: {
