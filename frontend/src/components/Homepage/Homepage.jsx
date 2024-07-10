@@ -85,7 +85,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import mkLogo from 'public/src/assets/mkLogo.png';
+import mkLogo from '@assets/mkLogo.png';
 import SmallCards from '../SmallCards/SmallCards';
 
 export default function Homepage() {

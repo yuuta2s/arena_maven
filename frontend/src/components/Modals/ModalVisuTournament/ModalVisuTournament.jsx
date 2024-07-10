@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
-import editIcon from "public/src/assets/edit-2-fill.svg";
-import deleteIcon from "public/src/assets/delete-bin-2-fill.svg";
-import CommentSection from 'public/src/CommentSection/CommentSection';
+import editIcon from "@assets/edit-2-fill.svg";
+import deleteIcon from "@assets/delete-bin-2-fill.svg";
+import CommentSection from '../../CommentSection/CommentSection.jsx';
 import ModalDeleteTournament from "../ModalDeleteTournament/ModalDeleteTournament";
 
 export default function ModalVisuTournament({ showModal, setShowModal, tournament, remainingSlots, formattedDate }) {
