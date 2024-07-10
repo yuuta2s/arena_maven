@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
-import editIcon from "@assets/edit-2-fill.svg";
-import deleteIcon from "@assets/delete-bin-2-fill.svg";
+import editIcon from "../../assets/edit-2-fill.svg";
+import deleteIcon from "../../assets/delete-bin-2-fill.svg";
 import CommentSection from '../../CommentSection/CommentSection.jsx';
 import ModalDeleteTournament from "../ModalDeleteTournament/ModalDeleteTournament";
 

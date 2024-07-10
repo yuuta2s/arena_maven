@@ -1,4 +1,4 @@
-import UserPic from '@assets/UserPic.png';
+import UserPic from '../../assets/UserPic.png';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SmallCards from '@components/SmallCards/SmallCards';
