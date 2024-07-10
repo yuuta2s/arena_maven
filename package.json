@@ -1,7 +1,7 @@
 {
-  "name": "js-template-project",
-  "version": "2.0.1",
-  "description": "project template",
+  "name": "arena_maven",
+  "version": "1.0.0",
+  "description": "tournament manager system",
   "config": {
     "cli": "npm"
   },

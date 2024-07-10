@@ -1,7 +1,8 @@
 require("dotenv").config();
-
+// const models = require('./models'); 
 const mysql = require("mysql2/promise");
-
+const GuildManager = require("./GuildManager");
+const UserManager = require("./UserManager");
 // create a connection pool to the database
 
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
@@ -30,12 +31,52 @@ pool.getConnection().catch(() => {
 const models = {};
 
 const ItemManager = require("./ItemManager");
+const userManager = require("./UserManager");
+const TournamentManager = require("./TournamentManager");
+const TournamentParticipationManager = require("./TournamentParticipationManager");
+const Tournament_matchManager = require("./TournamentmatchManager");
+const MatchResultsManager = require("./matchResultsManager");
+
+// const GuildManager = require("./GuildManager");
+
+models.guild = new GuildManager();
+models.guild.setDatabase(pool);
+const CommentManager = require("./CommentManager");
+
 
 models.item = new ItemManager();
 models.item.setDatabase(pool);
 
+
+
+models.user = new userManager();
+models.user.setDatabase(pool);
+
+models.tournamentParticipation = new TournamentParticipationManager();
+models.tournamentParticipation.setDatabase(pool);
+
+
+models.matchResults = new MatchResultsManager();
+models.matchResults.setDatabase(pool);
+
+models.users = new userManager();
+models.users.setDatabase(pool);
+
+
+models.tournament = new TournamentManager();
+models.tournament.setDatabase(pool);
+
+
+models.comment = new CommentManager();
+models.comment.setDatabase(pool);
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
+
+// Importation et configuration du gestionnaire de modèle Tournament_matchManager
+
+models.tournament_match = new Tournament_matchManager();
+models.tournament_match.setDatabase(pool);
+
 
 const handler = {
   get(obj, prop) {
