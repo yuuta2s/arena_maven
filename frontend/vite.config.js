@@ -6,6 +6,7 @@ import commonjs from "@rollup/plugin-commonjs"; // Plugin pour convertir les mod
 
 // https://vitejs.dev/config/
 export default defineConfig({
+ 
   build: {
     rollupOptions: {
       external: ["build.rollupOptions.external"], // Remplacez 'module-name' par le nom du module à externaliser
@@ -28,6 +29,7 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "src/components"),
       "@pages": path.resolve(__dirname, "src/pages"),
       "@services": path.resolve(__dirname, "src/services"),
+      '../../': path.resolve(__dirname, 'src/'),
     },
   },
   assetsInclude: ["**/*.PNG"],
