@@ -9,6 +9,7 @@ const tournamentParticipationController = require("./controllers/tournamentParti
 const tournamentControllers = require("./controllers/tournamentControllers");
 const guildController = require("./controllers/guildController");
 const commentControllers = require("./controllers/commentControllers");
+const { commentValidationRules } = require('./validators/commentValidator');
 
 // Middleware de gestion des fichiers téléchargés avec multer
 const multer = require('multer');
@@ -84,8 +85,8 @@ router.delete("/tournament/:id", tournamentControllers.destroy);
 router.get("/comments", commentControllers.browse);
 router.get("/comments/:id", commentControllers.read);
 router.get("/comments/by-tournament/:id", commentControllers.findByTournament);
-router.post("/comments", commentControllers.add);
-router.put("/comments/:id", commentControllers.edit);
+router.post("/comments",commentValidationRules(),commentControllers.add);
+router.put("/comments/:id",commentValidationRules(),commentControllers.edit);
 router.delete("/comments/:id", commentControllers.destroy);
 
 // Routes pour obtenir les tournois dans lesquels s'est inscrit un user par son id

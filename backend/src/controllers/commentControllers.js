@@ -1,4 +1,5 @@
 const models = require("../models");
+const {validationResult} = require('express-validator');
 
 const browse = (req, res) => {
   models.comment
@@ -29,6 +30,10 @@ const read = (req, res) => {
 };
 
 const add = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const comment = req.body;
 
   models.comment
@@ -48,6 +53,11 @@ const add = (req, res) => {
 
 
 const edit = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
     const comment = req.body;
     comment.id = parseInt(req.params.id, 10);
   

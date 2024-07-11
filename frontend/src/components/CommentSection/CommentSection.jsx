@@ -159,7 +159,7 @@ function CommentSection({ tournament }) {
             {editingComment === comment.id ? (
               <div className="flex flex-col">
                 <textarea
-                  className="w-full p-2 text-base border border-gray-300 rounded-md"
+                  className="w-full p-2 text-black border border-gray-300 rounded-md"
                   value={editedContent}
                   onChange={(e) => setEditedContent(e.target.value)}
                 />
@@ -194,7 +194,7 @@ function CommentSection({ tournament }) {
       </div>
       <div className="mt-4">
         <textarea
-          className="w-full p-2 text-base border border-gray-300 rounded-md"
+          className="w-full p-2 text-black border border-gray-300 rounded-md"
           placeholder="Ajoutez un commentaire..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
