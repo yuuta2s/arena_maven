@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import img1 from '../../../public/images/peakpx.jpg';
 
 import SmallCards from '../SmallCards/SmallCards';
 
@@ -45,8 +46,8 @@ export default function Homepage() {
             </Link>
           </div>
         </div>
-        <div>
-  
+        <div className="w-full lg:w-1/2 h-64 lg:h-auto mt-6 lg:mt-0">
+          <img src={img1} alt="Arena Maven" className="w-full h-full object-cover rounded-lg" />
         </div>
       </section>
       <section className="max-w-7xl mx-auto">
