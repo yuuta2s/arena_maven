@@ -44,7 +44,7 @@ export default function MyTournament() {
       const fetchDataInscription = async () => {
         if (token) {
           try {
-            const res = await axios.get(`http://localhost:5000/user/registered-tournaments/${userInfo.sub.id}`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/registered-tournaments/${userInfo.sub.id}`, {
               headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`,
@@ -63,7 +63,7 @@ export default function MyTournament() {
       const fetchDataCreation = async () => {
         if (token) {
           try {
-            const res = await axios.get(`http://localhost:5000/user/created-tournaments/${userInfo.sub.id}`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/created-tournaments/${userInfo.sub.id}`, {
               headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`,
@@ -112,6 +112,3 @@ export default function MyTournament() {
         </div>
     );
 }
-
-
-

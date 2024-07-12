@@ -8,13 +8,13 @@ const TournamentList = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/tournament");
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament`);
       const tournamentsData = res.data;
 
       // Fetch participants pour chaque participants
       const tournamentsWithParticipants = await Promise.all(
         tournamentsData.map(async (tournament) => {
-          const participantsRes = await axios.get(`http://localhost:5000/participation/tournament/${tournament.id}`);
+          const participantsRes = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/participation/tournament/${tournament.id}`);
           tournament.participants = participantsRes.data;
           return tournament;
         })

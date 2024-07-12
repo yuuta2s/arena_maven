@@ -76,7 +76,7 @@ export default function TournamentRequest() {
 
       if (token) {
         try {
-          const response = await axios.post('http://localhost:5000/tournament', data, {
+          const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/tournament', data, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${token}`,

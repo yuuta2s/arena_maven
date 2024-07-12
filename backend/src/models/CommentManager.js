@@ -30,6 +30,7 @@ class CommentManager extends AbstractManager {
     );
   }
 
+  // Permet de récupérer les commentaires d'un tournoi spécifique
   findByTournament(tournamentId) {
     return this.database.query(
       `SELECT * FROM ${this.table} WHERE tournament_id = ?`,

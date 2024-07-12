@@ -20,7 +20,9 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+
   const { userData, isAuthenticated, handleLogout } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   return (
@@ -65,7 +67,7 @@ export default function Header() {
               </div>
 
               {/* Header Vector */}
-              <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)'}}>
+              <div className="absolute right-0 top-0 mt-0" style={{ transform: 'translateY(-15%)' }}>
                 <img src={headerVector} alt="Header Vector" className="h-auto w-auto" />
               </div>
 
@@ -96,28 +98,43 @@ export default function Header() {
                         {({ active }) => (
                           <Link
                             to="/profil"
-                            className={classNames(
-                              active ? 'bg-primary' : '',
-                              'block px-4 py-2 text-sm text-black hover:text-white'
-                            )}
+                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            {userData ? `Logged in as ${userData.name}` : "Profil"}
+                            Your Profile
                           </Link>
                         )}
                       </Menu.Item>
                       <Menu.Item>
-                        {({ active }) =>
+                        {({ active }) => (
+                          <Link
+                            to="/logout"
+                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
+                          >
+                            Sign out
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="/profil"
+                            className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
+                          >
+                            {userData ? `Logged in as ${userData.name}` : 'Profil'}
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
                           isAuthenticated ? (
                             <button
                               onClick={handleLogout}
-                              className={classNames(
-                                active ? "bg-red-600" : "bg-red-500",
-                                "block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600 hover:text-white"
-                              )}
+                              className={classNames(active ? 'bg-red-600' : 'bg-red-500', 'block w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600 hover:text-white')}
                             >
                               Déconnexion
                             </button>
                           ) : (
+
                             <Link
                               to="/login"
                               className={classNames(
@@ -128,7 +145,7 @@ export default function Header() {
                               Connexion
                             </Link>
                           )
-                        }
+                        )}
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
