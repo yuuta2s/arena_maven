@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../Account/Login/AuthProvider";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
 import iconProfile from '../../assets/iconProfile.jpg';
 import headerVector from '../../assets/headerVector.svg';
 
@@ -21,7 +20,9 @@ function classNames(...classes) {
 }
 
 export default function Header() {
-  const { isAuthenticated, userData, handleLogout } = useContext(AuthContext);
+
+  const { userData, isAuthenticated, handleLogout } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   return (
@@ -133,12 +134,16 @@ export default function Header() {
                               Déconnexion
                             </button>
                           ) : (
-                            <a
-                              href="/Login"
-                              className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
+
+                            <Link
+                              to="/login"
+                              className={classNames(
+                                active ? "bg-primary" : "",
+                                "block px-4 py-2 text-sm text-black hover:text-white"
+                              )}
                             >
                               Connexion
-                            </a>
+                            </Link>
                           )
                         )}
                       </Menu.Item>

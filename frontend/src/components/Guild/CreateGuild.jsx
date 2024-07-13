@@ -1,12 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import ModalGuild from '@components/Modal/ModalGuild';
 
 export default function CreateGuild() {
   const [showModal, setShowModal] = useState(false);
   const [guildDetails, setGuildDetails] = useState(null);
+  const navigate = useNavigate();
+
+  
+  const getToken = () => {
+    return localStorage.getItem('token');
+  };
+  const token = getToken();
+  
+  const getUserInfo = () => {
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken; // { id, username, email, role }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        return null;
+      }
+    }
+    return null;
+  };
+  const userInfo = getUserInfo();
+  
+  useEffect(() => {
+    if (!token || !userInfo) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -28,11 +57,7 @@ export default function CreateGuild() {
       data.append('image', values.image);
 
       // Retrieve and decode the token to get the user ID
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('Token not found in local storage');
-        return;
-      }
+
 
       let creatorId;
       try {

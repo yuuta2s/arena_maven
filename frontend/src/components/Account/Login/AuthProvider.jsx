@@ -1,7 +1,10 @@
 import React, { createContext, useState } from 'react';
 import axios from 'axios';
-
 export const AuthContext = createContext();
+import { jwtDecode } from 'jwt-decode';
+
+
+
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -17,6 +20,27 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const isLog = (token) => {
+    if (!token) {
+      return false;
+    }
+  
+    try {
+      const decoded = jwtDecode(token);
+  
+      // Check if the token is expired
+      if (decoded.exp * 1000 < Date.now()) {
+        return false;
+      }
+
+      setIsAuthenticated(true);
+      return true;
+    } catch (error) {
+      console.error('Invalid token:', error);
+      return false;
+    }
+  }
+
 
   const logout = async () => {
     try {
@@ -31,7 +55,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, isLog, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
