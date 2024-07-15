@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import SmallCards from '@components/SmallCards/SmallCards';
@@ -8,46 +9,73 @@ export default function MyTournament() {
 
     const [inscription, setInscription] = useState([]);
     const [creation, setCreation] = useState([]);
+    const navigate = useNavigate();
 
     const getToken = () => {
         return localStorage.getItem('token');
       };
+      const token = getToken();
     
       const getUserInfo = () => {
-        const token = getToken();
         if (token) {
-          const decodedToken = jwtDecode(token);
-          return decodedToken; // { id, username, email, role }
+          try {
+            const decodedToken = jwtDecode(token);
+            return decodedToken; // { id, username, email, role }
+          } catch (error) {
+            console.error("Invalid token:", error);
+            return null;
+          }
         }
         return null;
       };
     
       const userInfo = getUserInfo();
 
+      useEffect(() => {
+        if (!token || !userInfo) {
+          navigate('/login');
+        } else {
+          fetchDataInscription();
+          fetchDataCreation();
+        }
+      }, [token, userInfo, navigate]);
+
       const fetchDataInscription = async () => {
-        try {
-          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/registered-tournaments/${userInfo.sub.id}`);
-        
-          setInscription(res.data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
+        if (token) {
+          try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/registered-tournaments/${userInfo.sub.id}`, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`,
+              },
+            });
+          
+            setInscription(res.data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        }else{
+          console.error('Token is not available');
         }
       };
 
       const fetchDataCreation = async () => {
-        try {
-          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/created-tournaments/${userInfo.sub.id}`);
-        
-          setCreation(res.data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
+        if (token) {
+          try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/created-tournaments/${userInfo.sub.id}`, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`,
+              },
+            });
+            setCreation(res.data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        } else {
+          console.error('Token is not available');
         }
       };
-
-      useEffect(() => {
-        fetchDataInscription();
-        fetchDataCreation();
-      }, []);
     
       return (
         <div>
@@ -83,6 +111,3 @@ export default function MyTournament() {
         </div>
     );
 }
-
-
-

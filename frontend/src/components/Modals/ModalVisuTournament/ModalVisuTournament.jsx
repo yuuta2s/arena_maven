@@ -19,16 +19,20 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   const getToken = () => {
     return localStorage.getItem('token');
   };
+  const token = getToken();
 
   const getUserInfo = () => {
-    const token = getToken();
     if (token) {
-      const decodedToken = jwtDecode(token);
-      return decodedToken; // { id, username, email, role }
+      try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken; // { id, username, email, role }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        return null;
+      }
     }
     return null;
   };
-
   const userInfo = getUserInfo();
 
   const fetchData = async () => {
@@ -124,7 +128,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                     )}
                   </div>
                   <div>
-                    {userInfo.sub.id === tournament.organizer_id ? (
+                    {userInfo?.sub?.id === tournament.organizer_id ? (
                       <>
                         <button className="p-1 ml-auto" onClick={() => setIsModified(!isModified)}>
                           <img className="w-6 h-6" src={editIcon} alt="edit icon" />
@@ -156,7 +160,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       {!isModified ? (
                         <>
                           <p className="font-semibold">Date de l'événement: </p>
-                          <p>{tournament.date.substring(0, 10)}</p>
+                          <p>{tournament.date?.substring(0, 10)}</p>
                           <p className="font-semibold">Description :</p>
                           <p className="text-sm text-justify">{descriptionDisplayed}</p>
                         </>
@@ -211,26 +215,30 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       Enregistrer
                     </button>
                   )}
-                  {remainingSlots > 0 && tournament.date > formattedDate ? (
-                    userInfo.sub.id === tournament.organizer_id || sub.length !== 0 ? (
-                      <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
-                    ) : (
-                      <Link to={`/tournament-register/${tournament.id}`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                        S'inscrire
-                      </button>
-                    </Link>
-                    )
-                  ) : userInfo.sub.id === tournament.organizer_id ? (
-                    <Link to={`/tournament/${tournament.id}`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Commencer le tournoi</button>
-                    </Link>
-                  ) : sub.length !== 0 ? (
-                    <Link to={`/tournament/loading`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Suivre résultat</button>
+                  {!token || !userInfo ? (
+                    <Link to="/login">
+                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Se connecter</button>
                     </Link>
                   ) : (
-                    <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Inscription fermée</button>
+                    remainingSlots > 0 && tournament.date > formattedDate ? (
+                      userInfo?.sub?.id === tournament.organizer_id || sub.length !== 0 ? (
+                        <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
+                      ) : (
+                        <Link to="/">
+                          <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>S'inscrire</button>
+                        </Link>
+                      )
+                    ) : userInfo?.sub?.id === tournament.organizer_id ? (
+                      <Link to={`/tournament/${tournament.id}`}>
+                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Commencer le tournoi</button>
+                      </Link>
+                    ) : sub.length !== 0 ? (
+                      <Link to={`/tournament/loading`}>
+                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Suivre résultat</button>
+                      </Link>
+                    ) : (
+                      <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Inscription fermée</button>
+                    )
                   )}
                 </div>
               </div>
