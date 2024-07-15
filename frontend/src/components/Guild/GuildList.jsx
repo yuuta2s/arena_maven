@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ModalDetailsGuild from '../Modal/ModalDetailsGuild';
+import ModalDetailsGuild from '@components/Modal/ModalDetailsGuild';
 
 const GuildList = () => {
   const [guilds, setGuilds] = useState([]);

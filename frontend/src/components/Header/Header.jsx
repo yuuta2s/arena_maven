@@ -3,8 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../Account/Login/AuthProvider";
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import iconProfile from '../../assets/iconProfile.jpg';
-import headerVector from '../../assets/headerVector.svg';
+import { Link } from 'react-router-dom';
+import headerVector from '@assets/headerVector.svg';
+import iconProfile from '@assets/iconProfile.jpg';
 
 const navigation = [
   { name: 'Accueil', href: '/', current: true },
