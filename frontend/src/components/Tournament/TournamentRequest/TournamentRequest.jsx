@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -8,21 +9,33 @@ import { jwtDecode } from "jwt-decode";
 
 export default function TournamentRequest() {
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
+  
   const getToken = () => {
     return localStorage.getItem('token');
   };
-
+  const token = getToken();
+  
   const getUserInfo = () => {
-    const token = getToken();
     if (token) {
-      const decodedToken = jwtDecode(token);
-      return decodedToken; // { id, username, email, role }
+      try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken; // { id, username, email, role }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        return null;
+      }
     }
     return null;
   };
-
   const userInfo = getUserInfo();
+  
+  useEffect(() => {
+    if (!token || !userInfo) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -61,16 +74,21 @@ export default function TournamentRequest() {
         torganizer_id: torganizer_id,
       });
 
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/tournament`, data, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        console.log('Tournament created successfully:', response.data);
-        setShowModal(true);
-      } catch (error) {
-        console.error('Error creating tournament:', error);
+      if (token) {
+        try {
+          const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/tournament', data, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          console.log('Tournament created successfully:', response.data);
+          setShowModal(true);
+        } catch (error) {
+          console.error('Error creating tournament:', error);
+        }
+      }else{
+        console.error('Token is not available');
       }
     },
   });

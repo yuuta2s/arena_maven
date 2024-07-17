@@ -19,21 +19,25 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   const getToken = () => {
     return localStorage.getItem('token');
   };
+  const token = getToken();
 
   const getUserInfo = () => {
-    const token = getToken();
     if (token) {
-      const decodedToken = jwtDecode(token);
-      return decodedToken; // { id, username, email, role }
+      try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken; // { id, username, email, role }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        return null;
+      }
     }
     return null;
   };
-
   const userInfo = getUserInfo();
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/tournament/${tournament.id}/user/${userInfo.sub.id}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}/user/${userInfo.sub.id}`);
       setSub(res.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -70,7 +74,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
 
   const handleEdit = async () => {
     try {
-      const res = await axios.put(`http://localhost:5000/tournament/${tournament.id}`, {
+      const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`, {
         name: editedName,
         short_description: editedDescription
       });
@@ -86,7 +90,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
 
   const deleteTournament = async () => {
     try {
-      const res = await axios.delete(`http://localhost:5000/tournament/${tournament.id}`);
+      const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`);
       if (res.status === 204) {
         setShowPopup(false);
         setShowModal(false); // Ferme les deux modals car le tournoi est supprimé
@@ -124,7 +128,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                     )}
                   </div>
                   <div>
-                    {userInfo.sub.id === tournament.organizer_id ? (
+                    {userInfo?.sub?.id === tournament.organizer_id ? (
                       <>
                         <button className="p-1 ml-auto" onClick={() => setIsModified(!isModified)}>
                           <img className="w-6 h-6" src={editIcon} alt="edit icon" />
@@ -141,7 +145,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       onClick={() => setShowModal(false)}
                     >
                       <span className="bg-transparent text-terciary h-6 w-6 text-4xl block outline-none focus:outline-none">
-                        ×
+                        
                       </span>
                     </button>
                   </div>
@@ -150,13 +154,13 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                 <div className="relative flex flex-wrap justify-start items-end">
                   <div className="min-[954px]:border-r min-[954px]:border-solid p-4">
                     <div className="min-w-80 max-h-80 max-w-lg flex justify-center overflow-hidden">
-                      <img className="object-cover" src={`http://localhost:5000/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
+                      <img className="object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
                     </div>
                     <div>
                       {!isModified ? (
                         <>
                           <p className="font-semibold">Date de l'événement: </p>
-                          <p>{tournament.date.substring(0, 10)}</p>
+                          <p>{tournament.date?.substring(0, 10)}</p>
                           <p className="font-semibold">Description :</p>
                           <p className="text-sm text-justify">{descriptionDisplayed}</p>
                         </>
@@ -211,24 +215,30 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       Enregistrer
                     </button>
                   )}
-                  {remainingSlots > 0 && tournament.date > formattedDate ? (
-                    userInfo.sub.id === tournament.organizer_id || sub.length !== 0 ? (
-                      <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
-                    ) : (
-                      <Link to="/">
-                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>S'inscrire</button>
-                      </Link>
-                    )
-                  ) : userInfo.sub.id === tournament.organizer_id ? (
-                    <Link to={`/tournament/${tournament.id}`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Commencer le tournoi</button>
-                    </Link>
-                  ) : sub.length !== 0 ? (
-                    <Link to={`/tournament/loading`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Suivre résultat</button>
+                  {!token || !userInfo ? (
+                    <Link to="/login">
+                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Se connecter</button>
                     </Link>
                   ) : (
-                    <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Inscription fermée</button>
+                    remainingSlots > 0 && tournament.date > formattedDate ? (
+                      userInfo?.sub?.id === tournament.organizer_id || sub.length !== 0 ? (
+                        <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
+                      ) : (
+                        <Link to="/">
+                          <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>S'inscrire</button>
+                        </Link>
+                      )
+                    ) : userInfo?.sub?.id === tournament.organizer_id ? (
+                      <Link to={`/tournament/${tournament.id}`}>
+                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Commencer le tournoi</button>
+                      </Link>
+                    ) : sub.length !== 0 ? (
+                      <Link to={`/tournament/loading`}>
+                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Suivre résultat</button>
+                      </Link>
+                    ) : (
+                      <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Inscription fermée</button>
+                    )
                   )}
                 </div>
               </div>

@@ -10,11 +10,11 @@ export default function Profil() {
     useEffect(() => {
         const fetchTournaments = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/tournament");
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament`);
                 setTournaments(res.data);
                 // Récupère les participants de tournois spécifiques
                 const participantsPromises = res.data.map(tournament =>
-                    axios.get(`http://localhost:5000/participation/tournament/${tournament.id}`)
+                    axios.get(`${import.meta.env.VITE_BACKEND_URL}/participation/tournament/${tournament.id}`)
                 );
                 const participantsResponses = await Promise.all(participantsPromises);
                 const participantsData = participantsResponses.reduce((acc, res, index) => {
