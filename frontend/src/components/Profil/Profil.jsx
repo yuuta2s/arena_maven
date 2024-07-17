@@ -1,4 +1,4 @@
-import UserPic from '../../assets/UserPic.png';
+// import UserPic from '@assets/UserPic.png';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SmallCards from '@components/SmallCards/SmallCards';
@@ -70,7 +70,7 @@ export default function Profil() {
             <div className="flex justify-center p-4 mb-4">
                 <div className="avatar">
                     <div className="w-40 md:w-60 rounded">
-                        <img src={UserPic} alt="User" />
+                        {/* <img src={UserPic} alt="User" /> */}
                     </div>
                 </div>
             </div>

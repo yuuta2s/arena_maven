@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
-import editIcon from "../../../assets/edit-2-fill.svg";
-import deleteIcon from "../../../assets/delete-bin-2-fill.svg";
-import CommentSection from '../../CommentSection/CommentSection';
+import editIcon from "@assets/edit-2-fill.svg";
+import deleteIcon from "@assets/delete-bin-2-fill.svg";
+import CommentSection from '@components/CommentSection/CommentSection';
 import ModalDeleteTournament from "../ModalDeleteTournament/ModalDeleteTournament";
 
 export default function ModalVisuTournament({ showModal, setShowModal, tournament, remainingSlots, formattedDate }) {
+  // State variables
   const [sub, setSub] = useState([]);
   const [isModified, setIsModified] = useState(false);
   const [editedName, setEditedName] = useState(tournament.name);
@@ -16,11 +17,13 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   const [descriptionDisplayed, setDescriptionDisplayed] = useState(tournament.short_description)
   const [showPopup, setShowPopup] = useState(false);
 
+  // Function to get the token from local storage
   const getToken = () => {
     return localStorage.getItem('token');
   };
   const token = getToken();
 
+  // Function to decode the token and get user info
   const getUserInfo = () => {
     if (token) {
       try {
@@ -35,6 +38,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   };
   const userInfo = getUserInfo();
 
+  // Function to fetch data about the tournament subscription status
   const fetchData = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}/user/${userInfo.sub.id}`);
@@ -44,34 +48,38 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     }
   };
 
+  // Fetch data when the component mounts or when userInfo or tournament changes
   useEffect(() => {
     if (userInfo && tournament) {
       fetchData();
     }
   }, [userInfo, tournament]);
 
+  // Reference to the modal element
   const modalRef = useRef(null);
 
+  // Effect to handle clicks outside the modal
   useEffect(() => {
-    if (!showPopup) {
+    if (!showPopup) { // Only add event listener if no popup is shown
       const handleClickOutside = (event) => {
         if (modalRef.current && !modalRef.current.contains(event.target)) {
-          setShowModal(false);
+          setShowModal(false); // Close modal if click is outside
         }
       };
-  
+
       if (showModal) {
         document.addEventListener("mousedown", handleClickOutside);
       } else {
         document.removeEventListener("mousedown", handleClickOutside);
       }
-  
+
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };  
     }
   }, [showModal, setShowModal, showPopup, setShowPopup]);
 
+  // Function to handle editing the tournament details
   const handleEdit = async () => {
     try {
       const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`, {
@@ -88,12 +96,13 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     }
   };
 
+  // Function to delete the tournament
   const deleteTournament = async () => {
     try {
       const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`);
       if (res.status === 204) {
         setShowPopup(false);
-        setShowModal(false); // Ferme les deux modals car le tournoi est supprimé
+        setShowModal(false); // Close both modals as the tournament is deleted
         location.reload();
       }
     } catch (error) {

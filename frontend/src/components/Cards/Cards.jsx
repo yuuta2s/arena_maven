@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./cards.css";
+
 import ModalVisuTournament from "@components/Modals/ModalVisuTournament/ModalVisuTournament";
 
 const Cards = ({ tournaments }) => {

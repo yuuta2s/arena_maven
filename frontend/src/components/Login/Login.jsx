@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import Style from "../../assets/Style.css";
-import img from "../../assets/Vecteur.svg";
+
 import { Link } from "react-router-dom";
 
 function Login() {
