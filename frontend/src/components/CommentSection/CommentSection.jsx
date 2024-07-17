@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import getUserName from "@services/getUserName";
+import formatDate from "@services/formatDate";
 
 function CommentSection({ tournament }) {
   const { id } = useParams();
@@ -142,10 +143,10 @@ function CommentSection({ tournament }) {
   //   const user = users.find((user) => user.id === parseInt(id, 10));
   //   return user ? user.username : "Unknown User";
   // };
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    return new Date(dateString).toLocaleDateString("fr-FR", options);
-  };
+  // const formatDate = (dateString) => {
+  //   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  //   return new Date(dateString).toLocaleDateString("fr-FR", options);
+  // };
   const userInfo = getUserInfo();
 
   return (
