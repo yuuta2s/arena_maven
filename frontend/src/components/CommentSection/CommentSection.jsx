@@ -3,6 +3,8 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import getUserName from "@services/getUserName";
+import formatDate from "@services/formatDate";
 
 function CommentSection({ tournament }) {
   const { id } = useParams();
@@ -137,16 +139,14 @@ function CommentSection({ tournament }) {
       .catch((error) => console.error("Failed to delete comment:", error));
   };
 
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    return new Date(dateString).toLocaleDateString("fr-FR", options);
-  };
-
-  const getUserName = (id) => {
-    const user = users.find((user) => user.id === parseInt(id, 10));
-    return user ? user.username : "Unknown User";
-  };
-
+  // const getUserName = (id) => {
+  //   const user = users.find((user) => user.id === parseInt(id, 10));
+  //   return user ? user.username : "Unknown User";
+  // };
+  // const formatDate = (dateString) => {
+  //   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  //   return new Date(dateString).toLocaleDateString("fr-FR", options);
+  // };
   const userInfo = getUserInfo();
 
   return (
@@ -154,7 +154,7 @@ function CommentSection({ tournament }) {
       <div className="overflow-y-auto max-h-80">
         {comments.map((comment, index) => (
           <div key={index} className="bg-gray-100 p-3 rounded-lg mb-2">
-            <p className="text-lg font-bold">{getUserName(comment.user_id)}</p>
+            <p className="text-lg font-bold">{getUserName(comment.user_id,users)}</p>
             <p className="text-sm">{formatDate(comment.created_at)}</p>
             {editingComment === comment.id ? (
               <div className="flex flex-col">
