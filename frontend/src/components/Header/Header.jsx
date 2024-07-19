@@ -116,10 +116,10 @@ export default function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/profil"
+                            href="/profile"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            {userData ? `Logged in as ${userData.name}` : 'Profil'}
+                            {userData ? `Logged in as ${userData.name}` : 'Paramètres'}
                           </a>
                         )}
                       </Menu.Item>

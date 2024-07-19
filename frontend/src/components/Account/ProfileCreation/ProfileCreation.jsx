@@ -157,7 +157,6 @@ function ProfileCreation() {
             </form>
             <hr className="w-full bg-white my-2" />
             <button onClick={handleDeleteAccount} className="mt-4 bg-red-600 text-white py-2 px-4 rounded">Supprimer le compte</button>
-            <p>Rôle: {user.role}</p>
             <hr className="w-full bg-white my-2" />
           </div>
           <div className="p-7 rounded-lg bg-black flex flex-col items-center w-full md:w-1/3">
