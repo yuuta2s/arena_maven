@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import img1 from '../../../public/images/peakpx.jpg';
+import img1 from '../../assets/peakpx.jpg';
 
 import SmallCards from '../SmallCards/SmallCards';
 

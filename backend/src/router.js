@@ -78,7 +78,7 @@ router.delete("/tournament-participation/:id", tournamentParticipationController
 router.get("/tournament", tournamentControllers.browse); 
 router.get("/tournament/:id", tournamentControllers.read);
 router.put("/tournament/:id", tournamentControllers.edit);
-router.post('/tournament', upload.single('timage'), tournamentControllers.add);
+router.post('/tournament', upload.single('timage'), tournamentValidationRules(), tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
 // Routes pour les commentaires
