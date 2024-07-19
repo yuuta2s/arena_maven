@@ -43,6 +43,7 @@ const App = () => {
               <Route path="/mes-tournois" element={<MyTournament />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfileCreation />} />
+              <Route path="/profil" element={<Profil />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/create-guild" element={<CreateGuildPage />} />
               <Route path="/guilds" element={<GuildList />} />

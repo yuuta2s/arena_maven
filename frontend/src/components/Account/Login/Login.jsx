@@ -21,6 +21,7 @@ function Login() {
 
   const handleLogin = async (values, { setSubmitting, setFieldError, resetForm }) => {
     try {
+      console.log(import.meta.env.VITE_BACKEND_URL)
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/user/login`,
         {

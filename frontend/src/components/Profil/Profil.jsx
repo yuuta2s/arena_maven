@@ -1,4 +1,3 @@
-// import UserPic from '@assets/UserPic.png';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SmallCards from '@components/SmallCards/SmallCards';
@@ -6,30 +5,47 @@ import SmallCards from '@components/SmallCards/SmallCards';
 export default function Profil() {
     const [tournaments, setTournaments] = useState([]);
     const [participantsData, setParticipantsData] = useState({});
+    const [user, setUser] = useState(null); 
 
     useEffect(() => {
+       
         const fetchTournaments = async () => {
             try {
                 const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament`);
                 setTournaments(res.data);
-                // Récupère les participants de tournois spécifiques
+
+                
                 const participantsPromises = res.data.map(tournament =>
                     axios.get(`${import.meta.env.VITE_BACKEND_URL}/participation/tournament/${tournament.id}`)
                 );
                 const participantsResponses = await Promise.all(participantsPromises);
-                const participantsData = participantsResponses.reduce((acc, res, index) => {
+                const participantsData = participantsResponses.reduce((acc, res) => {
                     acc[res.data.tournament_id] = res.data;
                     return acc;
                 }, {});
                 setParticipantsData(participantsData);
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error("Error fetching tournaments:", error);
             }
         };
+
+        
+        const fetchUser = async () => {
+            try {
+                const userId = 33; 
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
+                console.log("User data:", res.data); 
+                setUser(res.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
         fetchTournaments();
+        fetchUser();
     }, []);
 
-    // Fonction pour filtrer les tournois avec inscriptions ouvertes
+   
     const filterInscriptionsOuvertes = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -43,7 +59,7 @@ export default function Profil() {
         });
     };
 
-    // Fonction pour filtrer les tournois avec inscriptions fermées
+   
     const filterInscriptionsFermées = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -63,7 +79,7 @@ export default function Profil() {
 
             {/* Username */}
             <div className="flex justify-center p-4 mb-4">
-                <h2>Username</h2>
+                <h2>{user ? user.username : 'Loading...'}</h2>
             </div>
 
             {/* User picture */}
@@ -90,13 +106,13 @@ export default function Profil() {
                     ))}
                 </div>
             </div>
-{/* Old tournament section */}
-<div className="flex justify-center p-4 mb-4">
-  <button className="relative h-[50px] overflow-hidden bg-opacity-0 px-3 text-white border-l-4 border-primary shadow-2xl transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-primary before:transition-all before:duration-500 hover:text-white hover:shadow-[0_0_20px_rgba(0,0,0,0.8),0_0_20px_var(--tw-shadow-color)] hover:shadow-secondary hover:before:left-0 hover:before:w-full">
-    <span className="relative z-10">Anciens tournois</span>
-  </button>
-</div>
 
+            {/* Old tournament section */}
+            <div className="flex justify-center p-4 mb-4">
+                <button className="relative h-[50px] overflow-hidden bg-opacity-0 px-3 text-white border-l-4 border-primary shadow-2xl transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-primary before:transition-all before:duration-500 hover:text-white hover:shadow-[0_0_20px_rgba(0,0,0,0.8),0_0_20px_var(--tw-shadow-color)] hover:shadow-secondary hover:before:left-0 hover:before:w-full">
+                    <span className="relative z-10">Anciens tournois</span>
+                </button>
+            </div>
 
             {/* Affichage des anciens tournois (inscriptions fermées) */}
             <div className="flex flex-col items-center p-4">
