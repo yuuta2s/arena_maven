@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
-import editIcon from "../../../assets/edit-2-fill.svg";
-import deleteIcon from "../../../assets/delete-bin-2-fill.svg";
-import CommentSection from '../../CommentSection/CommentSection';
+import editIcon from "@assets/edit-2-fill.svg";
+import deleteIcon from "@assets/delete-bin-2-fill.svg";
+import CommentSection from '@components/CommentSection/CommentSection';
 import ModalDeleteTournament from "../ModalDeleteTournament/ModalDeleteTournament";
 
 export default function ModalVisuTournament({ showModal, setShowModal, tournament, remainingSlots, formattedDate }) {
+  // State variables
   const [sub, setSub] = useState([]);
   const [isModified, setIsModified] = useState(false);
   const [editedName, setEditedName] = useState(tournament.name);
@@ -16,11 +17,13 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   const [descriptionDisplayed, setDescriptionDisplayed] = useState(tournament.short_description)
   const [showPopup, setShowPopup] = useState(false);
 
+  // Function to get the token from local storage
   const getToken = () => {
     return localStorage.getItem('token');
   };
   const token = getToken();
 
+  // Function to decode the token and get user info
   const getUserInfo = () => {
     if (token) {
       try {
@@ -35,6 +38,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   };
   const userInfo = getUserInfo();
 
+  // Function to fetch data about the tournament subscription status
   const fetchData = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}/user/${userInfo.sub.id}`);
@@ -44,34 +48,38 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     }
   };
 
+  // Fetch data when the component mounts or when userInfo or tournament changes
   useEffect(() => {
     if (userInfo && tournament) {
       fetchData();
     }
   }, [userInfo, tournament]);
 
+  // Reference to the modal element
   const modalRef = useRef(null);
 
+  // Effect to handle clicks outside the modal
   useEffect(() => {
-    if (!showPopup) {
+    if (!showPopup) { // Only add event listener if no popup is shown
       const handleClickOutside = (event) => {
         if (modalRef.current && !modalRef.current.contains(event.target)) {
-          setShowModal(false);
+          setShowModal(false); // Close modal if click is outside
         }
       };
-  
+
       if (showModal) {
         document.addEventListener("mousedown", handleClickOutside);
       } else {
         document.removeEventListener("mousedown", handleClickOutside);
       }
-  
+
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };  
     }
   }, [showModal, setShowModal, showPopup, setShowPopup]);
 
+  // Function to handle editing the tournament details
   const handleEdit = async () => {
     try {
       const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`, {
@@ -88,12 +96,13 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     }
   };
 
+  // Function to delete the tournament
   const deleteTournament = async () => {
     try {
       const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`);
       if (res.status === 204) {
         setShowPopup(false);
-        setShowModal(false); // Ferme les deux modals car le tournoi est supprimé
+        setShowModal(false); // Close both modals as the tournament is deleted
         location.reload();
       }
     } catch (error) {
@@ -106,10 +115,10 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
       {showModal ? (
         <>
           {/* Background */}
-          <div className="mx-2 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-25">
             {/* Modal */}
-            <div ref={modalRef} className="relative w-auto my-6 mx-6  border-solid border-2 rounded-lg">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary outline-none focus:outline-none">
+            <div ref={modalRef} className="relative w-full max-w-6xl mx-4 my-6 overflow-hidden bg-secondary border-2 border-solid rounded-lg shadow-lg">
+              <div className="flex flex-col w-full max-h-[95vh]">
                 {/* Header */}
                 <div className="flex items-start justify-between p-5 border-b border-solid rounded-t">
                   <div className="flex flex-col">
@@ -151,9 +160,9 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                   </div>
                 </div>
                 {/* Body */}
-                <div className="relative flex flex-wrap justify-start items-end">
+                <div className="relative flex flex-wrap justify-start items-end p-4 overflow-auto max-h-[75vh]">
                   <div className="min-[954px]:border-r min-[954px]:border-solid p-4">
-                    <div className="min-w-80 max-h-80 max-w-lg flex justify-center overflow-hidden">
+                    <div className="min-w-64 max-h-80 max-w-lg flex justify-center overflow-hidden">
                       <img className="object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
                     </div>
                     <div>
@@ -245,7 +254,6 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
             </div>
             <ModalDeleteTournament showPopup={showPopup} setShowPopup={setShowPopup} deleteTournament={deleteTournament} />
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
     </>

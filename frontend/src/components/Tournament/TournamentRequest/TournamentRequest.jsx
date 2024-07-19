@@ -8,97 +8,102 @@ import { jwtDecode } from "jwt-decode";
 
 
 export default function TournamentRequest() {
-  const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+// Declaration of useState and useNavigate
+const [showModal, setShowModal] = useState(false);
+const navigate = useNavigate();
 
-  
-  const getToken = () => {
-    return localStorage.getItem('token');
-  };
-  const token = getToken();
-  
-  const getUserInfo = () => {
+// Function to retrieve the token stored in local storage
+const getToken = () => {
+  return localStorage.getItem('token');
+};
+const token = getToken();
+
+// Function to get user information from the token
+const getUserInfo = () => {
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token); // Use jwt-decode to get the info stored in the payload
+      return decodedToken; // { id, username, email, role }
+    } catch (error) {
+      console.error("Invalid token:", error);
+      return null;
+    }
+  }
+  return null;
+};
+const userInfo = getUserInfo();
+
+// Redirect if no token or token is invalid
+useEffect(() => {
+  if (!token || !userInfo) {
+    navigate('/login');
+  }
+}, [token, navigate]);
+
+// Initialize Formik for form handling and validation
+const formik = useFormik({
+  initialValues: {
+    tname: '',
+    tdate: '',
+    nbPlayer: '2',
+    tdescription: '',
+    timage: null,
+  },
+  validationSchema: Yup.object({
+    tname: Yup.string().required('Required'),
+    tdate: Yup.date().required('Required'),
+    nbPlayer: Yup.string().required('Required'),
+    tdescription: Yup.string().required('Required'),
+    timage: Yup.mixed().required('Required'),
+  }),
+  onSubmit: async (values) => {
+    const userInfo = getUserInfo();
+    const torganizer_id = userInfo ? userInfo.sub.id : null; // Use optional chaining to get the ID from user info
+    console.log("torganizer_id", torganizer_id);
+
+    const data = new FormData(); // Create a FormData object to send multipart/form-data
+    data.append('tname', values.tname);
+    data.append('tdate', values.tdate);
+    data.append('nbPlayer', values.nbPlayer);
+    data.append('tdescription', values.tdescription);
+    data.append('timage', values.timage);
+    data.append('torganizer_id', torganizer_id);
+
+    console.log('Data being sent:', {
+      tname: values.tname,
+      tdate: values.tdate,
+      nbPlayer: values.nbPlayer,
+      tdescription: values.tdescription,
+      timage: values.timage,
+      torganizer_id: torganizer_id,
+    });
+
     if (token) {
       try {
-        const decodedToken = jwtDecode(token);
-        return decodedToken; // { id, username, email, role }
+        // Send a POST request to create a new tournament with the provided data
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/tournament`, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        });
+        console.log('Tournament created successfully:', response.data);
+        setShowModal(true); // Show the modal on successful creation
       } catch (error) {
-        console.error("Invalid token:", error);
-        return null;
+        console.error('Error creating tournament:', error); // Log error message if the request fails
       }
+    } else {
+      console.error('Token is not available'); // Log error message if the token is not available
     }
-    return null;
-  };
-  const userInfo = getUserInfo();
-  
-  useEffect(() => {
-    if (!token || !userInfo) {
-      navigate('/login');
-    }
-  }, [token, navigate]);
-
-  const formik = useFormik({
-    initialValues: {
-      tname: '',
-      tdate: '',
-      nbPlayer: '2',
-      tdescription: '',
-      timage: null,
-    },
-    validationSchema: Yup.object({
-      tname: Yup.string().required('Required'),
-      tdate: Yup.date().required('Required'),
-      nbPlayer: Yup.string().required('Required'),
-      tdescription: Yup.string().required('Required'),
-      timage: Yup.mixed().required('Required'),
-    }),
-    onSubmit: async (values) => {
-      const userInfo = getUserInfo();
-      const torganizer_id = userInfo ? userInfo.sub.id : null;
-      console.log("torganizer_id", torganizer_id)
-
-      const data = new FormData();
-      data.append('tname', values.tname);
-      data.append('tdate', values.tdate);
-      data.append('nbPlayer', values.nbPlayer);
-      data.append('tdescription', values.tdescription);
-      data.append('timage', values.timage);
-      data.append('torganizer_id', torganizer_id);
-
-      console.log('Data being sent:', {
-        tname: values.tname,
-        tdate: values.tdate,
-        nbPlayer: values.nbPlayer,
-        tdescription: values.tdescription,
-        timage: values.timage,
-        torganizer_id: torganizer_id,
-      });
-
-      if (token) {
-        try {
-          const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/tournament', data, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-          console.log('Tournament created successfully:', response.data);
-          setShowModal(true);
-        } catch (error) {
-          console.error('Error creating tournament:', error);
-        }
-      }else{
-        console.error('Token is not available');
-      }
-    },
-  });
+  },
+});
 
   return (
     <div>
       <div className="flex flex-col items-center sm:max-w-md md:max-w-xl lg:max-w-4xl mt-10 pb-4 sm:pb-6 md:pb-10 lg:pb-14 mx-auto bg-no-repeat bg-bottom bg-underline-title bg-contain ">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white ">Créer un tournois</h1>
       </div>
-      <section className="my-16">
+      <section className="my-16 mx-4">
         <form
           onSubmit={formik.handleSubmit}
           className="bg-primary rounded-xl m-5 p-5 max-w-3xl mx-auto flex flex-wrap justify-center items-center"
