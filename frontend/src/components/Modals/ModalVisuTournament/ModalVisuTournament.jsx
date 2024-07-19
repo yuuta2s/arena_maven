@@ -115,10 +115,10 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
       {showModal ? (
         <>
           {/* Background */}
-          <div className="mx-2 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-25">
             {/* Modal */}
-            <div ref={modalRef} className="relative w-auto my-6 mx-6  border-solid border-2 rounded-lg">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary outline-none focus:outline-none">
+            <div ref={modalRef} className="relative w-full max-w-6xl mx-4 my-6 overflow-hidden bg-secondary border-2 border-solid rounded-lg shadow-lg">
+              <div className="flex flex-col w-full max-h-[95vh]">
                 {/* Header */}
                 <div className="flex items-start justify-between p-5 border-b border-solid rounded-t">
                   <div className="flex flex-col">
@@ -160,9 +160,9 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                   </div>
                 </div>
                 {/* Body */}
-                <div className="relative flex flex-wrap justify-start items-end">
+                <div className="relative flex flex-wrap justify-start items-end p-4 overflow-auto max-h-[75vh]">
                   <div className="min-[954px]:border-r min-[954px]:border-solid p-4">
-                    <div className="min-w-80 max-h-80 max-w-lg flex justify-center overflow-hidden">
+                    <div className="min-w-64 max-h-80 max-w-lg flex justify-center overflow-hidden">
                       <img className="object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
                     </div>
                     <div>
@@ -254,7 +254,6 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
             </div>
             <ModalDeleteTournament showPopup={showPopup} setShowPopup={setShowPopup} deleteTournament={deleteTournament} />
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
     </>
