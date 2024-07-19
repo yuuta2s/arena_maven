@@ -10,6 +10,7 @@ const tournamentControllers = require("./controllers/tournamentControllers");
 const guildController = require("./controllers/guildController");
 const commentControllers = require("./controllers/commentControllers");
 const { commentValidationRules } = require('./validators/commentValidator');
+const { tournamentValidationRules } = require('./validators/tournamentValidator')
 
 // Middleware de gestion des fichiers téléchargés avec multer
 const multer = require('multer');
