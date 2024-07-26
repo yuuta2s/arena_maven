@@ -99,7 +99,7 @@ export default function Header() {
                             to="/profil"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            Your Profile
+                            Profil
                           </Link>
                         )}
                       </Menu.Item>
@@ -109,7 +109,7 @@ export default function Header() {
                             to="/logout"
                             className={classNames(active ? 'bg-primary' : '', 'block px-4 py-2 text-sm text-black hover:text-white')}
                           >
-                            Sign out
+                            Déconnexion
                           </Link>
                         )}
                       </Menu.Item>

@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SmallCards from '@components/SmallCards/SmallCards';
+import { filterInscriptionsOuvertes } from '../../services/filterInscriptionsOuvertes';
 
 export default function Profil() {
     const [tournaments, setTournaments] = useState([]);
     const [participantsData, setParticipantsData] = useState({});
-    const [user, setUser] = useState(null); 
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-       
         const fetchTournaments = async () => {
             try {
                 const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament`);
                 setTournaments(res.data);
 
-                
                 const participantsPromises = res.data.map(tournament =>
                     axios.get(`${import.meta.env.VITE_BACKEND_URL}/participation/tournament/${tournament.id}`)
                 );
@@ -29,12 +28,11 @@ export default function Profil() {
             }
         };
 
-        
         const fetchUser = async () => {
             try {
-                const userId = 33; 
+                const userId = 33;
                 const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
-                console.log("User data:", res.data); 
+                console.log("User data:", res.data);
                 setUser(res.data);
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -45,21 +43,6 @@ export default function Profil() {
         fetchUser();
     }, []);
 
-   
-    const filterInscriptionsOuvertes = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-
-        return tournaments.filter(tournament => {
-            const participants = participantsData[tournament.id] || [];
-            return (tournament.total_players > participants.length && tournament.date > formattedDate);
-        });
-    };
-
-   
     const filterInscriptionsFermées = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -101,7 +84,7 @@ export default function Profil() {
             {/* Affichage des tournois en cours (inscriptions ouvertes) */}
             <div className="flex flex-col items-center p-4">
                 <div className="flex flex-wrap justify-center w-full gap-4">
-                    {filterInscriptionsOuvertes().map((tournament, index) => (
+                    {filterInscriptionsOuvertes(tournaments, participantsData).map((tournament, index) => (
                         <SmallCards key={tournament.id} tournament={tournament} index={index} />
                     ))}
                 </div>
