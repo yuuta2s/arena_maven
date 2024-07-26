@@ -120,7 +120,7 @@ function ProfileCreation() {
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Informations du compte</h2>
         </article>
         <div className="flex flex-col md:flex-row gap-4 md:gap-20 justify-center w-full">
-          <div className="p-7 rounded-lg bg-black flex flex-col w-full md:w-1/3">
+          <div className="p-7 rounded-lg bg-black flex flex-col w-full">
             <h1>Informations personnelles</h1>
             <form onSubmit={handleUserInfoSubmit}>
               <label>
@@ -159,7 +159,7 @@ function ProfileCreation() {
             <button onClick={handleDeleteAccount} className="mt-4 bg-red-600 text-white py-2 px-4 rounded">Supprimer le compte</button>
             <hr className="w-full bg-white my-2" />
           </div>
-          <div className="p-7 rounded-lg bg-black flex flex-col items-center w-full md:w-1/3">
+          <div className="p-7 rounded-lg bg-black flex flex-col items-center justify-center w-full">
             <section className="flex flex-col items-center">
               <img
                 src={user.profilePicture || img}
