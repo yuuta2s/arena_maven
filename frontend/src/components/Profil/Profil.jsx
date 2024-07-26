@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SmallCards from '@components/SmallCards/SmallCards';
 import { filterInscriptionsOuvertes } from '../../services/filterInscriptionsOuvertes';
+import { filterInscriptionsFermées } from '@/services/filterInscriptionFermée';
 
 export default function Profil() {
     const [tournaments, setTournaments] = useState([]);
@@ -44,6 +45,8 @@ export default function Profil() {
     }, []);
 
     const filterInscriptionsFermées = () => {
+    // Fonction pour filtrer les tournois avec inscriptions ouvertes
+    const filterInscriptionsOuvertes = () => {
         const today = new Date();
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -52,9 +55,23 @@ export default function Profil() {
 
         return tournaments.filter(tournament => {
             const participants = participantsData[tournament.id] || [];
-            return !(tournament.total_players > participants.length && tournament.date > formattedDate);
+            return (tournament.total_players > participants.length && tournament.date > formattedDate);
         });
     };
+
+    // Fonction pour filtrer les tournois avec inscriptions fermées
+    // const filterInscriptionsFermées = () => {
+    //     const today = new Date();
+    //     const year = today.getFullYear();
+    //     const month = String(today.getMonth() + 1).padStart(2, '0');
+    //     const day = String(today.getDate()).padStart(2, '0');
+    //     const formattedDate = `${year}-${month}-${day}`;
+
+    //     return tournaments.filter(tournament => {
+    //         const participants = participantsData[tournament.id] || [];
+    //         return !(tournament.total_players > participants.length && tournament.date > formattedDate);
+    //     });
+    // };
 
     return (
         <div>
@@ -100,7 +117,7 @@ export default function Profil() {
             {/* Affichage des anciens tournois (inscriptions fermées) */}
             <div className="flex flex-col items-center p-4">
                 <div className="flex flex-wrap justify-center w-full gap-4">
-                    {filterInscriptionsFermées().map((tournament, index) => (
+                    {filterInscriptionsFermées(tournaments, participantsData).map((tournament, index) => (
                         <SmallCards key={tournament.id} tournament={tournament} index={index} />
                     ))}
                 </div>
