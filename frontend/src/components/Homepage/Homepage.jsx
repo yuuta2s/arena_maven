@@ -28,7 +28,6 @@ export default function Homepage() {
     <div className="p-4">
       <section className="flex flex-wrap justify-center items-center bg-black rounded-lg bg-opacity-40 p-6 max-w-7xl  mx-auto">
         <div className="p-3 max-w-3xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white">Become an <br /> Arena Maven</h1>
           <p className="text-white text-xl p-5">Bienvenue sur Arena Maven, la plateforme ultime pour créer et participer aux tournois de Tekken 8. Rejoignez la communauté des champions et montrez vos compétences dans l'arène!</p>
           <div className="flex flex-wrap justify-between items-center gap-3 p-5">
             <Link to="/tournamentRequest">
