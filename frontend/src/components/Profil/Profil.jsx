@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SmallCards from '@components/SmallCards/SmallCards';
-import { filterInscriptionsFermées } from '@/services/filterInscriptionFermée';
+
 
 export default function Profil() {
     const [tournaments, setTournaments] = useState([]);
