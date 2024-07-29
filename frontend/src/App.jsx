@@ -20,6 +20,7 @@ import GuildList from './components/Guild/GuildList';
 
 import './App.css';
 
+import { jwtDecode } from 'jwt-decode';
 import ProfileCreation from '@components/Account/ProfileCreation/ProfileCreation';
 import AuthProvider, { AuthContext } from './components/Account/Login/AuthProvider';
 import React, { useContext } from 'react';
@@ -61,10 +62,34 @@ const App = () => {
 };
 
 function AuthStatus() {
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { isLog, isAuthenticated } = useContext(AuthContext);
+
+  const getToken = () => {
+    return localStorage.getItem('token');
+  };
+  const token = getToken();
+
+  
+  
+  const getUserInfo = () => {
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken; // { id, username, email, role }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        return null;
+      }
+    }
+    return null;
+  };
+  const userInfo = getUserInfo();
+
+
+  console.log("yugygygyg",isAuthenticated);
   return (
     <div>
-      {isAuthenticated ? `Logged in as ${user.email}` : 'Not logged in'}
+      {isAuthenticated || isLog(token) ? `Logged in as ${userInfo.sub.username}` : 'Not logged in'}
     </div>
   );
 }

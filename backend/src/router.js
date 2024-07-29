@@ -10,6 +10,7 @@ const tournamentControllers = require("./controllers/tournamentControllers");
 const guildController = require("./controllers/guildController");
 const commentControllers = require("./controllers/commentControllers");
 const { commentValidationRules } = require('./validators/commentValidator');
+const { tournamentValidationRules } = require('./validators/tournamentValidator')
 
 // Middleware de gestion des fichiers téléchargés avec multer
 const multer = require('multer');
@@ -78,7 +79,7 @@ router.delete("/tournament-participation/:id", tournamentParticipationController
 router.get("/tournament", tournamentControllers.browse); 
 router.get("/tournament/:id", tournamentControllers.read);
 router.put("/tournament/:id", tournamentControllers.edit);
-router.post('/tournament', upload.single('timage'), tournamentControllers.add);
+router.post('/tournament', upload.single('timage'), tournamentValidationRules(), tournamentControllers.add);
 router.delete("/tournament/:id", tournamentControllers.destroy);
 
 // Routes pour les commentaires
@@ -93,7 +94,7 @@ router.delete("/comments/:id", commentControllers.destroy);
 router.get("/user/registered-tournaments/:id", tournamentControllers.findTbyUid);
 
 // Routes pour obtenir les tournois créé par un user par son id
-router.get("/user/created-tournaments/:id", tournamentControllers.findTbyOid);
+router.get("/user/created-tournaments/:id", verifyToken, tournamentControllers.findTbyOid);
 
 // Route pour obtenir la participation par ID de tournoi
 router.get("/participation/tournament/:id", tournamentControllers.getPbyTid);

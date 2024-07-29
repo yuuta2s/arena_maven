@@ -8,6 +8,7 @@ import CommentSection from '@components/CommentSection/CommentSection';
 import ModalDeleteTournament from "../ModalDeleteTournament/ModalDeleteTournament";
 
 export default function ModalVisuTournament({ showModal, setShowModal, tournament, remainingSlots, formattedDate }) {
+  // State variables
   const [sub, setSub] = useState([]);
   const [isModified, setIsModified] = useState(false);
   const [editedName, setEditedName] = useState(tournament.name);
@@ -16,21 +17,28 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
   const [descriptionDisplayed, setDescriptionDisplayed] = useState(tournament.short_description)
   const [showPopup, setShowPopup] = useState(false);
 
+  // Function to get the token from local storage
   const getToken = () => {
     return localStorage.getItem('token');
   };
+  const token = getToken();
 
+  // Function to decode the token and get user info
   const getUserInfo = () => {
-    const token = getToken();
     if (token) {
-      const decodedToken = jwtDecode(token);
-      return decodedToken; // { id, username, email, role }
+      try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken; // { id, username, email, role }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        return null;
+      }
     }
     return null;
   };
-
   const userInfo = getUserInfo();
 
+  // Function to fetch data about the tournament subscription status
   const fetchData = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}/user/${userInfo.sub.id}`);
@@ -40,34 +48,38 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     }
   };
 
+  // Fetch data when the component mounts or when userInfo or tournament changes
   useEffect(() => {
     if (userInfo && tournament) {
       fetchData();
     }
   }, [userInfo, tournament]);
 
+  // Reference to the modal element
   const modalRef = useRef(null);
 
+  // Effect to handle clicks outside the modal
   useEffect(() => {
-    if (!showPopup) {
+    if (!showPopup) { // Only add event listener if no popup is shown
       const handleClickOutside = (event) => {
         if (modalRef.current && !modalRef.current.contains(event.target)) {
-          setShowModal(false);
+          setShowModal(false); // Close modal if click is outside
         }
       };
-  
+
       if (showModal) {
         document.addEventListener("mousedown", handleClickOutside);
       } else {
         document.removeEventListener("mousedown", handleClickOutside);
       }
-  
+
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };  
     }
   }, [showModal, setShowModal, showPopup, setShowPopup]);
 
+  // Function to handle editing the tournament details
   const handleEdit = async () => {
     try {
       const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`, {
@@ -84,12 +96,13 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
     }
   };
 
+  // Function to delete the tournament
   const deleteTournament = async () => {
     try {
       const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/tournament/${tournament.id}`);
       if (res.status === 204) {
         setShowPopup(false);
-        setShowModal(false); // Ferme les deux modals car le tournoi est supprimé
+        setShowModal(false); // Close both modals as the tournament is deleted
         location.reload();
       }
     } catch (error) {
@@ -102,17 +115,17 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
       {showModal ? (
         <>
           {/* Background */}
-          <div className="mx-2 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-25">
             {/* Modal */}
-            <div ref={modalRef} className="relative w-auto my-6 mx-6  border-solid border-2 rounded-lg">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary outline-none focus:outline-none">
+            <div ref={modalRef} className="relative w-full max-w-6xl mx-4 my-6 overflow-hidden bg-secondary border-2 border-solid rounded-lg shadow-lg">
+              <div className="flex flex-col w-full max-h-[95vh]">
                 {/* Header */}
                 <div className="flex items-start justify-between p-5 border-b border-solid rounded-t">
                   <div className="flex flex-col">
                     {isModified ? (
                       <>
                         <input
-                          className="text-3xl font-semibold"
+                          className="text-3xl font-semibold text-black"
                           value={editedName}
                           onChange={(e) => setEditedName(e.target.value)}
                         />
@@ -124,7 +137,7 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                     )}
                   </div>
                   <div>
-                    {userInfo.sub.id === tournament.organizer_id ? (
+                    {userInfo?.sub?.id === tournament.organizer_id ? (
                       <>
                         <button className="p-1 ml-auto" onClick={() => setIsModified(!isModified)}>
                           <img className="w-6 h-6" src={editIcon} alt="edit icon" />
@@ -141,22 +154,22 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       onClick={() => setShowModal(false)}
                     >
                       <span className="bg-transparent text-terciary h-6 w-6 text-4xl block outline-none focus:outline-none">
-                        
+                      ×
                       </span>
                     </button>
                   </div>
                 </div>
                 {/* Body */}
-                <div className="relative flex flex-wrap justify-start items-end">
+                <div className="relative flex flex-wrap justify-start items-end p-4 overflow-auto max-h-[75vh]">
                   <div className="min-[954px]:border-r min-[954px]:border-solid p-4">
-                    <div className="min-w-80 max-h-80 max-w-lg flex justify-center overflow-hidden">
+                    <div className="min-w-64 max-h-80 max-w-lg flex justify-center overflow-hidden">
                       <img className="object-cover" src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${tournament.tournament_img}`} alt={`img for ${tournament.name}`} />
                     </div>
                     <div>
                       {!isModified ? (
                         <>
                           <p className="font-semibold">Date de l'événement: </p>
-                          <p>{tournament.date.substring(0, 10)}</p>
+                          <p>{tournament.date?.substring(0, 10)}</p>
                           <p className="font-semibold">Description :</p>
                           <p className="text-sm text-justify">{descriptionDisplayed}</p>
                         </>
@@ -211,33 +224,36 @@ export default function ModalVisuTournament({ showModal, setShowModal, tournamen
                       Enregistrer
                     </button>
                   )}
-                  {remainingSlots > 0 && tournament.date > formattedDate ? (
-                    userInfo.sub.id === tournament.organizer_id || sub.length !== 0 ? (
-                      <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
-                    ) : (
-                      <Link to={`/tournament-register/${tournament.id}`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                        S'inscrire
-                      </button>
-                    </Link>
-                    )
-                  ) : userInfo.sub.id === tournament.organizer_id ? (
-                    <Link to={`/tournament/${tournament.id}`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Commencer le tournoi</button>
-                    </Link>
-                  ) : sub.length !== 0 ? (
-                    <Link to={`/tournament/loading`}>
-                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Suivre résultat</button>
+                  {!token || !userInfo ? (
+                    <Link to="/login">
+                      <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Se connecter</button>
                     </Link>
                   ) : (
-                    <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Inscription fermée</button>
+                    remainingSlots > 0 && tournament.date > formattedDate ? (
+                      userInfo?.sub?.id === tournament.organizer_id || sub.length !== 0 ? (
+                        <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Attendre le début</button>
+                      ) : (
+                        <Link to="/">
+                          <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>S'inscrire</button>
+                        </Link>
+                      )
+                    ) : userInfo?.sub?.id === tournament.organizer_id ? (
+                      <Link to={`/tournament/${tournament.id}`}>
+                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Commencer le tournoi</button>
+                      </Link>
+                    ) : sub.length !== 0 ? (
+                      <Link to={`/tournament/loading`}>
+                        <button className="bg-primary text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)}>Suivre résultat</button>
+                      </Link>
+                    ) : (
+                      <button className="cursor-not-allowed bg-grey text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => setShowModal(false)} disabled>Inscription fermée</button>
+                    )
                   )}
                 </div>
               </div>
             </div>
             <ModalDeleteTournament showPopup={showPopup} setShowPopup={setShowPopup} deleteTournament={deleteTournament} />
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
     </>
