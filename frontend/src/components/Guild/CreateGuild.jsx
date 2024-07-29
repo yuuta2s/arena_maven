@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-import ModalGuild from '@components/Modal/ModalGuild';
+import ModalGuild from '@components/Modal/Modalguild';
 
 export default function CreateGuild() {
   const [showModal, setShowModal] = useState(false);
